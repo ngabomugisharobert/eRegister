@@ -4,6 +4,7 @@
     package="com.example.eregister">
 
     <application
+        android:name=".data.entities.visitor.VisitorApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
