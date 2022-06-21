@@ -15,6 +15,27 @@
         android:theme="@style/Theme.ERegister"
         tools:targetApi="31">
         <activity
+            android:name=".MovementRecordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VisitorRowActivity"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.android.example.provider"
+            android:enabled="true"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity
+            android:name=".activities.MovementRecordActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.NewVisitorActivity"
             android:exported="false" />
         <activity

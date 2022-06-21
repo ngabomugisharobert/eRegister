@@ -1,6 +1,7 @@
 package com.example.eregister.data.dao
 
 import androidx.room.*
+import com.example.eregister.data.entities.visitor.Visitor
 
 @Dao
 abstract class BaseDao<T> {
@@ -10,4 +11,5 @@ abstract class BaseDao<T> {
     abstract fun update(entity: T)
     @Delete
     abstract fun delete(entity: T)
+
 }

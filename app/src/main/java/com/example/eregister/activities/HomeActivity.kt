@@ -13,15 +13,16 @@ import com.example.eregister.R
 import com.example.eregister.data.entities.visitor.Visitor
 import com.example.eregister.data.entities.visitor.VisitorApplication
 import com.example.eregister.data.models.VisitorViewModelFactory
-import com.example.eregister.data.models.VisitorViewModelModel
+import com.example.eregister.data.models.VisitorViewModel
 import com.example.eregister.utils.GenerateVisitorId
+import com.example.eregister.activities.RegisteredVisitorActivity
 
 class HomeActivity : AppCompatActivity() {
 
-//        private lateinit var model: VisitorViewModelModel
+//        private lateinit var model: VisitorViewModel
 
         private val newVisitorActivityRequestCode = 1
-        private val visitorViewModel: VisitorViewModelModel by viewModels {
+        private val visitorViewModel: VisitorViewModel by viewModels {
             VisitorViewModelFactory((application as VisitorApplication).repository)
         }
 
@@ -31,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
 
             val ref = this
 
-//                model = ViewModelProvider(ref).get(VisitorViewModelModel::class.java)
+//                model = ViewModelProvider(ref).get(VisitorViewModel::class.java)
 
         val btnRegistered: CardView = findViewById(R.id.crdRegistered)
         val btnNewVisitor: CardView = findViewById(R.id.crdNewVisitor)

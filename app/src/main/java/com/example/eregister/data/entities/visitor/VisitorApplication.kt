@@ -6,6 +6,7 @@ import com.example.eregister.data.repositories.VisitorRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
+
 class VisitorApplication: Application() {
 
     private val applicationScope = CoroutineScope(SupervisorJob())
