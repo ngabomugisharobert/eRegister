@@ -1,27 +1,21 @@
 package com.example.eregister.data.dao
 
-
 import androidx.room.*
-import com.example.eregister.data.visitor.Visitor
+import com.example.eregister.data.entities.visitor.Visitor
+import com.example.eregister.lifecycle.MainActivityObserver
+import kotlinx.coroutines.flow.Flow
+
 
 @Dao
-interface VisitorDao {
-    @Query("SELECT * FROM visitor")
-    fun getAll(): List<Visitor>
+abstract class VisitorDao : BaseDao<Visitor>() {
 
-    @Query("SELECT * FROM visitor WHERE vis_id IN (:visitorIds)")
-    fun loadAllByIds(visitorIds: IntArray): List<Visitor>
+    @Query("SELECT * from tb_visitors")
+    abstract fun allVisitors(): Flow<List<Visitor>>
 
-    @Query("SELECT * FROM visitor WHERE vis_first_name LIKE :first AND " +
-            "vis_last_name LIKE :last LIMIT 1")
-    fun findByName(first: String, last: String): Visitor
+    @Query("SELECT * FROM tb_visitors WHERE vis_first_name LIKE :vis_name OR vis_last_name LIKE :vis_name")
+    abstract fun findVisitorByName(vis_name: String): Flow<List<Visitor>>
 
-    @Insert
-    fun insertAll(vararg visitors: Visitor)
+    @Query("SELECT * FROM tb_visitors WHERE vis_first_name LIKE :vis_name OR vis_last_name LIKE :vis_name")
+    abstract fun searchDatabase(vis_name: String): Flow<List<Visitor>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(visitor: Visitor)
-
-    @Delete
-    fun delete(user: Visitor)
 }
