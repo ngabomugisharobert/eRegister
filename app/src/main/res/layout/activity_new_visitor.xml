@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="Enter visitor First Name"
@@ -24,7 +24,7 @@
         android:id="@+id/txt_visitor_ln"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Enter visitor Last Name"
         android:inputType="textPersonName"
@@ -36,7 +36,7 @@
         android:id="@+id/txt_visitor_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Enter Phone number"
         android:inputType="textPersonName"
@@ -48,11 +48,11 @@
         android:id="@+id/spVisitorType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:elevation="@dimen/cardview_compat_inset_shadow"
         app:layout_constraintEnd_toEndOf="@+id/txt_visitor_phone"
         app:layout_constraintStart_toStartOf="@+id/txt_visitor_phone"
-        app:layout_constraintTop_toBottomOf="@+id/txt_visitor_phone" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_vis_idnumber" />
 
     <Button
         android:id="@+id/btn_save_visitor"
@@ -63,5 +63,17 @@
         app:layout_constraintEnd_toEndOf="@+id/spVisitorType"
         app:layout_constraintStart_toStartOf="@+id/spVisitorType"
         app:layout_constraintTop_toBottomOf="@+id/spVisitorType" />
+
+    <EditText
+        android:id="@+id/txt_vis_idnumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="enter ID/Passport Number"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/txt_visitor_phone"
+        app:layout_constraintStart_toStartOf="@+id/txt_visitor_phone"
+        app:layout_constraintTop_toBottomOf="@+id/txt_visitor_phone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

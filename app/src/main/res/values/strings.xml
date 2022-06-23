@@ -5,5 +5,7 @@
     <string name="save">Save</string>
     <string name="logout">Logout</string>
     <string name="saveCheckin">Save and Check In</string>
+    <string name="saveCheckOut">Save and Check Out</string>
     <string name="search">Search</string>
+    <string name="enter_your_password">Enter your password</string>
 </resources>

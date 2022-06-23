@@ -8,4 +8,10 @@
         <item name="colorPrimaryDark">@color/blue_trans</item>
     </style>
 
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_trans</item>
+    </style>
+
 </resources>
