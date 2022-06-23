@@ -28,8 +28,11 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
+    private var selected:Int = -1
 
     private val gates = arrayOf("Gate 1", "Gate 2", "Gate 3", "Gate 4")
+
+
 
     private val guardViewModel: GuardViewModel by viewModels {
         GuardViewModelFactory((application as InitApplication).guardRepository)
@@ -91,6 +94,7 @@ class LoginActivity : AppCompatActivity() {
                         ) { dialog, which ->
                             when (which) {
                                 which -> {
+                                    selected = which+1
                                     Toast.makeText(
                                         this@LoginActivity,
                                         "You selected: " + gates[which],
@@ -100,10 +104,10 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
 
-                        mAlertDialogBuilder.setPositiveButton("select") { _, which ->
+                        mAlertDialogBuilder.setPositiveButton("select") { _, _ ->
 
                             val user =
-                                User(it.gua_id, it.gua_first_name, it.gua_last_name, it.gua_username, which)
+                                User(it.gua_id, it.gua_first_name, it.gua_last_name, it.gua_username, selected)
                             val sessionManagement: SessionManagement =
                                 SessionManagement(this@LoginActivity)
                             sessionManagement.saveSession(user)

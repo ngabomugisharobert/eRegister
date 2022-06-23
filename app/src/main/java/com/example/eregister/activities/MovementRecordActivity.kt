@@ -1,6 +1,8 @@
 package com.example.eregister.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,20 +11,24 @@ import android.widget.*
 import androidx.activity.viewModels
 import com.example.eregister.R
 import com.example.eregister.SessionManagement
+import com.example.eregister.User
 import com.example.eregister.data.InitApplication
 import com.example.eregister.data.entities.movement.Movement
 import com.example.eregister.data.models.MovementViewModel
 import com.example.eregister.data.models.MovementViewModelFactory
 import com.example.eregister.utils.GenerateVisitorId
+import com.google.gson.Gson
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MovementRecordActivity : AppCompatActivity() {
 
     lateinit var VISITOR_ID: String
+    private lateinit var sharedPreferences: SharedPreferences
 
     private val options = arrayOf("Walk", "Bicycle", "Motorbike", "Car")
 
+    private lateinit var user: User
     lateinit var transport_type_value: String
     lateinit var transportType: Spinner
     lateinit var btn_movement_record_check_in: Button
@@ -37,6 +43,10 @@ class MovementRecordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movement_record)
+
+
+        sharedPreferences =
+            applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
 
         val sessionManagement = SessionManagement(this@MovementRecordActivity)
@@ -58,9 +68,9 @@ class MovementRecordActivity : AppCompatActivity() {
         transportType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 transport_type_value = options[p2]
-                if(transport_type_value == "Car" || transport_type_value == "Motorbike"){
+                if (transport_type_value == "Car" || transport_type_value == "Motorbike") {
                     txt_plate_number.visibility = View.VISIBLE
-                }else{
+                } else {
                     txt_plate_number.visibility = View.GONE
                 }
             }
@@ -68,10 +78,9 @@ class MovementRecordActivity : AppCompatActivity() {
             //if nothing is selected, set default value
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 transport_type_value = options[0]
-                if(transport_type_value == "Car" || transport_type_value == "Motorbike"){
+                if (transport_type_value == "Car" || transport_type_value == "Motorbike") {
                     txt_plate_number.visibility = View.VISIBLE
-                }
-                else{
+                } else {
                     txt_plate_number.visibility = View.GONE
                 }
             }
@@ -83,23 +92,33 @@ class MovementRecordActivity : AppCompatActivity() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
             val formatted = current.format(formatter)
-            movementViewModel.insert(
-                Movement(
-                    GenerateVisitorId.getId(),
-                    VISITOR_ID.toInt(),
-                    32,
-                    formatted,
-                    guardID,
-                    transport_type_value,
-                    plateNumber,
-                    "check-in",
-                )
-            )
 
-            Toast.makeText(this@MovementRecordActivity, "Check-In successful", Toast.LENGTH_LONG).show()
-            val intent = Intent(this@MovementRecordActivity, HomeActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+            var gson: Gson = Gson()
+            var data: String? = sharedPreferences.getString("USER", null)
+            if (data != null) {
+                user = gson.fromJson(data, User::class.java)
+                movementViewModel.insert(
+                    Movement(
+                        GenerateVisitorId.getId(),
+                        VISITOR_ID.toInt(),
+                        user.gate_id,
+                        formatted,
+                        guardID,
+                        transport_type_value,
+                        plateNumber,
+                        "check-in",
+                    )
+                )
+
+                Toast.makeText(
+                    this@MovementRecordActivity,
+                    "Check-In successful",
+                    Toast.LENGTH_LONG
+                ).show()
+                val intent = Intent(this@MovementRecordActivity, HomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
         }
 
         btn_movement_record_check_Out.setOnClickListener {
@@ -107,23 +126,33 @@ class MovementRecordActivity : AppCompatActivity() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
             val formatted = current.format(formatter)
-            movementViewModel.insert(
-                Movement(
-                    GenerateVisitorId.getId(),
-                    VISITOR_ID.toInt(),
-                    32,
-                    formatted,
-                    guardID,
-                    transport_type_value,
-                    plateNumber,
-                    "check-out",
-                )
-            )
 
-            Toast.makeText(this@MovementRecordActivity, "Check-out successful", Toast.LENGTH_LONG).show()
-            val intent = Intent(this@MovementRecordActivity, HomeActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+            var gson: Gson = Gson()
+            var data: String? = sharedPreferences.getString("USER", null)
+            if (data != null) {
+                user = gson.fromJson(data, User::class.java)
+                movementViewModel.insert(
+                    Movement(
+                        GenerateVisitorId.getId(),
+                        VISITOR_ID.toInt(),
+                        user.gate_id,
+                        formatted,
+                        guardID,
+                        transport_type_value,
+                        plateNumber,
+                        "check-out",
+                    )
+                )
+
+                Toast.makeText(
+                    this@MovementRecordActivity,
+                    "Check-out successful",
+                    Toast.LENGTH_LONG
+                ).show()
+                val intent = Intent(this@MovementRecordActivity, HomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
         }
     }
 

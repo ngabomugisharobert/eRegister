@@ -1,7 +1,9 @@
 package com.example.eregister.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -14,10 +16,15 @@ class NewVisitorActivity : AppCompatActivity() {
 
 
     lateinit var visitorType: Spinner
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_visitor)
+
+        sharedPreferences =
+            applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+
 
         var visitor_type: String = ""
 
@@ -28,7 +35,7 @@ class NewVisitorActivity : AppCompatActivity() {
         var btn_save_visitor: Button = findViewById(R.id.btn_save_visitor)
         var txt_vis_idNumber: TextView = findViewById(R.id.txt_vis_idnumber)
 
-        val options = arrayOf("option 1", "option 2", "option 3")
+        val options = arrayOf("HOGL employee", "RHL", "HOGL casual","Authorities","REG","Guard","Other")
         visitorType.adapter =
             ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options)
 
@@ -38,7 +45,7 @@ class NewVisitorActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                 visitor_type = options[3]
+                 visitor_type = options[6]
             }
 
         }
