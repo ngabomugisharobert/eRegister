@@ -1,9 +1,12 @@
 package com.example.eregister.data.repositories
 
 
+import android.util.Log
 import androidx.annotation.WorkerThread
+import com.example.eregister.LoginActivity
 import com.example.eregister.data.dao.GuardDao
 import com.example.eregister.data.entities.guard.Guard
+import kotlinx.coroutines.flow.Flow
 
 class GuardRepository(private val guardDao: GuardDao) {
 
@@ -14,8 +17,16 @@ class GuardRepository(private val guardDao: GuardDao) {
         guardDao.insert(guard)
     }
 
-    fun checkLogin(username: String, password:String): Boolean {
-        return guardDao.checkLogin(username,password)
+    fun checkLogin(username: String, password: String): Flow<Guard> {
+        var result = guardDao.checkLogin(username, password)
+        Log.i(TAG, result.toString() + "&&&&&&&&&&&&&&&&&&&&&&&&&")
+
+
+        return result
+    }
+
+    companion object {
+        private val TAG: String = LoginActivity::class.java.simpleName
     }
 
 }
