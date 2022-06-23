@@ -10,29 +10,23 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
 import com.example.eregister.R
+import com.example.eregister.data.InitApplication
 import com.example.eregister.data.entities.visitor.Visitor
-import com.example.eregister.data.entities.visitor.VisitorApplication
-import com.example.eregister.data.models.VisitorViewModelFactory
 import com.example.eregister.data.models.VisitorViewModel
+import com.example.eregister.data.models.VisitorViewModelFactory
 import com.example.eregister.utils.GenerateVisitorId
-import com.example.eregister.activities.RegisteredVisitorActivity
 
 class HomeActivity : AppCompatActivity() {
 
-//        private lateinit var model: VisitorViewModel
-
         private val newVisitorActivityRequestCode = 1
         private val visitorViewModel: VisitorViewModel by viewModels {
-            VisitorViewModelFactory((application as VisitorApplication).repository)
+            VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-            val ref = this
-
-//                model = ViewModelProvider(ref).get(VisitorViewModel::class.java)
 
         val btnRegistered: CardView = findViewById(R.id.crdRegistered)
         val btnNewVisitor: CardView = findViewById(R.id.crdNewVisitor)
@@ -57,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
 
 
                     visitorViewModel.insert(visitor)
+
 
                     Toast.makeText(applicationContext,"saved successfully", Toast.LENGTH_LONG).show()
                 }else

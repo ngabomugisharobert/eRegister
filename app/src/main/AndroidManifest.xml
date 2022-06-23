@@ -4,7 +4,7 @@
     package="com.example.eregister">
 
     <application
-        android:name=".data.entities.visitor.VisitorApplication"
+        android:name=".data.InitApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,10 +15,7 @@
         android:theme="@style/Theme.ERegister"
         tools:targetApi="31">
         <activity
-            android:name=".MovementRecordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".VisitorRowActivity"
+            android:name=".activities.MovementRecordActivity"
             android:exported="false" />
 
         <provider
@@ -33,9 +30,6 @@
         </provider>
 
         <activity
-            android:name=".activities.MovementRecordActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.NewVisitorActivity"
             android:exported="false" />
         <activity
@@ -45,7 +39,7 @@
             android:name=".activities.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

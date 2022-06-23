@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 class InstituteViewModel(private val repository: InstituteRepository): ViewModel() {
 
 
-//    val allVisitors: LiveData<List<Visitor>> = repository.allVisitors.asLiveData()
-
     fun insert(institute: Institute) = CoroutineScope(Dispatchers.IO).launch {
         repository.insert(institute)
     }
