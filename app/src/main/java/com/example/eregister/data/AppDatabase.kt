@@ -7,20 +7,23 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.eregister.data.dao.GuardDao
 import com.example.eregister.data.dao.InstituteDao
+import com.example.eregister.data.dao.MovementDao
 import com.example.eregister.data.dao.VisitorDao
 import com.example.eregister.data.entities.institute.Institute
 import com.example.eregister.data.entities.visitor.Visitor
 import com.example.eregister.data.entities.guard.Guard
+import com.example.eregister.data.entities.movement.Movement
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Visitor::class, Institute::class, Guard::class], version = 2)
+@Database(entities = [Visitor::class, Institute::class, Guard::class, Movement::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun visitorDao(): VisitorDao
     abstract fun instituteDao(): InstituteDao
     abstract fun guardDao(): GuardDao
+    abstract fun movementDao(): MovementDao
 
     companion object {
         @Volatile
@@ -60,7 +63,8 @@ abstract class AppDatabase : RoomDatabase() {
                         populateDatabase(
                             database.visitorDao(),
                             database.instituteDao(),
-                            database.guardDao()
+                            database.guardDao(),
+                            database.movementDao()
                         )
                     }
                 }
@@ -69,18 +73,22 @@ abstract class AppDatabase : RoomDatabase() {
 
         /**
          * Populate the database in a new coroutine.
-         * If you want to start with more words, just add them.
+         * If you want to start with more data, just add them.
          */
         suspend fun populateDatabase(
             visitorDao: VisitorDao,
             instituteDao: InstituteDao,
-            guardDao: GuardDao
+            guardDao: GuardDao,
+            movementDao: MovementDao
         ) {
             // Start the app with a clean database every time.
 
-            visitorDao.insert(
-                Visitor(34, "robert", "Ngabo", 32, "guard", 89)
-            )
+// Add sample data.
+            movementDao.insert(Movement(3,1,4,"54","re","42","53","32","423"))
+
+           visitorDao.insert(
+               Visitor(34, "robert", "Ngabo", 32, "guard", 89)
+           )
             instituteDao.insert(
                 Institute(4, "HOGL", "Rwaza-Musanze")
             )

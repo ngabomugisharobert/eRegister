@@ -1,10 +1,8 @@
 package com.example.eregister.data.repositories
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import com.example.eregister.data.dao.VisitorDao
 import com.example.eregister.data.entities.visitor.Visitor
-import com.example.eregister.lifecycle.MainActivityObserver
 import kotlinx.coroutines.flow.Flow
 
 class VisitorRepository(private val visitorDao: VisitorDao) {
@@ -26,9 +24,6 @@ class VisitorRepository(private val visitorDao: VisitorDao) {
         return visitorDao.allVisitors()
     }
 
-    fun searchDatabase(vis_name: String): Flow<List<Visitor>> {
-        return visitorDao.searchDatabase(vis_name)
-    }
 
     companion object{
         private val TAG:String = VisitorRepository::class.java.simpleName

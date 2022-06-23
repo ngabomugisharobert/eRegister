@@ -3,15 +3,14 @@ package com.example.eregister.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eregister.R
 import com.example.eregister.adapter.VisitorAdapter
+import com.example.eregister.data.InitApplication
 import com.example.eregister.data.entities.visitor.Visitor
-import com.example.eregister.data.entities.visitor.VisitorApplication
 import com.example.eregister.data.models.VisitorViewModel
 import com.example.eregister.data.models.VisitorViewModelFactory
 
@@ -20,7 +19,7 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
 
     private val newVisitorActivityRequestCode = 1
     private val visitorsListViewModel by viewModels<VisitorViewModel> {
-        VisitorViewModelFactory((application as VisitorApplication).repository)
+        VisitorViewModelFactory((application as InitApplication).visitorRepository)
     }
 
 
