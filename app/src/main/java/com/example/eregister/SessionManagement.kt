@@ -12,8 +12,8 @@ class SessionManagement(context: Context) {
 
     fun saveSession(user: User) {
         //save session of user whenever user is logged in
-        val id: Int = user.id
-        editor.putInt(SESSION_KEY, id).commit()
+        val gua_id: Int = user.gua_id
+        editor.putInt(SESSION_KEY, gua_id).commit()
     }
 
     //return user id whose session is saved

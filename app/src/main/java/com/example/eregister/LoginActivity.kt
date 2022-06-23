@@ -16,9 +16,9 @@ import com.example.eregister.lifecycle.MainActivityObserver
 
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var txtUsername : TextView
-    private lateinit var txtPassword : TextView
-    private lateinit var btnLogin : Button
+    private lateinit var txtUsername: TextView
+    private lateinit var txtPassword: TextView
+    private lateinit var btnLogin: Button
 
     private val guardViewModel: GuardViewModel by viewModels {
         GuardViewModelFactory((application as InitApplication).guardRepository)
@@ -41,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         checkSession()
     }
+
     private fun checkSession() {
         //check if user is logged in
         //if user is logged in --> move to Home
@@ -48,33 +49,41 @@ class LoginActivity : AppCompatActivity() {
         val userID: Int = sessionManagement.session
         if (userID != -1) {
             //user id logged in and so move to Home
-            moveToHome()
+            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
         } else {
             //do nothing
 
             btnLogin.setOnClickListener {
+                val isLogin = guardViewModel.checkLogin(
+                    txtUsername.text.toString(),
+                    txtPassword.text.toString()
+                ).observe(this) {
+                    if (it != null) {
+                        val user =
+                            User(it.gua_id, it.gua_first_name, it.gua_last_name, it.gua_username)
+                        val sessionManagement: SessionManagement =
+                            SessionManagement(this@LoginActivity)
+                        sessionManagement.saveSession(user)
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Logged in successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        this.moveToHome()
+                    } else {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Invalid username or password",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                        val isLogin = guardViewModel.checkLogin("alex","alex")
-                Log.i(TAG,isLogin.isCompleted.toString() +"888888888888888888888888888888")
+                    }
+                }
+
             }
-
         }
-    }
-
-    fun fnLogin(){
-
-        //1. login and save session
-
-//        val isLogin = guardViewModel.insert(Guard(90,"king","king","king","king","king",43,32,121212))
-//        val isLogin = guardViewModel.checkLogin("king","king")
-        val user = User(12, "Ankit")
-//        Log.i(TAG, "fnLogin: $isLogin ------------------")
-        val sessionManagement:SessionManagement = SessionManagement(this@LoginActivity)
-        sessionManagement.saveSession(user)
-
-        //2. step
-
-        moveToHome()
     }
 
     private fun moveToHome() {
@@ -83,8 +92,8 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    companion object{
-        private val TAG:String = LoginActivity::class.java.simpleName
+    companion object {
+        private val TAG: String = LoginActivity::class.java.simpleName
     }
 
 
