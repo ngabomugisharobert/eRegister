@@ -26,6 +26,7 @@ class NewVisitorActivity : AppCompatActivity() {
         var txt_visitor_ln: TextView = findViewById(R.id.txt_visitor_ln)
         var txt_visitor_phone: TextView = findViewById(R.id.txt_visitor_phone)
         var btn_save_visitor: Button = findViewById(R.id.btn_save_visitor)
+        var txt_vis_idNumber: TextView = findViewById(R.id.txt_vis_idnumber)
 
         val options = arrayOf("option 1", "option 2", "option 3")
         visitorType.adapter =
@@ -37,7 +38,7 @@ class NewVisitorActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-//                result.text ="Please select visitor type."
+                 visitor_type = options[3]
             }
 
         }
@@ -48,7 +49,8 @@ class NewVisitorActivity : AppCompatActivity() {
                 TextUtils.isEmpty(txt_visitor_fn.text) ||
                 TextUtils.isEmpty(txt_visitor_ln.text) ||
                 TextUtils.isEmpty(txt_visitor_phone.text) ||
-                TextUtils.isEmpty(visitor_type)
+                TextUtils.isEmpty(visitor_type) ||
+                TextUtils.isEmpty(txt_vis_idNumber.text)
             ) {
                 Log.i(TAG,"*** all fields must be filled ***")
                 setResult(Activity.RESULT_CANCELED,resultIntent)
@@ -58,6 +60,7 @@ class NewVisitorActivity : AppCompatActivity() {
                 resultIntent.putExtra(VIS_LAST_NAME, txt_visitor_ln.text.toString())
                 resultIntent.putExtra(VIS_PHONE, txt_visitor_phone.text.toString())
                 resultIntent.putExtra(VIS_TYPE, visitor_type)
+                resultIntent.putExtra(VIS_ID_NUMBER, txt_vis_idNumber.text.toString())
                 setResult(Activity.RESULT_OK,resultIntent)
             }
             finish()
@@ -70,5 +73,6 @@ class NewVisitorActivity : AppCompatActivity() {
         const val VIS_LAST_NAME = "vis_last_name"
         const val VIS_PHONE = "vis_phone"
         const val VIS_TYPE = "vis_type"
+        const val VIS_ID_NUMBER = "VIS_ID_NUMBER"
     }
 }

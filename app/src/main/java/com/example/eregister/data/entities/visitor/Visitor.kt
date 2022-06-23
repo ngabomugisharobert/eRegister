@@ -13,5 +13,5 @@ data class Visitor(
     @ColumnInfo(name = "vis_last_name") val vis_last_name: String,
     @ColumnInfo(name = "vis_phone") val vis_phone: Int,
     @ColumnInfo(name = "vis_type") val vis_type: String,
-    @ColumnInfo(name = "vis_IDNumber") val vis_IDNumber: Int
+    @ColumnInfo(name = "vis_IDNumber") val vis_IDNumber: String
 )
