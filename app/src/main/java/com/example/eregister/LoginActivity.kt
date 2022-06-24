@@ -1,24 +1,42 @@
 package com.example.eregister
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.eregister.activities.HomeActivity
 import com.example.eregister.data.InitApplication
 import com.example.eregister.data.models.GuardViewModel
 import com.example.eregister.data.models.GuardViewModelFactory
 import com.example.eregister.lifecycle.MainActivityObserver
+import com.google.gson.Gson
+import java.util.*
+import kotlin.concurrent.schedule
+import kotlin.system.exitProcess
 
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var txtUsername: TextView
     private lateinit var txtPassword: TextView
     private lateinit var btnLogin: Button
+    private lateinit var btnRegister: Button
+    private lateinit var btnForgotPassword: Button
+    private lateinit var loginProgressBar: ProgressBar
+
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
+    private var selected:Int = -1
+
+    private val gates = arrayOf("Gate 1", "Gate 2", "Gate 3", "Gate 4")
+
+
 
     private val guardViewModel: GuardViewModel by viewModels {
         GuardViewModelFactory((application as InitApplication).guardRepository)
@@ -29,9 +47,14 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
 
+        sharedPreferences = applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        editor=  sharedPreferences.edit()
+
+
         txtUsername = findViewById(R.id.txt_username)
         txtPassword = findViewById(R.id.txt_Password)
         btnLogin = findViewById(R.id.btn_login)
+        loginProgressBar = findViewById(R.id.loginProgressBar)
         lifecycle.addObserver(MainActivityObserver())
 
 
@@ -48,49 +71,97 @@ class LoginActivity : AppCompatActivity() {
         val sessionManagement = SessionManagement(this@LoginActivity)
         val userID: Int = sessionManagement.session
         if (userID != -1) {
+
             //user id logged in and so move to Home
             val intent = Intent(this@LoginActivity, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         } else {
-            //do nothing
 
             btnLogin.setOnClickListener {
-                val isLogin = guardViewModel.checkLogin(
+                guardViewModel.checkLogin(
                     txtUsername.text.toString(),
                     txtPassword.text.toString()
                 ).observe(this) {
                     if (it != null) {
-                        val user =
-                            User(it.gua_id, it.gua_first_name, it.gua_last_name, it.gua_username)
-                        val sessionManagement: SessionManagement =
-                            SessionManagement(this@LoginActivity)
-                        sessionManagement.saveSession(user)
                         Toast.makeText(
                             this@LoginActivity,
                             "Logged in successfully",
                             Toast.LENGTH_SHORT
                         ).show()
-                        this.moveToHome()
+
+                        val mAlertDialogBuilder = AlertDialog.Builder(this@LoginActivity)
+                        mAlertDialogBuilder.setTitle("Select Gate")
+                        mAlertDialogBuilder.setCancelable(false)
+                        mAlertDialogBuilder.setSingleChoiceItems(
+                            gates,
+                            -1
+                        ) { dialog, which ->
+                            when (which) {
+                                which -> {
+                                    selected = which+1
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "You selected: " + gates[which],
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+
+                        mAlertDialogBuilder.setPositiveButton("select") { _, _ ->
+
+                            val user =
+                                User(it.gua_id, it.gua_first_name, it.gua_last_name, it.gua_username, selected)
+                            val sessionManagement: SessionManagement =
+                                SessionManagement(this@LoginActivity)
+                            sessionManagement.saveSession(user)
+                            val userID: Int = sessionManagement.session
+                            if (userID != -1) {
+
+                                var gson = Gson().toJson(user)
+                                editor.putString("USER", gson)
+                                editor.apply()
+                                this.moveToHome()
+                                finish()
+                            }
+                        }
+
+                        val mAlertDialog = mAlertDialogBuilder.create()
+                        mAlertDialog.show()
+
+
                     } else {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Invalid username or password",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        loginProgressBar.visibility = ProgressBar.VISIBLE
+                        Timer().schedule(1000) {
+                            loginProgressBar.visibility = ProgressBar.INVISIBLE
+                            runOnUiThread {
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "Invalid username or password",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                            }
+                        }
 
                     }
                 }
-
             }
         }
     }
 
     private fun moveToHome() {
-        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
+        var gson: Gson = Gson()
+        var data: String? = sharedPreferences.getString("USER", null)
+        if (data != null) {
+            var user: User = gson.fromJson(data, User::class.java)
+            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
+
+
 
     companion object {
         private val TAG: String = LoginActivity::class.java.simpleName

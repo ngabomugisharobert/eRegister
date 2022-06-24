@@ -3,6 +3,7 @@ package com.example.eregister.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -42,7 +43,8 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
 
     private fun adapterOnClick(visitor: Visitor) {
         val intent = Intent(this, MovementRecordActivity::class.java)
-        intent.putExtra("VISITOR_ID", visitor.vis_id)
+        intent.putExtra("VISITOR_ID", visitor.vis_id.toString())
+        Log.i(TAG, " ------------ >Visitor id: ${visitor.vis_id}")
         startActivity(intent)
     }
 

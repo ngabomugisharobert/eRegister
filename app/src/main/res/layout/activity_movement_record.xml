@@ -6,13 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".activities.MovementRecordActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/transport_type"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="This is where the movement will be recorded"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_record_checkIn_movement"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:text="@string/saveCheckin"
+        app:layout_constraintEnd_toEndOf="@+id/transport_type"
+        app:layout_constraintStart_toStartOf="@+id/transport_type"
+        app:layout_constraintTop_toBottomOf="@+id/transport_type" />
+
+    <EditText
+        android:id="@+id/txt_plate_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter Plate Number"
+        android:inputType="textPersonName"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btn_record_checkIn_movement"
+        app:layout_constraintEnd_toEndOf="@+id/transport_type"
+        app:layout_constraintStart_toStartOf="@+id/transport_type"
+        app:layout_constraintTop_toBottomOf="@+id/transport_type" />
+
+    <Button
+        android:id="@+id/btn_record_checkOut_movement"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/saveCheckOut"
+        app:layout_constraintEnd_toEndOf="@+id/btn_record_checkIn_movement"
+        app:layout_constraintStart_toStartOf="@+id/btn_record_checkIn_movement"
+        app:layout_constraintTop_toBottomOf="@+id/btn_record_checkIn_movement" />
 </androidx.constraintlayout.widget.ConstraintLayout>

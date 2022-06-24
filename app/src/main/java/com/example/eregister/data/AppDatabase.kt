@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Visitor::class, Institute::class, Guard::class, Movement::class], version = 4)
+@Database(entities = [Visitor::class, Institute::class, Guard::class, Movement::class], version = 7)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun visitorDao(): VisitorDao
     abstract fun instituteDao(): InstituteDao
@@ -81,18 +81,26 @@ abstract class AppDatabase : RoomDatabase() {
             guardDao: GuardDao,
             movementDao: MovementDao
         ) {
-            // Start the app with a clean database every time.
 
 // Add sample data.
-            movementDao.insert(Movement(3,1,4,"54","re","42","53","32","423"))
 
-           visitorDao.insert(
-               Visitor(34, "robert", "Ngabo", 32, "guard", 89)
-           )
+
             instituteDao.insert(
                 Institute(4, "HOGL", "Rwaza-Musanze")
             )
-            guardDao.insert(Guard(55,"Alex","Ngabo","alex","alex","alex@gmail.com",7894562,7861234,19958000000055556))
+            guardDao.insert(
+                Guard(
+                    12,
+                    "Alex",
+                    "Ngabo",
+                    "alex",
+                    "alex",
+                    "alex@gmail.com",
+                    7894562,
+                    7861234,
+                    19958000000055556
+                )
+            )
         }
     }
 }

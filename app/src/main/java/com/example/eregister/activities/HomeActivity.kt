@@ -1,31 +1,55 @@
 package com.example.eregister.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.eregister.R
+import com.example.eregister.User
 import com.example.eregister.data.InitApplication
 import com.example.eregister.data.entities.visitor.Visitor
 import com.example.eregister.data.models.VisitorViewModel
 import com.example.eregister.data.models.VisitorViewModelFactory
 import com.example.eregister.utils.GenerateVisitorId
+import com.google.gson.Gson
+
 
 class HomeActivity : AppCompatActivity() {
 
-        private val newVisitorActivityRequestCode = 1
-        private val visitorViewModel: VisitorViewModel by viewModels {
-            VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
-        }
+    private val newVisitorActivityRequestCode = 1
+    private val visitorViewModel: VisitorViewModel by viewModels {
+        VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
+    }
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var user: User
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var txtWelcome: TextView
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        txtWelcome = findViewById(R.id.txt_welcome)
+        sharedPreferences =
+            applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+
+
+        var gson: Gson = Gson()
+        var data: String? = sharedPreferences.getString("USER", null)
+        if (data != null) {
+            user = gson.fromJson(data, User::class.java)
+            txtWelcome.setText("Welcome, ${user.gua_fisrtname}")
+        }
 
 
         val btnRegistered: CardView = findViewById(R.id.crdRegistered)
@@ -41,22 +65,35 @@ class HomeActivity : AppCompatActivity() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     // There are no request codes
                     val data: Intent? = result.data
-                    Log.i(TAG, data?.getStringExtra(NewVisitorActivity.VIS_FIRST_NAME)+"*********")
-                    val vis_first_name = data?.getStringExtra(NewVisitorActivity.VIS_FIRST_NAME).toString()
-                    val vis_last_name = data?.getStringExtra(NewVisitorActivity.VIS_LAST_NAME).toString()
+                    val vis_first_name =
+                        data?.getStringExtra(NewVisitorActivity.VIS_FIRST_NAME).toString()
+                    val vis_last_name =
+                        data?.getStringExtra(NewVisitorActivity.VIS_LAST_NAME).toString()
                     val vis_type = data?.getStringExtra(NewVisitorActivity.VIS_TYPE).toString()
                     val vis_phone = data?.getStringExtra(NewVisitorActivity.VIS_PHONE).toString()
+                    val vis_idNumber = data?.getStringExtra(NewVisitorActivity.VIS_ID_NUMBER).toString()
+                    val visitor = Visitor(
+                        GenerateVisitorId.getId(),
+                        vis_first_name,
+                        vis_last_name,
+                        vis_phone.toInt(),
+                        vis_type,
+                        vis_idNumber
 
-                    val visitor = Visitor(GenerateVisitorId.getId(),vis_first_name,vis_last_name,5,vis_type,54)
+                    )
 
 
                     visitorViewModel.insert(visitor)
 
 
-                    Toast.makeText(applicationContext,"saved successfully", Toast.LENGTH_LONG).show()
-                }else
-                {
-                    Toast.makeText(applicationContext," visitor not saved successfully", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "saved successfully", Toast.LENGTH_LONG)
+                        .show()
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        " visitor not saved successfully",
+                        Toast.LENGTH_LONG
+                    ).show()
 
                 }
             }
