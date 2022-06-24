@@ -38,7 +38,13 @@
         </activity>
         <activity
             android:name=".activities.RegisteredVisitorActivity"
-            android:exported="false" />
+            android:exported="false"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.eregister.activities.HomeActivity"/>
+        </activity>
         <activity
             android:name=".activities.HomeActivity"
             android:exported="false"

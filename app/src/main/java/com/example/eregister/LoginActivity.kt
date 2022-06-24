@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -17,6 +17,9 @@ import com.example.eregister.data.models.GuardViewModel
 import com.example.eregister.data.models.GuardViewModelFactory
 import com.example.eregister.lifecycle.MainActivityObserver
 import com.google.gson.Gson
+import java.util.*
+import kotlin.concurrent.schedule
+import kotlin.system.exitProcess
 
 
 class LoginActivity : AppCompatActivity() {
@@ -25,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var btnRegister: Button
     private lateinit var btnForgotPassword: Button
+    private lateinit var loginProgressBar: ProgressBar
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
@@ -50,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
         txtUsername = findViewById(R.id.txt_username)
         txtPassword = findViewById(R.id.txt_Password)
         btnLogin = findViewById(R.id.btn_login)
+        loginProgressBar = findViewById(R.id.loginProgressBar)
         lifecycle.addObserver(MainActivityObserver())
 
 
@@ -127,11 +132,18 @@ class LoginActivity : AppCompatActivity() {
 
 
                     } else {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Invalid username or password",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        loginProgressBar.visibility = ProgressBar.VISIBLE
+                        Timer().schedule(1000) {
+                            loginProgressBar.visibility = ProgressBar.INVISIBLE
+                            runOnUiThread {
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "Invalid username or password",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                            }
+                        }
+
                     }
                 }
             }
@@ -148,6 +160,8 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
 
     companion object {
         private val TAG: String = LoginActivity::class.java.simpleName

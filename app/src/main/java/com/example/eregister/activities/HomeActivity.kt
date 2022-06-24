@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -30,11 +32,14 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var user: User
     private lateinit var sharedPreferences: SharedPreferences
 
+    private lateinit var txtWelcome: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        txtWelcome = findViewById(R.id.txt_welcome)
         sharedPreferences =
             applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
@@ -43,6 +48,7 @@ class HomeActivity : AppCompatActivity() {
         var data: String? = sharedPreferences.getString("USER", null)
         if (data != null) {
             user = gson.fromJson(data, User::class.java)
+            txtWelcome.setText("Welcome, ${user.gua_fisrtname}")
         }
 
 
