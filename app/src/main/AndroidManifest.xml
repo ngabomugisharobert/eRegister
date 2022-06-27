@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.eregister">
+    package="com.hogl.eregister">
 
     <application
         android:name=".data.InitApplication"
@@ -20,7 +20,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.android.example.provider"
+            android:authorities="com.android.hogl.provider"
             android:enabled="true"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -34,7 +34,7 @@
             android:exported="false">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.example.eregister.activities.HomeActivity"/>
+            android:value="com.hogl.eregister.activities.HomeActivity"/>
         </activity>
         <activity
             android:name=".activities.RegisteredVisitorActivity"
@@ -42,7 +42,7 @@
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.eregister.activities.HomeActivity"/>
+                android:value="com.hogl.eregister.activities.HomeActivity"/>
         </activity>
         <activity
             android:name=".activities.HomeActivity"

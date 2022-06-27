@@ -9,7 +9,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.example.eregister"
+        applicationId "com.hogl.eregister"
         minSdk 22
         targetSdk 32
         versionCode 1
