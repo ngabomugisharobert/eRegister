@@ -1,7 +1,8 @@
-package com.example.eregister
+package com.example.eregister.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.eregister.User
 
 
 class SessionManagement(context: Context) {

@@ -42,8 +42,6 @@ class HomeActivity : AppCompatActivity() {
         txtWelcome = findViewById(R.id.txt_welcome)
         sharedPreferences =
             applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
-
-
         var gson: Gson = Gson()
         var data: String? = sharedPreferences.getString("USER", null)
         if (data != null) {

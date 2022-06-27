@@ -16,10 +16,10 @@ import com.example.eregister.data.InitApplication
 import com.example.eregister.data.models.GuardViewModel
 import com.example.eregister.data.models.GuardViewModelFactory
 import com.example.eregister.lifecycle.MainActivityObserver
+import com.example.eregister.utils.SessionManagement
 import com.google.gson.Gson
 import java.util.*
 import kotlin.concurrent.schedule
-import kotlin.system.exitProcess
 
 
 class LoginActivity : AppCompatActivity() {

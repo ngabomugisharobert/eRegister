@@ -59,6 +59,7 @@ class NewVisitorActivity : AppCompatActivity() {
                 TextUtils.isEmpty(visitor_type) ||
                 TextUtils.isEmpty(txt_vis_idNumber.text)
             ) {
+                Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                 Log.i(TAG,"*** all fields must be filled ***")
                 setResult(Activity.RESULT_CANCELED,resultIntent)
             }else

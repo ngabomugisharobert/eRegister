@@ -5,12 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import com.example.eregister.R
-import com.example.eregister.SessionManagement
+import com.example.eregister.utils.SessionManagement
 import com.example.eregister.User
 import com.example.eregister.data.InitApplication
 import com.example.eregister.data.entities.movement.Movement
