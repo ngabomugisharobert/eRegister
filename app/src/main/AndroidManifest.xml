@@ -3,6 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hogl.eregister">
 
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.CHANGE_WIFI_STATE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.CHANGE_NETWORK_STATE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        android:required="true" />
+
     <application
         android:name=".data.InitApplication"
         android:allowBackup="true"
@@ -17,6 +39,13 @@
         <activity
             android:name=".activities.MovementRecordActivity"
             android:exported="false" />
+        <activity
+            android:name=".connect.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".connect.MainActivity"
+            android:exported="false" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

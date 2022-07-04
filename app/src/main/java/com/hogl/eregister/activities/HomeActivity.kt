@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +19,7 @@ import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
 import com.hogl.eregister.utils.GenerateVisitorId
 import com.google.gson.Gson
+import com.hogl.eregister.connect.MainActivity
 
 
 class HomeActivity : AppCompatActivity() {
@@ -31,7 +31,6 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var user: User
     private lateinit var sharedPreferences: SharedPreferences
-
     private lateinit var txtWelcome: TextView
 
 
@@ -52,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
 
         val btnRegistered: CardView = findViewById(R.id.crdRegistered)
         val btnNewVisitor: CardView = findViewById(R.id.crdNewVisitor)
+        val btnSync : CardView = findViewById(R.id.crdSync)
 
         btnRegistered.setOnClickListener {
             val intent = Intent(this, RegisteredVisitorActivity::class.java)
@@ -100,7 +100,10 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, NewVisitorActivity::class.java)
             resultLauncher.launch(intent)
         }
-
+        btnSync.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
