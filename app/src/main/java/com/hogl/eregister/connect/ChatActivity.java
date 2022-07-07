@@ -143,7 +143,7 @@ public class ChatActivity extends AppCompatActivity {
 
                                 InputStream is = null;
 
-                                File fi = new File("data/data/"+thisContext.getPackageName()+ "/databases/eRegister_database");
+                                File fi = new File("data/data/com.hogl.eregister/databases/eregisterDatabase.db");
                                 if(fi.exists()) {
                                     Log.e("&&&&&", "File exists");
                                 }

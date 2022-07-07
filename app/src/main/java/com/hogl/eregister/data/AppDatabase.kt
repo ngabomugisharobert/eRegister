@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 
 @Database(entities = [Visitor::class, Institute::class, Guard::class, Movement::class], version = 7)
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun visitorDao(): VisitorDao
     abstract fun instituteDao(): InstituteDao
     abstract fun guardDao(): GuardDao
@@ -37,7 +38,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "eRegister_database"
+                    "eregisterDatabase.db"
                 )
                     .fallbackToDestructiveMigration()
                     .addCallback(AppDatabaseCallback(scope))
@@ -54,6 +55,12 @@ abstract class AppDatabase : RoomDatabase() {
             /**
              * Override the onCreate method to populate the database.
              */
+
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                db.disableWriteAheadLogging()
+                super.onOpen(db)
+            }
+
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
                 // If you want to keep the data through app restarts,
