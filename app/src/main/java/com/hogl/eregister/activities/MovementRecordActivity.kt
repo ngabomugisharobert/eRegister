@@ -106,6 +106,7 @@ class MovementRecordActivity : AppCompatActivity() {
                         transport_type_value,
                         plateNumber,
                         "check-in",
+                        System.currentTimeMillis().toString()
                     )
                 )
 
@@ -140,6 +141,7 @@ class MovementRecordActivity : AppCompatActivity() {
                         transport_type_value,
                         plateNumber,
                         "check-out",
+                        System.currentTimeMillis().toString()
                     )
                 )
 

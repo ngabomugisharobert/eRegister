@@ -6,6 +6,7 @@ import androidx.annotation.WorkerThread
 import com.hogl.eregister.LoginActivity
 import com.hogl.eregister.data.dao.GuardDao
 import com.hogl.eregister.data.entities.guard.Guard
+import com.hogl.eregister.data.entities.movement.Movement
 import kotlinx.coroutines.flow.Flow
 
 class GuardRepository(private val guardDao: GuardDao) {
@@ -15,6 +16,10 @@ class GuardRepository(private val guardDao: GuardDao) {
     @WorkerThread
     suspend fun insert(guard: Guard) {
         guardDao.insert(guard)
+    }
+
+    fun allGuards():Flow<List<Guard>> {
+        return guardDao.allGuards()
     }
 
     fun checkLogin(username: String, password: String): Flow<Guard> {

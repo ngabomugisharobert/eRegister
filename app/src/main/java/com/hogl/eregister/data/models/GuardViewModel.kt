@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.hogl.eregister.LoginActivity
 import com.hogl.eregister.data.entities.guard.Guard
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.repositories.GuardRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,8 @@ import kotlinx.coroutines.runBlocking
 
 class GuardViewModel(private val guardRepository: GuardRepository) : ViewModel() {
 
+
+    val allGuards: LiveData<List<Guard>> = guardRepository.allGuards().asLiveData()
 
     lateinit var res: Guard
     fun insert(guard: Guard) = CoroutineScope(Dispatchers.IO).launch {

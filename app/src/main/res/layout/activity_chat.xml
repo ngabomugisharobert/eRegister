@@ -10,6 +10,9 @@
         android:id="@+id/status_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:background="#03A9F4"
         android:text="Status"
         android:textAlignment="center"
@@ -18,62 +21,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/messages_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="25dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutMessages"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/protocol_text" />
-
-    <LinearLayout
-        android:id="@+id/linearLayoutMessages"
-        android:layout_width="0dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Synchronize" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/protocol_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="35dp"
         android:background="#4CAF50"
         android:text="Connected"
-        app:layout_constraintEnd_toStartOf="@+id/disconnect_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/status_text" />
+
+    <Button
+        android:id="@+id/send_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:layout_weight="1"
+        android:text="Synchronize"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/disconnect_button"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:text="Disconnect"
-        app:layout_constraintBottom_toTopOf="@+id/messages_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/protocol_text"
-        app:layout_constraintTop_toBottomOf="@+id/status_text" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/protocol_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

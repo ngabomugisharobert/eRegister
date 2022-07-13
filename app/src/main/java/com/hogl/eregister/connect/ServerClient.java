@@ -1,5 +1,9 @@
 package com.hogl.eregister.connect;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import java.io.File;
@@ -24,6 +28,7 @@ public class ServerClient extends Thread{
     Socket socket;
     ServerSocket servSocket;
     String tag;
+    Context context;
     //TextView messageText;
     public InputStream inStream;
     public OutputStream outStream;
@@ -33,19 +38,21 @@ public class ServerClient extends Thread{
     Boolean secured;
 
     //Constructor for server
-    public ServerClient(ArrayList<String> _authStrings){
+    public ServerClient(ArrayList<String> _authStrings, Context _context) {
         isServer = true;
         secured = true;
+        context = _context;
         authStrings = _authStrings;
         tag = "SERVCLIENT-HOST";
 
     }
 
     //Constructor for client
-    public ServerClient(String hostAdd, ArrayList<String> _authStrings){
+    public ServerClient(String hostAdd, ArrayList<String> _authStrings, Context _context) {
         isServer = false;
         hostAddress = hostAdd;
         socket = new Socket();
+        context = _context;
         secured = true;
         authStrings = _authStrings;
         tag = "SERVCLIENT-CLIENT";
@@ -130,7 +137,7 @@ public class ServerClient extends Thread{
         }
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
-//        Handler handler = new Handler(Looper.getMainLooper());
+        Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(new Runnable() {
             @Override
@@ -177,10 +184,20 @@ public class ServerClient extends Thread{
                                 File f1 = new File("data/data/com.hogl.eregister/databases/test2");
                                 Boolean y = f1.exists();
                                 FileOutputStream fos = null;
-                                fos = new FileOutputStream("data/data/com.hogl.eregister/databases/test2");
+                                fos = new FileOutputStream(f1);
                                 fos.write(buffer);
                                 fos.close();
                                 flag = true;
+//                                currentThread().interrupt(); //stop the thread
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(context, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                        start new activity
+                                        context.startActivity(intent);
+                                    }
+                                });
                             }
                         } catch (IOException e) {
                             e.printStackTrace();

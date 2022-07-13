@@ -76,8 +76,8 @@ class HomeActivity : AppCompatActivity() {
                         vis_last_name,
                         vis_phone.toInt(),
                         vis_type,
-                        vis_idNumber
-
+                        vis_idNumber,
+                        timestamp = System.currentTimeMillis().toString()
                     )
 
 

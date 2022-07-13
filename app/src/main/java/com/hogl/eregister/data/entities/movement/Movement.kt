@@ -17,4 +17,10 @@ data class Movement(
     @ColumnInfo(name = "transportType") val transportType: String,
     @ColumnInfo(name = "vehicle_plate") val vehicle_plate: String,
     @ColumnInfo(name = "MovementType") val MovementType: String,
+    @ColumnInfo(name = "timestamp") val timestamp: String,
 )
+{
+    override fun toString(): String {
+        return " { mv_id:$mv_id, visitor_id:$visitor_id, gate_id:$gate_id, mv_time:'$mv_time', guard_id:$guard_id, transportType:'$transportType', vehicle_plate:'$vehicle_plate', MovementType:'$MovementType', timestamp:'$timestamp'}"
+    }
+}
