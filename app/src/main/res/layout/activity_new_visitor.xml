@@ -6,43 +6,82 @@
     android:layout_height="match_parent"
     tools:context=".activities.NewVisitorActivity">
 
-    <EditText
-        android:id="@+id/txt_visitor_fn"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="Enter visitor First Name"
-        android:inputType="textPersonName"
+        android:hint="@string/enter_visitor_first_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/txt_visitor_ln"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_visitor_fn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Enter visitor Last Name"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/txt_visitor_fn"
-        app:layout_constraintStart_toStartOf="@+id/txt_visitor_fn"
-        app:layout_constraintTop_toBottomOf="@+id/txt_visitor_fn" />
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
-    <EditText
-        android:id="@+id/txt_visitor_phone"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_visitor_ln"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Enter Phone number"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/txt_visitor_ln"
-        app:layout_constraintStart_toStartOf="@+id/txt_visitor_ln"
-        app:layout_constraintTop_toBottomOf="@+id/txt_visitor_ln" />
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_visitor_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textinputLayout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="enter ID/Passport Number"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_vis_idnumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
         android:id="@+id/spVisitorType"
@@ -50,30 +89,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:elevation="@dimen/cardview_compat_inset_shadow"
-        app:layout_constraintEnd_toEndOf="@+id/txt_visitor_phone"
-        app:layout_constraintStart_toStartOf="@+id/txt_visitor_phone"
-        app:layout_constraintTop_toBottomOf="@+id/txt_vis_idnumber" />
+        app:layout_constraintEnd_toEndOf="@+id/textinputLayout4"
+        app:layout_constraintStart_toStartOf="@+id/textinputLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/textinputLayout4" />
 
     <Button
         android:id="@+id/btn_save_visitor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/purple_700"
+        android:backgroundTint="@color/purple_700"
         android:text="@string/saveCheckin"
+        android:textColor="@color/cardview_dark_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/spVisitorType"
         app:layout_constraintStart_toStartOf="@+id/spVisitorType"
         app:layout_constraintTop_toBottomOf="@+id/spVisitorType" />
 
-    <EditText
-        android:id="@+id/txt_vis_idnumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="enter ID/Passport Number"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/txt_visitor_phone"
-        app:layout_constraintStart_toStartOf="@+id/txt_visitor_phone"
-        app:layout_constraintTop_toBottomOf="@+id/txt_visitor_phone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

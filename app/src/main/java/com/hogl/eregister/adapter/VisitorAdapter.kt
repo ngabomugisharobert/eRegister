@@ -25,7 +25,7 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit) :
 
         private val visitor_firstName: TextView = binding.firstNameTextView
         private val visitor_lastName: TextView = binding.lastNameTextView
-        private var currentVisitor: Visitor = Visitor(3,"robert","kagame",15,"og","54", System.currentTimeMillis().toString())
+        private var currentVisitor: Visitor = Visitor(3,"robert","kagame",15,"og","54","","", System.currentTimeMillis().toString())
 
         init {
             itemView.setOnClickListener {

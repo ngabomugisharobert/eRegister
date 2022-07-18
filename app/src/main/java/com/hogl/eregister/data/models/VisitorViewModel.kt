@@ -20,6 +20,9 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
         visitorRepository.insert(visitor)
     }
 
+    fun visitorToSync(timestamp:String): LiveData<List<Visitor>>{
+        return visitorRepository.visitorToSync(timestamp).asLiveData()
+    }
 
     fun findVisitorByName(vis_name:String): LiveData<List<Visitor>> {
        return visitorRepository.findVisitorByName(vis_name).asLiveData()

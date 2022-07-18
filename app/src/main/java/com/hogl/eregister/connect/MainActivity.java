@@ -52,18 +52,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //Adding provider for encryption implementation
-//        Security.removeProvider("BC");
-//        Security.addProvider(new BouncyCastleProvider());
-
         setContentView(R.layout.activity_main);
 
         initComponents();
         addListeners();
-
-
-
     }
 
     private void addListeners() {
@@ -71,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                    Log.d("p2p","No Permissions");
                     String[] perms = {
                             "android.permission.ACCESS_FINE_LOCATION",
                     };
@@ -82,15 +72,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
                     @Override
-
                     public void onSuccess() {
-                        Log.d("P2P","Discovery started");
-                        connectionStatus.setText("Discovery started");
+                        connectionStatus.setText(R.string.discoveryStart);
                     }
 
                     @Override
                     public void onFailure(int i) {
-                        connectionStatus.setText("Discovery failed to start");
+                        connectionStatus.setText(R.string.discoveryFail);
                     }
                 });
             }
@@ -142,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
 
                 if(availableDevices.size() == 0){
-                    connectionStatus.setText("No devices found");
+                    connectionStatus.setText(R.string.noDeviceFound);
                 }
             }
         }
@@ -174,11 +162,11 @@ public class MainActivity extends AppCompatActivity {
             final InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
 
             if(wifiP2pInfo.groupFormed){
-                //Switch to chat activity
+                //Switch to device connected activity
                 //Pass isHost and group owner address
                 Log.d("p2p1", String.valueOf(wifiP2pInfo.isGroupOwner));
                 Log.d("p2p1", groupOwnerAddress.getHostAddress());
-                Intent myIntent = new Intent(act, ChatActivity.class);
+                Intent myIntent = new Intent(act, DeviceConnectedActivity.class);
                 myIntent.putExtra("isHost", wifiP2pInfo.isGroupOwner);
                 myIntent.putExtra("hostAddress", groupOwnerAddress.getHostAddress());
                 act.startActivity(myIntent);

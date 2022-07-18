@@ -18,6 +18,8 @@ import com.hogl.eregister.data.models.GuardViewModelFactory
 import com.hogl.eregister.lifecycle.MainActivityObserver
 import com.hogl.eregister.utils.SessionManagement
 import com.google.gson.Gson
+import com.hogl.eregister.databinding.ActivityLoginBinding
+import com.hogl.eregister.databinding.ActivityRegisteredVisitorBinding
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -36,28 +38,16 @@ class LoginActivity : AppCompatActivity() {
 
     private val gates = arrayOf("Gate 1", "Gate 2", "Gate 3", "Gate 4")
 
-
-
     private val guardViewModel: GuardViewModel by viewModels {
         GuardViewModelFactory((application as InitApplication).guardRepository)
     }
 
+    private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-
-
-        sharedPreferences = applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
-        editor=  sharedPreferences.edit()
-
-
-        txtUsername = findViewById(R.id.txt_username)
-        txtPassword = findViewById(R.id.txt_Password)
-        btnLogin = findViewById(R.id.btn_login)
-        loginProgressBar = findViewById(R.id.loginProgressBar)
-        lifecycle.addObserver(MainActivityObserver())
-
-
+        binding= ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initComponents()
     }
 
     override fun onStart() {
@@ -86,12 +76,12 @@ class LoginActivity : AppCompatActivity() {
                     if (it != null) {
                         Toast.makeText(
                             this@LoginActivity,
-                            "Logged in successfully",
+                            R.string.loginSuccess,
                             Toast.LENGTH_SHORT
                         ).show()
 
                         val mAlertDialogBuilder = AlertDialog.Builder(this@LoginActivity)
-                        mAlertDialogBuilder.setTitle("Select Gate")
+                        mAlertDialogBuilder.setTitle(R.string.selectGate)
                         mAlertDialogBuilder.setCancelable(false)
                         mAlertDialogBuilder.setSingleChoiceItems(
                             gates,
@@ -109,7 +99,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
 
-                        mAlertDialogBuilder.setPositiveButton("select") { _, _ ->
+                        mAlertDialogBuilder.setPositiveButton(R.string.select) { _, _ ->
 
                             val user =
                                 User(it.gua_id, it.gua_first_name, it.gua_last_name, it.gua_username, selected)
@@ -126,7 +116,6 @@ class LoginActivity : AppCompatActivity() {
                                 finish()
                             }
                         }
-
                         val mAlertDialog = mAlertDialogBuilder.create()
                         mAlertDialog.show()
 
@@ -138,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
                             runOnUiThread {
                                     Toast.makeText(
                                         this@LoginActivity,
-                                        "Invalid username or password",
+                                        R.string.invalidUsernamePassword,
                                         Toast.LENGTH_SHORT
                                     ).show()
                             }
@@ -161,11 +150,17 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun initComponents(){
+        sharedPreferences = applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        editor=  sharedPreferences.edit()
 
-
+        txtUsername = binding.txtUsername
+        txtPassword = binding.txtPassword
+        btnLogin = binding.btnLogin
+        loginProgressBar = binding.loginProgressBar
+        lifecycle.addObserver(MainActivityObserver())
+    }
     companion object {
         private val TAG: String = LoginActivity::class.java.simpleName
     }
-
-
 }

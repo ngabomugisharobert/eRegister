@@ -15,6 +15,10 @@ class VisitorRepository(private val visitorDao: VisitorDao) {
         visitorDao.insert(visitor)
     }
 
+    fun visitorToSync(timestamp:String):Flow<List<Visitor>>
+    {
+        return visitorDao.visitorToSync(timestamp)
+    }
 
     fun findVisitorByName(vis_name:String):Flow<List<Visitor>> {
        return visitorDao.findVisitorByName(vis_name)

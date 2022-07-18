@@ -38,13 +38,26 @@
         tools:targetApi="31">
         <activity
             android:name=".activities.MovementRecordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.ERegister"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hogl.eregister.activities.HomeActivity"/>
+        </activity>
         <activity
-            android:name=".connect.ChatActivity"
-            android:exported="false" />
+            android:name=".connect.DeviceConnectedActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ERegister" />
         <activity
             android:name=".connect.MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.ERegister"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hogl.eregister.activities.HomeActivity"/>
+        </activity>
 
 
         <provider
@@ -60,7 +73,8 @@
 
         <activity
             android:name=".activities.NewVisitorActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.ERegister">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.hogl.eregister.activities.HomeActivity"/>
@@ -68,6 +82,7 @@
         <activity
             android:name=".activities.RegisteredVisitorActivity"
             android:exported="false"
+            android:theme="@style/Theme.ERegister"
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -76,7 +91,7 @@
         <activity
             android:name=".activities.HomeActivity"
             android:exported="false"
-            android:theme="@style/AppNoActionBar" />
+            android:theme="@style/Theme.ERegister" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"

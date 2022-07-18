@@ -26,6 +26,7 @@ import com.hogl.eregister.activities.HomeActivity
 import com.hogl.eregister.connect.ServerClient.messagesChangedListener
 import com.hogl.eregister.data.InitApplication
 import com.hogl.eregister.data.models.*
+import com.hogl.eregister.utils.getFolder
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
@@ -34,13 +35,10 @@ import java.util.concurrent.Executors
 import javax.crypto.SecretKey
 import kotlin.properties.Delegates
 
-class ChatActivity : AppCompatActivity() {
-    lateinit var statusText: TextView
+class DeviceConnectedActivity : AppCompatActivity() {
     lateinit var protocolText: TextView
-    lateinit var messagesView: RecyclerView
     lateinit var sendButton: Button
     lateinit var serverClient: ServerClient
-    lateinit var messageLayout: LinearLayout
     lateinit var disconnectButton: Button
     lateinit var tag: String
     lateinit var handler: Handler
@@ -52,6 +50,7 @@ class ChatActivity : AppCompatActivity() {
     lateinit var authStrings: ArrayList<String>
     var authStep by Delegates.notNull<Int>()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
 
     private val movementViewModel: MovementViewModel by viewModels {
         MovementViewModelFactory((this.application as InitApplication).movementRepository)
@@ -67,13 +66,15 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        initComponents()
+
         val intent = intent
         isHost = intent.getBooleanExtra("isHost", false)
         hostAddress = intent.getStringExtra("hostAddress").toString()
         thisAct = this
         thisContext = applicationContext
         handler = Handler(this.getMainLooper())
-        initComponents()
         setUpServer()
         tag = if (isHost!!) "CHAT-HOST" else "CHAT-CLIENT"
     }
@@ -108,10 +109,8 @@ class ChatActivity : AppCompatActivity() {
     private fun setUpServer() {
         //Phone is host
         if (isHost!!) {
-            statusText!!.text = "Host"
             serverClient = ServerClient(authStrings, thisContext)
         } else {
-            statusText!!.text = "Client"
             serverClient = ServerClient(hostAddress, authStrings, thisContext)
         }
         serverClient!!.start()
@@ -120,80 +119,105 @@ class ChatActivity : AppCompatActivity() {
         sendButton!!.setOnClickListener {
 
             var database = JSONObject()
-            visitorViewModel.allVisitors.observe(this) { visitors ->
-                for (visitor in visitors) {
-                    val visitorJson = Gson().toJson(visitor)
-                    database.accumulate("visitors", JSONObject(visitor.toString()))
+
+            var visitor_last_sync: String? =
+                sharedPreferences.getString("visitor_last_sync", null)
+
+            if (visitor_last_sync == null) {
+                visitorViewModel.allVisitors.observe(this) { visitors ->
+                    for (visitor in visitors) {
+                        database.accumulate("visitors", JSONObject(visitor.toString()))
+                    }
+                    update_synchronize("visitor_last_sync", System.currentTimeMillis().toString())
                 }
+            } else {
+                visitorViewModel.visitorToSync(visitor_last_sync.toString())
+                    .observe(this) { visitors ->
+                        for (visitor in visitors) {
+                            database.accumulate("visitors", JSONObject(visitor.toString()))
+                        }
+                    }
+
+                update_synchronize("visitor_last_sync", System.currentTimeMillis().toString())
             }
-            movementViewModel.allMovements.observe(this) { movements ->
-                for (movement in movements) {
-                    val movementJson = Gson().toJson(movement)
-                    database.accumulate("movements", JSONObject(movement.toString()))
+
+
+            var movement_last_sync: String? =
+                sharedPreferences.getString("movement_last_sync", null)
+
+            if (movement_last_sync == null) {
+
+                movementViewModel.allMovements.observe(this) { movements ->
+                    for (movement in movements) {
+                        database.accumulate("movements", JSONObject(movement.toString()))
+                    }
+                    update_synchronize("movement_last_sync", System.currentTimeMillis().toString())
                 }
-            }
-            guardViewModel.allGuards.observe(this) { guards ->
-                for (guard in guards) {
-                    val guardJson = Gson().toJson(guard)
-                    database.accumulate("guards", guardJson)
+
+            } else {
+                movementViewModel.movementsToSync(movement_last_sync).observe(this) { movements ->
+                    for (movement in movements) {
+                        database.accumulate("movements", JSONObject(movement.toString()))
+                    }
                 }
+                update_synchronize("movement_last_sync", System.currentTimeMillis().toString())
             }
-            if(database.length() > 0) {
+
+            if (database.length() > 0) {
                 val jsonString = database.toString()
-               this.saveJson(jsonString)
+                this.saveJson(jsonString)
+            } else {
+                Toast.makeText(thisContext, "No data to sync", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            Thread.sleep(1000)
             val executor = Executors.newSingleThreadExecutor()
 
             executor.execute {
                 if (true) {
                     try {
                         var `is`: InputStream? = null
-                        val fi =
-                            File("data/data/com.hogl.eregister/databases/database.json")
-                        if (fi.exists()) {
-                            Log.e("&&&&&", "File exists")
-                        }
-                        `is` = FileInputStream(fi)
-                        val cr = thisContext!!.contentResolver
-                        //                                InputStream inputStream = cr.openInputStream(Uri.parse("data/data/"+thisContext.getPackageName()+ "/databases/eRegister_database"));
-                        //                                is = getAssets().open("transfer_database");
-                        val fileBytes = ByteArray(`is`.available())
-                        `is`.read(fileBytes)
-                        `is`.close()
-                        var offset = 0
-                        val AttributeDataLen = 244
-                        //
-                        //                                String encryptedMessage = protocolUtils.encrypt((String.valueOf(fileBytes.length).getBytes(StandardCharsets.UTF_8)), sharedKey);
-                        Log.d(
-                            tag + "size of byte array : ",
-                            fileBytes.size.toString()
-                        )
-                        val testLength = fileBytes.size.toString() + ""
-                        val siz =
-                            testLength.toByteArray(StandardCharsets.UTF_8)
-                        serverClient!!.write(siz)
-                        while (offset < fileBytes.size) {
-                            var size = fileBytes.size - offset
-                            if (size > AttributeDataLen) {
-                                size = AttributeDataLen
-                            }
-                            val data = ByteArray(size)
-                            System.arraycopy(fileBytes, offset, data, 0, size)
-                            offset += size
 
-                            //                                    encryptedMessage = protocolUtils.encrypt(data, sharedKey);
-                            Log.d("$tag-SENT", data.toString())
-                            serverClient!!.write(data)
-                        }
-                        handler!!.post {
-                            Toast.makeText(
-                                thisContext,
-                                "Synchronize finished",
-                                Toast.LENGTH_SHORT
-                            ).show()
-//                            val intent = Intent(thisAct, HomeActivity::class.java)
-//                            startActivity(intent)
+                        var directory = thisContext.getFolder()
+                        var dataFile = File(directory, "data.json")
+
+                        if (dataFile.exists()) {
+                            `is` = FileInputStream(dataFile)
+                            val cr = thisContext!!.contentResolver
+                            val fileBytes = ByteArray(`is`.available())
+                            `is`.read(fileBytes)
+                            `is`.close()
+                            var offset = 0
+                            val AttributeDataLen = 244
+                            val testLength = fileBytes.size.toString() + ""
+                            val siz =
+                                testLength.toByteArray(StandardCharsets.UTF_8)
+                            serverClient!!.write(siz)
+                            while (offset < fileBytes.size) {
+                                var size = fileBytes.size - offset
+                                if (size > AttributeDataLen) {
+                                    size = AttributeDataLen
+                                }
+                                val data = ByteArray(size)
+                                System.arraycopy(fileBytes, offset, data, 0, size)
+                                offset += size
+                                serverClient!!.write(data)
+                            }
+                            handler!!.post {
+                                Toast.makeText(
+                                    thisContext,
+                                    "Synchronization finished",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        } else {
+                            handler!!.post {
+                                Toast.makeText(
+                                    thisContext,
+                                    "Synchronization Failed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     } catch (e: IOException) {
                         e.printStackTrace()
@@ -202,32 +226,34 @@ class ChatActivity : AppCompatActivity() {
 
 
             }
-
-            //Hides the keyboard
-            //                InputMethodManager imm = (InputMethodManager) thisAct.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            //                View v = thisAct.getCurrentFocus();
-            //                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
 
     private fun initComponents() {
-        statusText = findViewById(R.id.status_text)
         protocolText = findViewById(R.id.protocol_text)
         sendButton = findViewById(R.id.send_button)
         disconnectButton = findViewById(R.id.disconnect_button)
         deviceName = Settings.Global.getString(contentResolver, "device_name")
         authStrings = ArrayList()
         authStep = 0
+
+        sharedPreferences =
+            applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        editor = sharedPreferences.edit()
     }
 
     private fun saveJson(s: String) {
-        val output:Writer
+        val output: Writer
+
+        var directory = thisContext.getFolder()
+        var dataFile = File(directory, "data.json")
+
 
         val file = File("data/data/com.hogl.eregister/databases/database.json")
-        if (!file.exists()) {
-            file.createNewFile()
+        if (!dataFile.exists()) {
+            dataFile.createNewFile()
         }
-        output=BufferedWriter(FileWriter(file))
+        output = BufferedWriter(FileWriter(dataFile))
         output.write(s)
         output.close()
     }
@@ -274,6 +300,11 @@ class ChatActivity : AppCompatActivity() {
                 Log.d("DISCONNECT", "channel is null")
             }
         }
+    }
+
+    private fun update_synchronize(key: String, value: String) {
+        editor.putString(key, value)
+        editor.apply()
     }
 
     companion object {

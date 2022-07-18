@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.hogl.eregister.utils.FileManupKt;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,6 +25,7 @@ import javax.crypto.SecretKey;
 
 public class ServerClient extends Thread{
 
+    String TAG = ServerClient.class.getSimpleName();
     String hostAddress;
     Boolean isServer;
     Socket socket;
@@ -88,7 +91,7 @@ public class ServerClient extends Thread{
             thread.start();
         }
         else{
-            Log.d("p2p", "Out stream is null");
+            Log.d(TAG, "Out stream is null");
         }
     }
 
@@ -98,10 +101,10 @@ public class ServerClient extends Thread{
                 outStream.write(bytes);
             }
             else{
-                Log.d("p2p", "outstream is null");
+                Log.d(TAG, "outstream is null");
             }
         } catch (IOException e) {
-            Log.d("WRITEERROR","FAILED to write");
+            Log.e("WRITEERROR","FAILED to write");
         }
     }
 
@@ -112,20 +115,20 @@ public class ServerClient extends Thread{
                 servSocket = new ServerSocket(8888);
                 socket = servSocket.accept();
             } else{
-                Log.d("p2p","Client trying to open socket");
+                Log.d(TAG,"Client trying to open socket");
                 try {
                     Thread.sleep(600);
 
                     try {
                         socket.connect(new InetSocketAddress(hostAddress, 8888), 1500);
                     } catch (ConnectException e) {
-                        Log.d("p2p", "Failed to open socket, trying again");
-                        Log.d("p2p",e.toString());
+                        Log.e(TAG, "Failed to open socket, trying again");
+                        Log.e(TAG,e.toString());
                         Thread.sleep(700);
                         socket.connect(new InetSocketAddress(hostAddress, 8888), 1500);
                     }
                 }catch (InterruptedException e){
-                    Log.d("p2p", "Thread sleeps error");
+                    Log.e(TAG, "Thread sleeps error");
                 }
 
 
@@ -179,22 +182,20 @@ public class ServerClient extends Thread{
                             System.arraycopy(data, 0, buffer, index, numbers);
                             index += numbers;
                             if (index == numberofBytes) {
-                                Log.e("%%%%%%", data.length + " " + numberofBytes);
 
                                 File f1 = new File("data/data/com.hogl.eregister/databases/test2");
                                 Boolean y = f1.exists();
                                 FileOutputStream fos = null;
                                 fos = new FileOutputStream(f1);
                                 fos.write(buffer);
+                                FileManupKt.buildJSON(context,buffer);
                                 fos.close();
                                 flag = true;
-//                                currentThread().interrupt(); //stop the thread
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         Intent intent = new Intent(context, MainActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        start new activity
                                         context.startActivity(intent);
                                     }
                                 });

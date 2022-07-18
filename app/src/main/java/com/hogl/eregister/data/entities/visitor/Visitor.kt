@@ -9,11 +9,13 @@ import androidx.room.PrimaryKey
 data class Visitor(
     @PrimaryKey
     @NonNull val vis_id: Int,
-    @ColumnInfo(name = "vis_first_name") val vis_first_name: String,
-    @ColumnInfo(name = "vis_last_name") val vis_last_name: String,
+    @NonNull @ColumnInfo(name = "vis_first_name") val vis_first_name: String,
+    @NonNull @ColumnInfo(name = "vis_last_name") val vis_last_name: String,
     @ColumnInfo(name = "vis_phone") val vis_phone: Int,
     @ColumnInfo(name = "vis_type") val vis_type: String,
     @ColumnInfo(name = "vis_IDNumber") val vis_IDNumber: String,
+    @ColumnInfo(name = "vis_nfc_card")val vis_nfc_card:String,
+    @ColumnInfo(name = "vis_qr_code")val vis_qr_code:String,
     @ColumnInfo(name = "timestamp") val timestamp: String
 )
 {

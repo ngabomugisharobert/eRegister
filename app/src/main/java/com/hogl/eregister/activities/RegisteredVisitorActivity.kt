@@ -14,25 +14,24 @@ import com.hogl.eregister.data.InitApplication
 import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
+import com.hogl.eregister.databinding.ActivityNewVisitorBinding
+import com.hogl.eregister.databinding.ActivityRegisteredVisitorBinding
 
 
 class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
-
-    private val newVisitorActivityRequestCode = 1
+    private lateinit var recyclerView: RecyclerView
     private val visitorsListViewModel by viewModels<VisitorViewModel> {
         VisitorViewModelFactory((application as InitApplication).visitorRepository)
     }
 
-
     private val visitorAdapter = VisitorAdapter { visitor -> adapterOnClick(visitor) }
 
+    private lateinit var binding: ActivityRegisteredVisitorBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_registered_visitor)
-
-
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        recyclerView.adapter = visitorAdapter
+        binding= ActivityRegisteredVisitorBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initComponents()
 
         visitorsListViewModel.allVisitors.observe(this) {
             it.let {
@@ -44,7 +43,6 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
     private fun adapterOnClick(visitor: Visitor) {
         val intent = Intent(this, MovementRecordActivity::class.java)
         intent.putExtra("VISITOR_ID", visitor.vis_id.toString())
-        Log.i(TAG, " ------------ >Visitor id: ${visitor.vis_id}")
         startActivity(intent)
     }
 
@@ -56,7 +54,6 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         val searchView = search?.actionView as? SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)
-
         return true
     }
 
@@ -73,7 +70,6 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
 
     private fun searchDatabase(query: String) {
         val vis_name = "%$query%"
-
         visitorsListViewModel.searchDatabase(vis_name).observe(this) { list ->
             list.let {
                 visitorAdapter.submitList(it as MutableList<Visitor>)
@@ -81,11 +77,14 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         }
     }
 
+    private fun initComponents(){
+        recyclerView = binding.recyclerView
+        recyclerView.adapter = visitorAdapter
+    }
+
     companion object{
         private val TAG:String = RegisteredVisitorActivity::class.java.simpleName
     }
-
-
 }
 
 

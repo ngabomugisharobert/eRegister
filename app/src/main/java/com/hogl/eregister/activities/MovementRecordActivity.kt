@@ -17,6 +17,8 @@ import com.hogl.eregister.data.models.MovementViewModel
 import com.hogl.eregister.data.models.MovementViewModelFactory
 import com.hogl.eregister.utils.GenerateVisitorId
 import com.google.gson.Gson
+import com.hogl.eregister.databinding.ActivityHomeBinding
+import com.hogl.eregister.databinding.ActivityMovementRecordBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -28,21 +30,23 @@ class MovementRecordActivity : AppCompatActivity() {
     private val options = arrayOf("Walk", "Bicycle", "Motorbike", "Car")
 
     private lateinit var user: User
-    lateinit var transport_type_value: String
-    lateinit var transportType: Spinner
-    lateinit var btn_movement_record_check_in: Button
-    lateinit var btn_movement_record_check_Out: Button
-    lateinit var txt_plate_number: EditText
+    private lateinit var transport_type_value: String
+    private lateinit var transportType: Spinner
+    private lateinit var btn_movement_record_check_in: Button
+    private lateinit var btn_movement_record_check_Out: Button
+    private lateinit var txt_plate_number: EditText
 
 
     private val movementViewModel: MovementViewModel by viewModels {
         MovementViewModelFactory((this.application as InitApplication).movementRepository)
     }
 
+    private lateinit var binding: ActivityMovementRecordBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movement_record)
-
+        binding= ActivityMovementRecordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initComponents()
 
         sharedPreferences =
             applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
@@ -55,11 +59,6 @@ class MovementRecordActivity : AppCompatActivity() {
         //get visitor id from previous activity
         VISITOR_ID = intent.getStringExtra("VISITOR_ID").toString()
 
-        //get views for plate number from layout
-        transportType = findViewById(R.id.transport_type)
-        txt_plate_number = findViewById(R.id.txt_plate_number)
-        btn_movement_record_check_in = findViewById(R.id.btn_record_checkIn_movement)
-        btn_movement_record_check_Out = findViewById(R.id.btn_record_checkOut_movement)
 
         transportType.adapter = ArrayAdapter<String>(
             this, android.R.layout.simple_list_item_1, options
@@ -112,7 +111,7 @@ class MovementRecordActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this@MovementRecordActivity,
-                    "Check-In successful",
+                    R.string.checkInDone,
                     Toast.LENGTH_LONG
                 ).show()
                 val intent = Intent(this@MovementRecordActivity, HomeActivity::class.java)
@@ -147,7 +146,7 @@ class MovementRecordActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this@MovementRecordActivity,
-                    "Check-out successful",
+                    R.string.checkOutDone,
                     Toast.LENGTH_LONG
                 ).show()
                 val intent = Intent(this@MovementRecordActivity, HomeActivity::class.java)
@@ -155,6 +154,15 @@ class MovementRecordActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun initComponents() {
+
+        //get views for plate number from layout
+        transportType = binding.transportType
+        txt_plate_number = binding.txtPlateNumber
+        btn_movement_record_check_in = binding.btnRecordCheckInMovement
+        btn_movement_record_check_Out = binding.btnRecordCheckOutMovement
     }
 
     companion object {

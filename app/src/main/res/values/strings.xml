@@ -8,4 +8,18 @@
     <string name="saveCheckOut">Save and Check Out</string>
     <string name="search">Search</string>
     <string name="enter_your_password">Enter your password</string>
+    <string name="visitorNotSaved">visitor not saved successfully</string>
+    <string name="saved">saved successfully</string>
+    <string name="checkIn">Check In</string>
+    <string name="checkInDone">Check-In successfully</string>
+    <string name="checkOutDone">Check-out successfully</string>
+    <string name="noDeviceFound">No devices found</string>
+    <string name="discoveryFail">Discovery failed to start</string>
+    <string name="discoveryStart">Discovery started</string>
+    <string name="loginSuccess">Logged in successfully</string>
+    <string name="selectGate">Select Gate</string>
+    <string name="select">Select</string>
+    <string name="invalidUsernamePassword">Invalid Username or Password</string>
+    <string name="enter_visitor_first_name">Enter visitor First Name</string>
+    <string name="allField">Please fill all the fields</string>
 </resources>
