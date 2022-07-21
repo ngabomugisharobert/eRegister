@@ -2,6 +2,7 @@ package com.hogl.eregister.connect
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,10 +13,9 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -24,9 +24,12 @@ import com.google.gson.Gson
 import com.hogl.eregister.R
 import com.hogl.eregister.activities.HomeActivity
 import com.hogl.eregister.connect.ServerClient.messagesChangedListener
+import com.hogl.eregister.data.AppDatabase
 import com.hogl.eregister.data.InitApplication
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.models.*
 import com.hogl.eregister.utils.getFolder
+import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
@@ -44,13 +47,14 @@ class DeviceConnectedActivity : AppCompatActivity() {
     lateinit var handler: Handler
     var isHost by Delegates.notNull<Boolean>()
     var hostAddress: String = ""
-    lateinit var thisAct: Activity
+    private lateinit var thisAct: DeviceConnectedActivity
     lateinit var thisContext: Context
     lateinit var deviceName: String
     lateinit var authStrings: ArrayList<String>
     var authStep by Delegates.notNull<Int>()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
+    lateinit var layout: View
 
     private val movementViewModel: MovementViewModel by viewModels {
         MovementViewModelFactory((this.application as InitApplication).movementRepository)
@@ -67,16 +71,17 @@ class DeviceConnectedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
+        val applicationScope = CoroutineScope(SupervisorJob())
+        val db by lazy { AppDatabase.getDatabase(this, applicationScope) }
         initComponents()
-
         val intent = intent
         isHost = intent.getBooleanExtra("isHost", false)
         hostAddress = intent.getStringExtra("hostAddress").toString()
         thisAct = this
         thisContext = applicationContext
         handler = Handler(this.getMainLooper())
-        setUpServer()
-        tag = if (isHost!!) "CHAT-HOST" else "CHAT-CLIENT"
+        setUpServer(db)
+        tag = if (isHost) "CHAT-HOST" else "CHAT-CLIENT"
     }
 
     interface finishedInterface {
@@ -86,61 +91,73 @@ class DeviceConnectedActivity : AppCompatActivity() {
     var myInterface: finishedInterface = object : finishedInterface {
         override fun completed(k: SecretKey?): String? {
             Log.d("Auth", "AUTH SERVICE DONE!")
-            serverClient!!.setMessagesChangedListener(object :
-                messagesChangedListener { //            @Override
-                //            public void onMessagesChangedListener() {
-                //                runOnUiThread(new Runnable() {
-                //                    @Override
-                //                    public void run() {
-                //                        adapter.notifyDataSetChanged();
-                //                        messagesView.smoothScrollToPosition(adapter.getItemCount());
-                //                    }
-                //                });
-                //            }
+            serverClient.setMessagesChangedListener(object :
+                messagesChangedListener {
             })
-            serverClient!!.setSecured(true, null)
-            sendButton!!.isEnabled = true
-            protocolText!!.text = "SECURED"
-            protocolText!!.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
+            serverClient.setSecured(true, null)
+            protocolText.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
             return "Done"
         }
     }
 
-    private fun setUpServer() {
+    private fun setUpServer(db: AppDatabase) {
+        var visitorFinished: Boolean = false
+        var movementFinished: Boolean = false
+        var noData: Boolean = false
+
         //Phone is host
-        if (isHost!!) {
+        if (isHost) {
             serverClient = ServerClient(authStrings, thisContext)
         } else {
             serverClient = ServerClient(hostAddress, authStrings, thisContext)
         }
-        serverClient!!.start()
-        disconnectButton!!.setOnClickListener { disconnect() }
 
-        sendButton!!.setOnClickListener {
+        serverClient.start()
+
+        //button event
+        disconnectButton.setOnClickListener { disconnect() }
+
+        sendButton.setOnClickListener {
+
+
+
+
+
 
             var database = JSONObject()
 
             var visitor_last_sync: String? =
                 sharedPreferences.getString("visitor_last_sync", null)
 
+
             if (visitor_last_sync == null) {
                 visitorViewModel.allVisitors.observe(this) { visitors ->
                     for (visitor in visitors) {
                         database.accumulate("visitors", JSONObject(visitor.toString()))
                     }
-                    update_synchronize("visitor_last_sync", System.currentTimeMillis().toString())
+                    if (!visitors.isEmpty()) {
+                        update_synchronize(
+                            "visitor_last_sync",
+                            System.currentTimeMillis().toString()
+                        )
+                    }
+                    visitorFinished = true
                 }
             } else {
-                visitorViewModel.visitorToSync(visitor_last_sync.toString())
+                visitorViewModel.visitorToSync(visitor_last_sync.toLong())
                     .observe(this) { visitors ->
                         for (visitor in visitors) {
                             database.accumulate("visitors", JSONObject(visitor.toString()))
                         }
+                        if (!visitors.isEmpty()) {
+                            update_synchronize(
+                                "visitor_last_sync",
+                                System.currentTimeMillis().toString()
+                            )
+                        }
+                        visitorFinished = true
                     }
-
-                update_synchronize("visitor_last_sync", System.currentTimeMillis().toString())
             }
-
 
             var movement_last_sync: String? =
                 sharedPreferences.getString("movement_last_sync", null)
@@ -151,81 +168,124 @@ class DeviceConnectedActivity : AppCompatActivity() {
                     for (movement in movements) {
                         database.accumulate("movements", JSONObject(movement.toString()))
                     }
-                    update_synchronize("movement_last_sync", System.currentTimeMillis().toString())
-                }
-
-            } else {
-                movementViewModel.movementsToSync(movement_last_sync).observe(this) { movements ->
-                    for (movement in movements) {
-                        database.accumulate("movements", JSONObject(movement.toString()))
+                    if (!movements.isEmpty()) {
+                        update_synchronize(
+                            "movement_last_sync",
+                            System.currentTimeMillis().toString()
+                        )
                     }
+                    movementFinished = true
                 }
-                update_synchronize("movement_last_sync", System.currentTimeMillis().toString())
-            }
 
-            if (database.length() > 0) {
-                val jsonString = database.toString()
-                this.saveJson(jsonString)
             } else {
-                Toast.makeText(thisContext, "No data to sync", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                movementViewModel.movementsToSync(movement_last_sync.toLong())
+                    .observe(this) { movements ->
+                        for (movement in movements) {
+                            database.accumulate(
+                                "movements",
+                                JSONObject(movement.toString())
+                            )
+                        }
+                        if (!movements.isEmpty()) {
+                            update_synchronize(
+                                "movement_last_sync",
+                                System.currentTimeMillis().toString()
+                            )
+                        }
+                        movementFinished = true
+                    }
             }
-            val executor = Executors.newSingleThreadExecutor()
 
-            executor.execute {
-                if (true) {
-                    try {
-                        var `is`: InputStream? = null
 
-                        var directory = thisContext.getFolder()
-                        var dataFile = File(directory, "data.json")
+            GlobalScope.launch {
+                suspend {
+                    Log.i("coroutineScope", "#runs on ${Thread.currentThread().name}")
+                    delay(3000)
+//test the value of this variable a
+                    var a = db.visitorDao().testAllVisitors()
 
-                        if (dataFile.exists()) {
-                            `is` = FileInputStream(dataFile)
-                            val cr = thisContext!!.contentResolver
-                            val fileBytes = ByteArray(`is`.available())
-                            `is`.read(fileBytes)
-                            `is`.close()
-                            var offset = 0
-                            val AttributeDataLen = 244
-                            val testLength = fileBytes.size.toString() + ""
-                            val siz =
-                                testLength.toByteArray(StandardCharsets.UTF_8)
-                            serverClient!!.write(siz)
-                            while (offset < fileBytes.size) {
-                                var size = fileBytes.size - offset
-                                if (size > AttributeDataLen) {
-                                    size = AttributeDataLen
+                    withContext(Dispatchers.Main) {
+
+                        Log.i("coroutineScope", "#runs on ${Thread.currentThread().name}")
+
+                        if (movementFinished && visitorFinished) {
+                            movementFinished = false
+                            visitorFinished = false
+                            if (database.length() > 0) {
+                                val jsonString = database.toString()
+                                thisAct.saveJson(jsonString)
+                            } else {
+                                Toast.makeText(thisContext, "No data to sync", Toast.LENGTH_SHORT)
+                                    .show()
+                                noData = true
+                                return@withContext
+                            }
+    delay(4000)
+                            if (!noData) {
+                                noData = false
+                                val executor = Executors.newSingleThreadExecutor()
+
+                                executor.execute {
+                                    if (true) {
+                                        try {
+                                            var `is`: InputStream? = null
+
+                                            var directory = thisContext.getFolder()
+                                            var dataFile = File(directory, "data.json")
+
+                                            if (dataFile.exists()) {
+                                                `is` = FileInputStream(dataFile)
+                                                val cr = thisContext.contentResolver
+                                                val fileBytes = ByteArray(`is`.available())
+                                                `is`.read(fileBytes)
+                                                `is`.close()
+                                                var offset = 0
+                                                val AttributeDataLen = 244
+                                                val testLength = fileBytes.size.toString() + ""
+                                                val siz =
+                                                    testLength.toByteArray(StandardCharsets.UTF_8)
+                                                serverClient!!.write(siz)
+                                                while (offset < fileBytes.size) {
+                                                    var size = fileBytes.size - offset
+                                                    if (size > AttributeDataLen) {
+                                                        size = AttributeDataLen
+                                                    }
+                                                    val data = ByteArray(size)
+                                                    System.arraycopy(fileBytes, offset, data, 0, size)
+                                                    offset += size
+                                                    serverClient!!.write(data)
+                                                }
+                                                handler.post {
+                                                    Toast.makeText(
+                                                        thisContext,
+                                                        "Synchronization finished",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                    var intent : Intent = Intent(thisContext,HomeActivity::class.java)
+                                                    startActivity(intent)
+                                                }
+                                            } else {
+                                                handler.post {
+                                                    Toast.makeText(
+                                                        thisContext,
+                                                        "Synchronization Failed",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            }
+                                        } catch (e: IOException) {
+                                            e.printStackTrace()
+
+                                        }
+                                    }
                                 }
-                                val data = ByteArray(size)
-                                System.arraycopy(fileBytes, offset, data, 0, size)
-                                offset += size
-                                serverClient!!.write(data)
-                            }
-                            handler!!.post {
-                                Toast.makeText(
-                                    thisContext,
-                                    "Synchronization finished",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                        } else {
-                            handler!!.post {
-                                Toast.makeText(
-                                    thisContext,
-                                    "Synchronization Failed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                             }
                         }
-                    } catch (e: IOException) {
-                        e.printStackTrace()
+
                     }
-                }
-
-
+                }.invoke()
             }
+
         }
     }
 
@@ -268,7 +328,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
             )
             if (channel != null) {
                 if (ActivityCompat.checkSelfPermission(
-                        thisContext!!,
+                        thisContext,
                         Manifest.permission.ACCESS_FINE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
@@ -281,7 +341,8 @@ class DeviceConnectedActivity : AppCompatActivity() {
                         manager.removeGroup(channel, object : WifiP2pManager.ActionListener {
                             override fun onSuccess() {
                                 Log.d("p2p-disconnect", "removeGroup onSuccess -")
-                                triggerRebirth(thisContext)
+                                val intent:Intent = Intent(thisContext,MainActivity::class.java)
+                                startActivity(intent)
                             }
 
                             override fun onFailure(reason: Int) {

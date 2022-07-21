@@ -1,6 +1,7 @@
 package com.hogl.eregister.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +9,7 @@ import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
+import com.hogl.eregister.LoginActivity
 import com.hogl.eregister.R
 import com.hogl.eregister.User
 import com.hogl.eregister.connect.MainActivity
@@ -28,6 +31,7 @@ import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
 import com.hogl.eregister.databinding.ActivityHomeBinding
 import com.hogl.eregister.utils.GenerateVisitorId
+import com.hogl.eregister.utils.SessionManagement
 
 
 class HomeActivity : AppCompatActivity() {
@@ -89,7 +93,7 @@ class HomeActivity : AppCompatActivity() {
                         vis_idNumber,
                         "",
                         "",
-                        System.currentTimeMillis().toString()
+                        System.currentTimeMillis()
                     )
 //                    TODO NFC ID CArd and QR CODE TO BE Implemented
                     visitorViewModel.insert(visitor)
@@ -144,13 +148,34 @@ class HomeActivity : AppCompatActivity() {
 
         nav_layout.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item1 -> Toast.makeText(this, "Logout is to be defined", Toast.LENGTH_SHORT)
-                    .show()
-                R.id.item2 -> Toast.makeText(
-                    this,
-                    "Change Password to be implemented",
-                    Toast.LENGTH_SHORT
-                ).show()
+                R.id.item1 -> {Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
+                    val sessionManagement: SessionManagement =
+                        SessionManagement(this)
+                    sessionManagement.removeSession()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.item2 -> {
+//                    Toast.makeText(
+//                        this,
+//                        "Change Password to be implemented",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+
+                    val inflate = layoutInflater
+                    val inflater = inflate.inflate(R.layout.loading_toast,null)
+
+                    val progressBar = inflater.findViewById(R.id.progressBar) as ProgressBar
+
+                    val alert = AlertDialog.Builder(this)
+                    alert.setView(inflater)
+
+                    alert.setCancelable(false)
+
+                    val alertDialog = alert.create()
+                    alertDialog.show()
+                }
             }
             true
         }
@@ -168,10 +193,15 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-    fun Context.isDarkThemeOn(): Boolean {
+    private fun Context.isDarkThemeOn(): Boolean {
         return resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
     }
+
+    private fun logout(){
+
+    }
+
 
     companion object {
         private val TAG: String = HomeActivity::class.java.simpleName

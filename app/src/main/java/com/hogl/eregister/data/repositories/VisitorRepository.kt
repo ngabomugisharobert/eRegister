@@ -15,7 +15,7 @@ class VisitorRepository(private val visitorDao: VisitorDao) {
         visitorDao.insert(visitor)
     }
 
-    fun visitorToSync(timestamp:String):Flow<List<Visitor>>
+    fun visitorToSync(timestamp:Long):Flow<List<Visitor>>
     {
         return visitorDao.visitorToSync(timestamp)
     }
@@ -27,6 +27,7 @@ class VisitorRepository(private val visitorDao: VisitorDao) {
     fun allVisitors():Flow<List<Visitor>> {
         return visitorDao.allVisitors()
     }
+
 
 
     companion object{

@@ -50,7 +50,7 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.visitor_menu, menu)
 
-        val search = menu?.findItem(R.id.menu_search)
+        val search = menu.findItem(R.id.menu_search)
         val searchView = search?.actionView as? SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)

@@ -21,5 +21,5 @@ fun Context.buildJSON(data: ByteArray)
     var fos: FileOutputStream? = null
     fos = FileOutputStream(file)
     fos.write(data)
-    fos!!.close()
+    fos.close()
 }

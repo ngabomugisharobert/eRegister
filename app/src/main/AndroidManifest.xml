@@ -56,7 +56,7 @@
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hogl.eregister.activities.HomeActivity"/>
+                android:value=".activities.HomeActivity"/>
         </activity>
 
 
@@ -95,7 +95,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:theme="@style/AppNoActionBar">
+            android:theme="@style/Theme.ERegister.noAction">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

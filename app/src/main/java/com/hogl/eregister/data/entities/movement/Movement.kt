@@ -17,7 +17,7 @@ data class Movement(
     @ColumnInfo(name = "transportType") val transportType: String,
     @ColumnInfo(name = "vehicle_plate") val vehicle_plate: String,
     @ColumnInfo(name = "MovementType") val MovementType: String,
-    @ColumnInfo(name = "timestamp") val timestamp: String,
+    @ColumnInfo(name = "timestamp") val timestamp: Long,
 )
 {
     override fun toString(): String {

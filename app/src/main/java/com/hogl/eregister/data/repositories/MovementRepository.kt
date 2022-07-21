@@ -15,7 +15,7 @@ class MovementRepository(private val movementDao: MovementDao) {
         movementDao.insert(movement)
     }
 
-    fun movementsToSync(timestamp: String): Flow<List<Movement>> {
+    fun movementsToSync(timestamp: Long): Flow<List<Movement>> {
         return movementDao.movementsToSync(timestamp)
     }
 

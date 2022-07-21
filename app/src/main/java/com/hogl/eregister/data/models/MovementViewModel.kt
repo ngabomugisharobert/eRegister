@@ -20,7 +20,7 @@ class MovementViewModel(private val MovementRepository: MovementRepository): Vie
         MovementRepository.insert(movement)
     }
 
-    fun movementsToSync(timestamp:String):LiveData<List<Movement>>
+    fun movementsToSync(timestamp:Long):LiveData<List<Movement>>
     {
         return MovementRepository.movementsToSync(timestamp).asLiveData()
     }

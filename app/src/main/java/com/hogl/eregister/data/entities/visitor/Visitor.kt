@@ -16,7 +16,7 @@ data class Visitor(
     @ColumnInfo(name = "vis_IDNumber") val vis_IDNumber: String,
     @ColumnInfo(name = "vis_nfc_card")val vis_nfc_card:String,
     @ColumnInfo(name = "vis_qr_code")val vis_qr_code:String,
-    @ColumnInfo(name = "timestamp") val timestamp: String
+    @ColumnInfo(name = "timestamp") val timestamp: Long
 )
 {
     override fun toString(): String {

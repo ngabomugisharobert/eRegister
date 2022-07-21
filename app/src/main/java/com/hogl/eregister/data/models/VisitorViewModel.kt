@@ -16,12 +16,14 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
 
     val allVisitors: LiveData<List<Visitor>> = visitorRepository.allVisitors().asLiveData()
 
+
     fun insert(visitor: Visitor) = CoroutineScope(Dispatchers.IO).launch {
         visitorRepository.insert(visitor)
     }
 
-    fun visitorToSync(timestamp:String): LiveData<List<Visitor>>{
-        return visitorRepository.visitorToSync(timestamp).asLiveData()
+    fun visitorToSync(timestamp:Long): LiveData<List<Visitor>>{
+        var a = visitorRepository.visitorToSync(timestamp).asLiveData()
+        return a
     }
 
     fun findVisitorByName(vis_name:String): LiveData<List<Visitor>> {

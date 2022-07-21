@@ -26,6 +26,8 @@ class MovementRecordActivity : AppCompatActivity() {
 
     lateinit var VISITOR_ID: String
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferencesCheckIn: SharedPreferences
+    private lateinit var checkInListeditor: SharedPreferences.Editor
 
     private val options = arrayOf("Walk", "Bicycle", "Motorbike", "Car")
 
@@ -48,8 +50,6 @@ class MovementRecordActivity : AppCompatActivity() {
         setContentView(binding.root)
         initComponents()
 
-        sharedPreferences =
-            applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
 
         val sessionManagement = SessionManagement(this@MovementRecordActivity)
@@ -59,6 +59,18 @@ class MovementRecordActivity : AppCompatActivity() {
         //get visitor id from previous activity
         VISITOR_ID = intent.getStringExtra("VISITOR_ID").toString()
 
+        var isVisitorCheckedIn :Boolean = sharedPreferencesCheckIn.getInt(VISITOR_ID,0) !=0
+
+        if (isVisitorCheckedIn)
+        {
+            btn_movement_record_check_Out.isEnabled = true
+            btn_movement_record_check_in.isEnabled = false
+        }
+        else
+        {
+            btn_movement_record_check_Out.isEnabled = false
+            btn_movement_record_check_in.isEnabled = true
+        }
 
         transportType.adapter = ArrayAdapter<String>(
             this, android.R.layout.simple_list_item_1, options
@@ -105,10 +117,13 @@ class MovementRecordActivity : AppCompatActivity() {
                         transport_type_value,
                         plateNumber,
                         "check-in",
-                        System.currentTimeMillis().toString()
+                        System.currentTimeMillis()
                     )
                 )
-
+                with(sharedPreferencesCheckIn.edit()){
+                    putInt(VISITOR_ID,VISITOR_ID.toInt())
+                    apply()
+                }
                 Toast.makeText(
                     this@MovementRecordActivity,
                     R.string.checkInDone,
@@ -140,10 +155,13 @@ class MovementRecordActivity : AppCompatActivity() {
                         transport_type_value,
                         plateNumber,
                         "check-out",
-                        System.currentTimeMillis().toString()
+                        System.currentTimeMillis()
                     )
                 )
-
+                with(sharedPreferencesCheckIn.edit()){
+                    remove(VISITOR_ID)
+                    apply()
+                }
                 Toast.makeText(
                     this@MovementRecordActivity,
                     R.string.checkOutDone,
@@ -163,6 +181,18 @@ class MovementRecordActivity : AppCompatActivity() {
         txt_plate_number = binding.txtPlateNumber
         btn_movement_record_check_in = binding.btnRecordCheckInMovement
         btn_movement_record_check_Out = binding.btnRecordCheckOutMovement
+
+        btn_movement_record_check_in.isEnabled = false
+        btn_movement_record_check_Out.isEnabled = false
+
+        sharedPreferences =
+            applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+
+        sharedPreferencesCheckIn=
+            applicationContext.getSharedPreferences("CheckedInList", Context.MODE_PRIVATE)
+
+        checkInListeditor = sharedPreferencesCheckIn.edit()
+
     }
 
     companion object {

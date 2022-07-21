@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Visitor::class, Institute::class, Guard::class, Movement::class], version = 14)
+@Database(entities = [Visitor::class, Institute::class, Guard::class, Movement::class], version = 16)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun visitorDao(): VisitorDao

@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     TextView connectionStatus;
     Button scanButton;
     RecyclerView devicesView;
+
+    ProgressBar loadingProgressBar;
 
 
     WifiP2pManager manager;
@@ -73,11 +76,16 @@ public class MainActivity extends AppCompatActivity {
                 manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
                     @Override
                     public void onSuccess() {
+
+                        loadingProgressBar.setVisibility(View.VISIBLE);
+
                         connectionStatus.setText(R.string.discoveryStart);
                     }
 
                     @Override
                     public void onFailure(int i) {
+
+                        loadingProgressBar.setVisibility(View.INVISIBLE);
                         connectionStatus.setText(R.string.discoveryFail);
                     }
                 });
@@ -89,10 +97,19 @@ public class MainActivity extends AppCompatActivity {
         connectionStatus = findViewById(R.id.connection_status);
         scanButton = findViewById(R.id.scan_button);
         devicesView = findViewById(R.id.devices_view);
-
+        loadingProgressBar = findViewById(R.id.progressBarDevices);
+        loadingProgressBar.setVisibility(View.INVISIBLE);
         act = this;
 
         adapter = new AvailableDevicesAdapter(availableDevices);
+        if(!availableDevices.isEmpty())
+        {
+            loadingProgressBar.setVisibility(View.INVISIBLE);
+            devicesView.setVisibility(View.VISIBLE);
+        }else
+        {
+
+        }
         devicesView.setAdapter(adapter);
         devicesView.setLayoutManager(new LinearLayoutManager(this));
         adapter.setOnItemClickListener(new AvailableDevicesAdapter.OnItemClickListener() {
@@ -127,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 availableDevices.clear();
                 availableDevices.addAll(wifiP2pDeviceList.getDeviceList());
 
+                loadingProgressBar.setVisibility(View.INVISIBLE);
                 adapter.notifyDataSetChanged();
 
                 if(availableDevices.size() == 0){
