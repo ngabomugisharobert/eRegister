@@ -253,7 +253,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                                                     val data = ByteArray(size)
                                                     System.arraycopy(fileBytes, offset, data, 0, size)
                                                     offset += size
-                                                    serverClient!!.write(data)
+                                                    serverClient.write(data)
                                                 }
                                                 handler.post {
                                                     Toast.makeText(

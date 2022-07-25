@@ -24,6 +24,10 @@
     <uses-permission
         android:name="android.permission.ACCESS_NETWORK_STATE"
         android:required="true" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:name=".data.InitApplication"
@@ -37,13 +41,15 @@
         android:theme="@style/Theme.ERegister"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ScanActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.MovementRecordActivity"
             android:exported="false"
-            android:theme="@style/Theme.ERegister"
-            >
+            android:theme="@style/Theme.ERegister">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hogl.eregister.activities.HomeActivity"/>
+                android:value="com.hogl.eregister.activities.HomeActivity" />
         </activity>
         <activity
             android:name=".connect.DeviceConnectedActivity"
@@ -52,13 +58,11 @@
         <activity
             android:name=".connect.MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.ERegister"
-            >
+            android:theme="@style/Theme.ERegister">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.HomeActivity"/>
+                android:value=".activities.HomeActivity" />
         </activity>
-
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -75,18 +79,17 @@
             android:name=".activities.NewVisitorActivity"
             android:exported="false"
             android:theme="@style/Theme.ERegister">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.hogl.eregister.activities.HomeActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hogl.eregister.activities.HomeActivity" />
         </activity>
         <activity
             android:name=".activities.RegisteredVisitorActivity"
             android:exported="false"
-            android:theme="@style/Theme.ERegister"
-            >
+            android:theme="@style/Theme.ERegister">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hogl.eregister.activities.HomeActivity"/>
+                android:value="com.hogl.eregister.activities.HomeActivity" />
         </activity>
         <activity
             android:name=".activities.HomeActivity"
@@ -98,6 +101,7 @@
             android:theme="@style/Theme.ERegister.noAction">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

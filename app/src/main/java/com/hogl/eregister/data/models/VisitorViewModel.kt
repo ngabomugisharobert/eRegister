@@ -38,6 +38,16 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
         return visitorRepository.findVisitorByName(vis_name).asLiveData()
     }
 
+    fun getVisitorByTag(tagId: String): LiveData<Visitor> {
+        return visitorRepository.findVisitorByTag(tagId).asLiveData()
+    }
+
+    fun getVisitorById(visId: String): LiveData<Visitor> {
+        //convert string to int
+        val id = visId.toInt()
+        return visitorRepository.findVisitorById(id).asLiveData()
+    }
+
 }
 
 class VisitorViewModelFactory(private val visitorRepository: VisitorRepository) : ViewModelProvider.Factory {

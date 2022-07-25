@@ -28,15 +28,20 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="9131e4c0-7a5f-4896-a1da-aaf0c152e5d5">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from tb_visitors where tb_visitors.timestamp > 1658216985765]]></console>
+    <connection id="1ee403b9-3ae3-4fa5-a14a-3593ed92405d">
+      <console name="Connection" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="9131e4c0-7a5f-4896-a1da-aaf0c152e5d5" />
+    <connection id="1ee403b9-3ae3-4fa5-a14a-3593ed92405d" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="1ee403b9-3ae3-4fa5-a14a-3593ed92405d" dataset="main.tb_visitors" active-filter-id="4549972a-f606-4713-85f0-3509fa625658">
+      <filter id="4549972a-f606-4713-85f0-3509fa625658" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -67,7 +72,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="9131e4c0-7a5f-4896-a1da-aaf0c152e5d5" active="true" signed="true">
+      <connection id="1ee403b9-3ae3-4fa5-a14a-3593ed92405d" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -82,7 +87,7 @@
           <port value="" />
           <database value="" />
           <files>
-            <file path="C:\Users\King\Documents\eregisterDatabase.db" schema="main" />
+            <file path="C:\Users\King\Desktop\eregister_database.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

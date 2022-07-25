@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.hogl.eregister.utils.FileManupKt;
+import com.hogl.eregister.utils.ContextExtensionKt;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -188,7 +188,7 @@ public class ServerClient extends Thread{
                                 FileOutputStream fos = null;
                                 fos = new FileOutputStream(f1);
                                 fos.write(buffer);
-                                FileManupKt.buildJSON(context,buffer);
+                                ContextExtensionKt.buildJSON(context,buffer);
                                 fos.close();
                                 flag = true;
                                 handler.post(new Runnable() {

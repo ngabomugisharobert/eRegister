@@ -22,4 +22,9 @@
     <string name="invalidUsernamePassword">Invalid Username or Password</string>
     <string name="enter_visitor_first_name">Enter visitor First Name</string>
     <string name="allField">Please fill all the fields</string>
+    <string name="employee_Type">Employee type</string>
+    <string name="enter_visitor_last_name">Enter visitor Last Name</string>
+    <string name="enter_phone_number">Enter Phone number</string>
+    <string name="enter_id_passport_number">enter ID/Passport Number</string>
+    <string name="scanQRcode">Scan QR code</string>
 </resources>
