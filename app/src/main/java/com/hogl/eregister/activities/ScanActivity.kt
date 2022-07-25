@@ -42,6 +42,8 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
                 val intent = Intent(this, MovementRecordActivity::class.java)
                 intent.putExtra("VISITOR_ID", it.vis_id)
+                intent.putExtra("VISITOR_FNAME", it.vis_first_name)
+                intent.putExtra("VISITOR_LNAME", it.vis_last_name)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "No visitor found", Toast.LENGTH_LONG).show()

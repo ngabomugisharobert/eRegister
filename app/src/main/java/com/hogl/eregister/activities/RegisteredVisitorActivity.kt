@@ -43,6 +43,8 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
     private fun adapterOnClick(visitor: Visitor) {
         val intent = Intent(this, MovementRecordActivity::class.java)
         intent.putExtra("VISITOR_ID", visitor.vis_id.toString())
+        intent.putExtra("VISITOR_FNAME", visitor.vis_first_name)
+        intent.putExtra("VISITOR_LNAME", visitor.vis_last_name)
         startActivity(intent)
     }
 

@@ -3,22 +3,23 @@ package com.hogl.eregister.activities
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
 import com.hogl.eregister.R
-import com.hogl.eregister.utils.SessionManagement
 import com.hogl.eregister.User
 import com.hogl.eregister.data.InitApplication
 import com.hogl.eregister.data.entities.movement.Movement
 import com.hogl.eregister.data.models.MovementViewModel
 import com.hogl.eregister.data.models.MovementViewModelFactory
-import com.hogl.eregister.utils.GenerateVisitorId
-import com.google.gson.Gson
-import com.hogl.eregister.databinding.ActivityHomeBinding
+import com.hogl.eregister.data.models.VisitorViewModel
+import com.hogl.eregister.data.models.VisitorViewModelFactory
 import com.hogl.eregister.databinding.ActivityMovementRecordBinding
+import com.hogl.eregister.utils.GenerateVisitorId
+import com.hogl.eregister.utils.SessionManagement
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -37,8 +38,12 @@ class MovementRecordActivity : AppCompatActivity() {
     private lateinit var btn_movement_record_check_in: Button
     private lateinit var btn_movement_record_check_Out: Button
     private lateinit var txt_plate_number: EditText
+    private  lateinit var txt_visitor_first_name: TextView
+    private lateinit var txt_visitor_last_name: TextView
 
-
+    private val visitorsListViewModel by viewModels<VisitorViewModel> {
+        VisitorViewModelFactory((application as InitApplication).visitorRepository)
+    }
     private val movementViewModel: MovementViewModel by viewModels {
         MovementViewModelFactory((this.application as InitApplication).movementRepository)
     }
@@ -58,6 +63,8 @@ class MovementRecordActivity : AppCompatActivity() {
 
         //get visitor id from previous activity
         VISITOR_ID = intent.getStringExtra("VISITOR_ID").toString()
+        txt_visitor_first_name.text = intent.getStringExtra("VISITOR_FNAME").toString()
+        txt_visitor_last_name.text = intent.getStringExtra("VISITOR_LNAME").toString()
 
         var isVisitorCheckedIn :Boolean = sharedPreferencesCheckIn.getInt(VISITOR_ID,0) !=0
 
@@ -181,6 +188,9 @@ class MovementRecordActivity : AppCompatActivity() {
         txt_plate_number = binding.txtPlateNumber
         btn_movement_record_check_in = binding.btnRecordCheckInMovement
         btn_movement_record_check_Out = binding.btnRecordCheckOutMovement
+        txt_visitor_first_name = binding.disVisFirstName
+        txt_visitor_last_name = binding.disVisLastName
+
 
         btn_movement_record_check_in.isEnabled = false
         btn_movement_record_check_Out.isEnabled = false

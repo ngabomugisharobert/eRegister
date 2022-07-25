@@ -1,6 +1,7 @@
 package com.hogl.eregister.data.models
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.repositories.GuardRepository
@@ -43,9 +44,16 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
     }
 
     fun getVisitorById(visId: String): LiveData<Visitor> {
+        var id:Int = 0
         //convert string to int
-        val id = visId.toInt()
-        return visitorRepository.findVisitorById(id).asLiveData()
+        try {
+             id = visId.toInt()
+        }catch (e: Exception){
+            Log.e("VisitorViewModelERROR", "getVisitorById: " + e.message)
+        }
+        finally {
+            return visitorRepository.findVisitorById(id).asLiveData()
+        }
     }
 
 }
