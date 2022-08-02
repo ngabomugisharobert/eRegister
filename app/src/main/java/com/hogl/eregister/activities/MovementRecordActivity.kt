@@ -116,7 +116,7 @@ class MovementRecordActivity : AppCompatActivity() {
                 user = gson.fromJson(data, User::class.java)
                 movementViewModel.insert(
                     Movement(
-                        GenerateVisitorId.getId(),
+                    0,
                         VISITOR_ID.toInt(),
                         user.gate_id,
                         formatted,
@@ -154,7 +154,7 @@ class MovementRecordActivity : AppCompatActivity() {
                 user = gson.fromJson(data, User::class.java)
                 movementViewModel.insert(
                     Movement(
-                        GenerateVisitorId.getId(),
+                        0,
                         VISITOR_ID.toInt(),
                         user.gate_id,
                         formatted,

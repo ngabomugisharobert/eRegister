@@ -8,6 +8,7 @@ import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.hogl.eregister.R
 import com.hogl.eregister.adapter.VisitorAdapter
 import com.hogl.eregister.data.InitApplication
@@ -20,6 +21,7 @@ import com.hogl.eregister.databinding.ActivityRegisteredVisitorBinding
 
 class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var recyclerView: RecyclerView
+    private lateinit var search_empty : LottieAnimationView
     private val visitorsListViewModel by viewModels<VisitorViewModel> {
         VisitorViewModelFactory((application as InitApplication).visitorRepository)
     }
@@ -34,8 +36,17 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         initComponents()
 
         visitorsListViewModel.allVisitors.observe(this) {
-            it.let {
+            it.let { it ->
+                if (it.isEmpty()) {
+                search_empty.visibility = android.view.View.VISIBLE
+                recyclerView.visibility = android.view.View.INVISIBLE
+            } else {
+                search_empty.visibility = android.view.View.GONE
+                recyclerView.visibility = android.view.View.VISIBLE
+                    //sort array by name
+//                    it.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { visitor -> visitor.vis_first_name }))
                 visitorAdapter.submitList(it as MutableList<Visitor>)
+            }
             }
         }
     }
@@ -74,7 +85,16 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         val vis_name = "%$query%"
         visitorsListViewModel.searchDatabase(vis_name).observe(this) { list ->
             list.let {
-                visitorAdapter.submitList(it as MutableList<Visitor>)
+                if (list.isEmpty()) {
+                    search_empty.visibility = android.view.View.VISIBLE
+                    recyclerView.visibility = android.view.View.INVISIBLE
+                } else {
+                    search_empty.visibility = android.view.View.GONE
+                    recyclerView.visibility = android.view.View.VISIBLE
+                    //sort array by name
+//                    list.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER ,{ visitor -> visitor.vis_first_name }))
+                    visitorAdapter.submitList(list as MutableList<Visitor>)
+                }
             }
         }
     }
@@ -82,6 +102,7 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
     private fun initComponents(){
         recyclerView = binding.recyclerView
         recyclerView.adapter = visitorAdapter
+        search_empty = binding.searchEmpty
     }
 
     companion object{

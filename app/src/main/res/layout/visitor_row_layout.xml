@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/age_textView"
+        android:id="@+id/visitor_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -29,9 +29,9 @@
         android:text="John"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/age_textView"
-        app:layout_constraintStart_toEndOf="@+id/age_textView"
-        app:layout_constraintTop_toTopOf="@+id/age_textView" />
+        app:layout_constraintBottom_toBottomOf="@+id/visitor_id"
+        app:layout_constraintStart_toEndOf="@+id/visitor_id"
+        app:layout_constraintTop_toTopOf="@+id/visitor_id" />
 
     <TextView
         android:id="@+id/lastName_textView"

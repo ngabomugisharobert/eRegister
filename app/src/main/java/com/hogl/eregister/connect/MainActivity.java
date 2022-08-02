@@ -26,6 +26,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.hogl.eregister.R;
 
 import java.net.InetAddress;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Button scanButton;
     RecyclerView devicesView;
 
-    ProgressBar loadingProgressBar;
+    LottieAnimationView loadingProgressBar;
 
 
     WifiP2pManager manager;
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 myIntent.putExtra("isHost", wifiP2pInfo.isGroupOwner);
                 myIntent.putExtra("hostAddress", groupOwnerAddress.getHostAddress());
                 act.startActivity(myIntent);
+                act.finish();
 
 
             }

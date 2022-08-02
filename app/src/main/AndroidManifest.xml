@@ -26,28 +26,45 @@
         android:required="true" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".data.InitApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/ic_dbook_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_dbook_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.ERegister"
         tools:targetApi="31">
         <activity
-            android:name=".activities.ScanActivity"
+            android:name=".activities.GroupActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hogl.eregister.activities.HomeActivity" />
         </activity>
 
+        <receiver
+            android:name=".TimeChangedReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".activities.ScanActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ERegister">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hogl.eregister.activities.HomeActivity" />
+        </activity>
         <activity
             android:name=".activities.MovementRecordActivity"
             android:exported="false"
@@ -103,6 +120,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.ERegister.noAction">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

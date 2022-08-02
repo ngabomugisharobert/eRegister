@@ -23,6 +23,7 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit) :
     {
 
 
+        private val visitor_id :TextView = binding.visitorId
         private val visitor_firstName: TextView = binding.firstNameTextView
         private val visitor_lastName: TextView = binding.lastNameTextView
         private var currentVisitor: Visitor = Visitor(3,"robert","kagame",15,"og","54","","", System.currentTimeMillis())
@@ -38,9 +39,10 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit) :
         }
 
 
-        fun bind(visitor: Visitor) {
+        fun bind(visitor: Visitor, position: Int) {
             currentVisitor = visitor
 
+            visitor_id.text = position.toString()
             visitor_firstName.text = currentVisitor.vis_first_name
             visitor_lastName.text = currentVisitor.vis_last_name
 
@@ -61,7 +63,7 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit) :
 
     override fun onBindViewHolder(holder: VisitorViewHolder, position: Int) {
         val visitor = getItem(position)
-        holder.bind(visitor)
+        holder.bind(visitor, position+1)
 
     }
 

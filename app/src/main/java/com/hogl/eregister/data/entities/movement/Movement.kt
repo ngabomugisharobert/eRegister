@@ -8,8 +8,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "tb_movements")
 data class Movement(
-    @PrimaryKey
-    @NonNull val mv_id: Int,
+    @PrimaryKey(autoGenerate = true) val mv_id: Long,
     @ColumnInfo(name = "visitor_id") val visitor_id: Int,
     @ColumnInfo(name = "gate_id") val gate_id: Int,
     @ColumnInfo(name = "mv_time") val mv_time: String,
@@ -20,7 +19,7 @@ data class Movement(
     @ColumnInfo(name = "timestamp") val timestamp: Long,
 )
 {
-    override fun toString(): String {
-        return " { mv_id:$mv_id, visitor_id:$visitor_id, gate_id:$gate_id, mv_time:'$mv_time', guard_id:$guard_id, transportType:'$transportType', vehicle_plate:'$vehicle_plate', MovementType:'$MovementType', timestamp:'$timestamp'}"
+    fun toString(android_id:String): String {
+        return " { mv_id:$android_id-$mv_id, visitor_id:$android_id-$visitor_id, gate_id:$gate_id, mv_time:'$mv_time', guard_id:$guard_id, transportType:'$transportType', vehicle_plate:'$vehicle_plate', MovementType:'$MovementType', timestamp:'$timestamp'}"
     }
 }

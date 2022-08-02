@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "tb_institutes")
 data class Institute(
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull val inst_id: Int,
     @ColumnInfo(name = "inst_name") val inst_name: String,
     @ColumnInfo(name = "inst_address") val inst_address: String,

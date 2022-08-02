@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
+import android.provider.Settings.Secure
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -35,6 +36,7 @@ import com.hogl.eregister.data.models.VisitorViewModelFactory
 import com.hogl.eregister.databinding.ActivityHomeBinding
 import com.hogl.eregister.extensions.TagExtension.getTagId
 import com.hogl.eregister.utils.*
+import java.security.AccessController.getContext
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -57,6 +59,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var container: ConstraintLayout
     private lateinit var btnScan: CardView
     private lateinit var btnRFID: CardView
+    private lateinit var btnGroup: CardView
 
     private lateinit var nfcScanLoading: LottieAnimationView
 
@@ -69,6 +72,7 @@ class HomeActivity : AppCompatActivity() {
         initComponents()
         onClickListeners()
         if (!this.nfcActivation()) btnRFID.visibility = View.GONE
+
     }
 
 
@@ -76,16 +80,6 @@ class HomeActivity : AppCompatActivity() {
         btnScan.setOnClickListener {
             val intent1 = Intent(applicationContext, ScanActivity::class.java)
             startActivity(intent1)
-
-
-//            val result = intent.getStringExtra(RESULT)
-//
-//            //get string from intent
-//            Toast.makeText(this, result, Toast.LENGTH_LONG).show()
-//
-//            val intent2 = Intent(this, MovementRecordActivity::class.java)
-//            intent.putExtra("VISITOR_ID", result)
-//            startActivity(intent2)
         }
 
 
@@ -110,7 +104,7 @@ class HomeActivity : AppCompatActivity() {
                     val vis_nfc_card =
                         data?.getStringExtra(NewVisitorActivity.VIS_NFC_CARD).toString()
                     val visitor = Visitor(
-                        GenerateVisitorId.getId(),
+                        0,
                         vis_first_name,
                         vis_last_name,
                         vis_phone.toInt(),
@@ -122,7 +116,7 @@ class HomeActivity : AppCompatActivity() {
                     )
 //                    TODO NFC ID CArd and QR CODE TO BE Implemented
                     visitorViewModel.insert(visitor)
-
+                    Log.e("VISITOR", Gson().toJson(visitor))
                     Toast.makeText(applicationContext, R.string.saved, Toast.LENGTH_LONG)
                         .show()
                 } else {
@@ -152,6 +146,11 @@ class HomeActivity : AppCompatActivity() {
             }
             nfcScanLoading.visibility = View.GONE
         }
+
+        btnGroup.setOnClickListener {
+            val intent = Intent(this, GroupActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun initComponents() {
@@ -160,6 +159,7 @@ class HomeActivity : AppCompatActivity() {
         btnNewVisitor = binding.crdNewVisitor
         btnSync = binding.crdSync
         btnScan = binding.crdQRcode
+        btnGroup = binding.crdGroup
         btnRFID = binding.crdRFID
         drawerLayout = binding.drawerLayout
         nav_layout = binding.navView
@@ -254,14 +254,16 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         if (NfcAdapter.getDefaultAdapter(this) != null) {
-            intent?.let {
+            intent?.let { it ->
                 val tag = it.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
                 if (tag != null) {
-                    visitorViewModel.getVisitorByTag(tag.getTagId()).observe(this) {
-                        if (it != null) {
-                            val intent = Intent(this, MovementRecordActivity::class.java)
-                            intent.putExtra("VISITOR_ID", it.vis_id)
+                    visitorViewModel.getVisitorByTag(tag.getTagId()).observe(this) { visitor ->
+                        if (visitor != null) {
+                            val intent: Intent = Intent(this, MovementRecordActivity::class.java)
+                            intent.putExtra("VISITOR_ID", visitor.vis_id)
                             startActivity(intent)
+                        } else {
+                            Toast.makeText(this, "No Visitor Found", Toast.LENGTH_SHORT).show()
                         }
                     }
 

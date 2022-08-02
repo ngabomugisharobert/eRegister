@@ -13,17 +13,17 @@ abstract class VisitorDao : BaseDao<Visitor>() {
     abstract fun findVisitorById(visId: Int): Flow<Visitor>
 
 
-    @Query("SELECT * from tb_visitors order by vis_first_name")
+    @Query("SELECT * from tb_visitors order by vis_first_name COLLATE NOCASE ASC")
     abstract fun allVisitors(): Flow<List<Visitor>>
 
-    @Query("SELECT * from tb_visitors order by vis_first_name")
+    @Query("SELECT * from tb_visitors order by vis_first_name COLLATE NOCASE ASC")
     abstract fun testAllVisitors(): List<Visitor>
 
 
-    @Query("SELECT * from tb_visitors WHERE timestamp > :timestamp")
+    @Query("SELECT * from tb_visitors WHERE timestamp > :timestamp order by vis_first_name COLLATE NOCASE ASC")
     abstract fun visitorToSync(timestamp: Long): Flow<List<Visitor>>
 
-    @Query("SELECT * FROM tb_visitors WHERE vis_first_name LIKE :vis_name OR vis_last_name LIKE :vis_name")
+    @Query("SELECT * FROM tb_visitors WHERE vis_first_name LIKE :vis_name OR vis_last_name LIKE :vis_name order by vis_first_name COLLATE NOCASE ASC")
     abstract fun findVisitorByName(vis_name: String): Flow<List<Visitor>>
 
 

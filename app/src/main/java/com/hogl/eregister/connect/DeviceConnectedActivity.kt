@@ -20,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.google.gson.Gson
 import com.hogl.eregister.R
 import com.hogl.eregister.activities.HomeActivity
@@ -43,6 +44,8 @@ class DeviceConnectedActivity : AppCompatActivity() {
     lateinit var sendButton: Button
     lateinit var serverClient: ServerClient
     lateinit var disconnectButton: Button
+    lateinit var phone_sync : LottieAnimationView
+
     lateinit var tag: String
     lateinit var handler: Handler
     var isHost by Delegates.notNull<Boolean>()
@@ -66,6 +69,16 @@ class DeviceConnectedActivity : AppCompatActivity() {
         VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
     }
 
+    //override onPause to stop the serverClient
+    override fun onPause() {
+        super.onPause()
+        disconnect()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        disconnect()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,21 +132,17 @@ class DeviceConnectedActivity : AppCompatActivity() {
 
         sendButton.setOnClickListener {
 
-
-
-
-
-
+            phone_sync.visibility = View.VISIBLE
             var database = JSONObject()
 
+            val android_id: String = sharedPreferences.getString("android_id", "")!!
             var visitor_last_sync: String? =
                 sharedPreferences.getString("visitor_last_sync", null)
-
 
             if (visitor_last_sync == null) {
                 visitorViewModel.allVisitors.observe(this) { visitors ->
                     for (visitor in visitors) {
-                        database.accumulate("visitors", JSONObject(visitor.toString()))
+                        database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
                     }
                     if (!visitors.isEmpty()) {
                         update_synchronize(
@@ -147,7 +156,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 visitorViewModel.visitorToSync(visitor_last_sync.toLong())
                     .observe(this) { visitors ->
                         for (visitor in visitors) {
-                            database.accumulate("visitors", JSONObject(visitor.toString()))
+                            database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
                         }
                         if (!visitors.isEmpty()) {
                             update_synchronize(
@@ -166,7 +175,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
 
                 movementViewModel.allMovements.observe(this) { movements ->
                     for (movement in movements) {
-                        database.accumulate("movements", JSONObject(movement.toString()))
+                        database.accumulate("movements", JSONObject(movement.toString(android_id)))
                     }
                     if (!movements.isEmpty()) {
                         update_synchronize(
@@ -183,7 +192,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                         for (movement in movements) {
                             database.accumulate(
                                 "movements",
-                                JSONObject(movement.toString())
+                                JSONObject(movement.toString(android_id))
                             )
                         }
                         if (!movements.isEmpty()) {
@@ -217,10 +226,11 @@ class DeviceConnectedActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(thisContext, "No data to sync", Toast.LENGTH_SHORT)
                                     .show()
+                                phone_sync.visibility = View.INVISIBLE
                                 noData = true
                                 return@withContext
                             }
-    delay(4000)
+                            delay(4000)
                             if (!noData) {
                                 noData = false
                                 val executor = Executors.newSingleThreadExecutor()
@@ -251,7 +261,13 @@ class DeviceConnectedActivity : AppCompatActivity() {
                                                         size = AttributeDataLen
                                                     }
                                                     val data = ByteArray(size)
-                                                    System.arraycopy(fileBytes, offset, data, 0, size)
+                                                    System.arraycopy(
+                                                        fileBytes,
+                                                        offset,
+                                                        data,
+                                                        0,
+                                                        size
+                                                    )
                                                     offset += size
                                                     serverClient.write(data)
                                                 }
@@ -261,8 +277,14 @@ class DeviceConnectedActivity : AppCompatActivity() {
                                                         "Synchronization finished",
                                                         Toast.LENGTH_LONG
                                                     ).show()
-                                                    var intent : Intent = Intent(thisContext,HomeActivity::class.java)
+                                                    phone_sync.visibility = View.INVISIBLE
+
+                                                    var intent: Intent = Intent(
+                                                        thisContext,
+                                                        HomeActivity::class.java
+                                                    )
                                                     startActivity(intent)
+                                                    finish()
                                                 }
                                             } else {
                                                 handler.post {
@@ -271,6 +293,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                                                         "Synchronization Failed",
                                                         Toast.LENGTH_SHORT
                                                     ).show()
+                                                    phone_sync.visibility = View.INVISIBLE
                                                 }
                                             }
                                         } catch (e: IOException) {
@@ -293,6 +316,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
         protocolText = findViewById(R.id.protocol_text)
         sendButton = findViewById(R.id.send_button)
         disconnectButton = findViewById(R.id.disconnect_button)
+        phone_sync = findViewById(R.id.phone_sync)
         deviceName = Settings.Global.getString(contentResolver, "device_name")
         authStrings = ArrayList()
         authStep = 0
@@ -341,8 +365,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                         manager.removeGroup(channel, object : WifiP2pManager.ActionListener {
                             override fun onSuccess() {
                                 Log.d("p2p-disconnect", "removeGroup onSuccess -")
-                                val intent:Intent = Intent(thisContext,MainActivity::class.java)
-                                startActivity(intent)
+                                triggerRebirth(thisContext)
                             }
 
                             override fun onFailure(reason: Int) {

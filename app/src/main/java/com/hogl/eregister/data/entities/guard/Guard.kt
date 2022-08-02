@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "tb_guards")
 data class Guard(
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull val gua_id: Int,
     @ColumnInfo(name = "gua_first_name") val gua_first_name: String,
     @ColumnInfo(name = "gua_last_name") val gua_last_name: String,

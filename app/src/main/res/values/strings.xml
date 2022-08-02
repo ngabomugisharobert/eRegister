@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">eRegister</string>
+    <string name="app_name">Guard</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="save">Save</string>
@@ -28,4 +28,12 @@
     <string name="enter_id_passport_number">enter ID/Passport Number</string>
     <string name="scanQRcode">Scan QR code</string>
     <string name="transport_type">Transport Type</string>
+    <string name="chooseAsset">Choose asset</string>
+    <string name="start">Start</string>
+    <string name="dbookk">DBOOKK.</string>
+    <string name="group">Group</string>
+    <string name="new_visitor">New visitor</string>
+    <string name="enter_the_group_name">Enter the group name</string>
+    <string name="number_of_group_members">Number of Group members</string>
+    <string name="scan_qr_codes">Scan QR Codes</string>
 </resources>
