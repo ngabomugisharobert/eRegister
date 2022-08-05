@@ -108,7 +108,7 @@
                                 android:layout_marginLeft="20dp"
                                 android:text="Registered Visitor"
                                 android:textAlignment="center"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/purple_700"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -153,7 +153,7 @@
                                 android:layout_marginLeft="20dp"
                                 android:text="New Visitor"
                                 android:textAlignment="center"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/purple_700"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -195,7 +195,7 @@
                                 android:layout_marginLeft="20dp"
                                 android:text="Group"
                                 android:textAlignment="center"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/purple_700"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -239,7 +239,7 @@
                                 android:layout_marginLeft="20dp"
                                 android:text="Correction"
                                 android:textAlignment="center"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/purple_700"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -281,7 +281,7 @@
                                 android:layout_marginLeft="20dp"
                                 android:text="Scan QRCode"
                                 android:textAlignment="center"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/purple_700"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -323,7 +323,7 @@
                                 android:layout_marginLeft="20dp"
                                 android:text="RFID card scan"
                                 android:textAlignment="center"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/purple_700"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -364,7 +364,7 @@
                                 android:layout_marginLeft="20dp"
                                 android:text="Transfer Data"
                                 android:textAlignment="center"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/purple_700"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 

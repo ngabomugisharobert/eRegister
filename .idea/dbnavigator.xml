@@ -28,19 +28,20 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="1ee403b9-3ae3-4fa5-a14a-3593ed92405d">
-      <console name="Connection" type="STANDARD" schema="main" session="Main" />
+    <connection id="26938361-6b66-42d6-9a93-b35fb7908d43">
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT * from tb_groupMovements where grp_id like :grpId AND grp_mv_type LIKE :s]]></console>
+      <console name="Connection 1" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="1ee403b9-3ae3-4fa5-a14a-3593ed92405d" />
+    <connection id="26938361-6b66-42d6-9a93-b35fb7908d43" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="1ee403b9-3ae3-4fa5-a14a-3593ed92405d" dataset="main.tb_visitors" active-filter-id="4549972a-f606-4713-85f0-3509fa625658">
-      <filter id="4549972a-f606-4713-85f0-3509fa625658" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    <filter-actions connection-id="26938361-6b66-42d6-9a93-b35fb7908d43" dataset="main.tb_groupMovements" active-filter-id="40853103-971a-474a-b3c6-290932b2bc4f">
+      <filter id="40853103-971a-474a-b3c6-290932b2bc4f" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
@@ -72,7 +73,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="1ee403b9-3ae3-4fa5-a14a-3593ed92405d" active="true" signed="true">
+      <connection id="26938361-6b66-42d6-9a93-b35fb7908d43" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -87,7 +88,7 @@
           <port value="" />
           <database value="" />
           <files>
-            <file path="C:\Users\King\Desktop\eregister_database.db" schema="main" />
+            <file path="C:\Users\King\Desktop\db\eregister_database.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
@@ -558,6 +559,11 @@
     </general-settings>
   </component>
   <component name="DBNavigator.Project.StatementExecutionManager">
-    <execution-variables />
+    <execution-variables>
+      <file file-url="db://26938361-6b66-42d6-9a93-b35fb7908d43/consoles/Connection">
+        <variable name=":s" dataType="LITERAL" values="CHECK_IN" />
+        <variable name=":grpId" dataType="LITERAL" values="3" />
+      </file>
+    </execution-variables>
   </component>
 </project>

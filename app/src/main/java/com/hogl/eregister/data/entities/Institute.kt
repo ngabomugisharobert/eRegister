@@ -1,4 +1,4 @@
-package com.hogl.eregister.data.entities.institute
+package com.hogl.eregister.data.entities
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo

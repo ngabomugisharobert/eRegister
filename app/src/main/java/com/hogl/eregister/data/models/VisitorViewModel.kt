@@ -1,12 +1,9 @@
 package com.hogl.eregister.data.models
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
-import com.hogl.eregister.data.entities.visitor.Visitor
-import com.hogl.eregister.data.repositories.GuardRepository
+import com.hogl.eregister.data.entities.Visitor
 import com.hogl.eregister.data.repositories.VisitorRepository
-import com.hogl.eregister.lifecycle.MainActivityObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

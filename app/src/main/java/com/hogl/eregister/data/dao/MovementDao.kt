@@ -2,8 +2,7 @@ package com.hogl.eregister.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.hogl.eregister.data.entities.guard.Guard
-import com.hogl.eregister.data.entities.movement.Movement
+import com.hogl.eregister.data.entities.Movement
 import kotlinx.coroutines.flow.Flow
 
 @Dao

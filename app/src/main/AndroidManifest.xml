@@ -38,12 +38,21 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_dbook_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ERegister"
+        android:theme="@style/splashTheme"
         tools:targetApi="31">
         <activity
-            android:name=".activities.GroupActivity"
+            android:name=".activities.GroupDetailsActivity"
+        <activity
+            android:name=".activities.GroupsActivity"
+            android:exported="false"
+            android:theme="@style/splashTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hogl.eregister.activities.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".activities.AddGroupActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hogl.eregister.activities.HomeActivity" />
@@ -121,7 +130,7 @@
             android:name=".LoginActivity"
             android:exported="true"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.ERegister.noAction">
+            android:theme="@style/splashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

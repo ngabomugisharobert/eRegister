@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.GroupActivity">
+    tools:context=".activities.AddGroupActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:ems="10">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_visitor_fn"
+                    android:id="@+id/grp_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -50,7 +50,7 @@
                 android:hint="@string/number_of_group_members">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_visitor_ln"
+                    android:id="@+id/grp_members"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -66,18 +66,18 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
-                android:hint="@string/enter_visitor_first_name"
+                android:hint="@string/EnterGroupLeader"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_visitor_email"
+                    android:id="@+id/grp_leader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:textColorHint="#616161" />
+                    android:textColorHint="#DAD8D8" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Spinner
@@ -93,17 +93,17 @@
                 android:ems="10"/>
 
             <Button
-                android:id="@+id/btnScanQrCodes"
-                android:background="@color/purple_700"
-                android:backgroundTint="@color/purple_700"
-                android:text="@string/scan_qr_codes"
+                android:id="@+id/btnSaveGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_qr_code_scanner_24"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
+                android:background="@color/purple_700"
+                android:backgroundTint="@color/purple_700"
+                android:drawableLeft="@drawable/ic_twotone_save_24"
                 android:ems="10"
+                android:text="Save Group"
                 android:textColor="#000000" />
 
         </LinearLayout>

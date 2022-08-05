@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hogl.eregister.R
-import com.hogl.eregister.data.entities.visitor.Visitor
+import com.hogl.eregister.data.entities.Visitor
 import com.hogl.eregister.databinding.VisitorRowLayoutBinding
 
 class VisitorAdapter(private val onClick: (Visitor) -> Unit) :

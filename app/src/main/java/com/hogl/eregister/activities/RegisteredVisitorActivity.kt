@@ -3,7 +3,6 @@ package com.hogl.eregister.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -12,10 +11,9 @@ import com.airbnb.lottie.LottieAnimationView
 import com.hogl.eregister.R
 import com.hogl.eregister.adapter.VisitorAdapter
 import com.hogl.eregister.data.InitApplication
-import com.hogl.eregister.data.entities.visitor.Visitor
+import com.hogl.eregister.data.entities.Visitor
 import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
-import com.hogl.eregister.databinding.ActivityNewVisitorBinding
 import com.hogl.eregister.databinding.ActivityRegisteredVisitorBinding
 
 

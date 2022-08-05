@@ -2,9 +2,7 @@ package com.hogl.eregister.data.models
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.hogl.eregister.data.entities.guard.Guard
-import com.hogl.eregister.data.entities.institute.Institute
-import com.hogl.eregister.data.repositories.GuardRepository
+import com.hogl.eregister.data.entities.Institute
 import com.hogl.eregister.data.repositories.InstituteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

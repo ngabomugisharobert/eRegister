@@ -36,4 +36,11 @@
     <string name="enter_the_group_name">Enter the group name</string>
     <string name="number_of_group_members">Number of Group members</string>
     <string name="scan_qr_codes">Scan QR Codes</string>
+    <string name="add_group">Add a Group</string>
+    <string name="error_saving">Not saved</string>
+    <string name="EnterGroupLeader">Enter Group Leader</string>
+    <string name="group_detail">Group Details</string>
+    <string name="total_members">Total Members :</string>
+    <string name="check_in">Check-In</string>
+    <string name="check_out">CHECK-OUT</string>
 </resources>

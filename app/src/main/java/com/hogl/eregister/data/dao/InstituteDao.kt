@@ -2,7 +2,7 @@ package com.hogl.eregister.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.hogl.eregister.data.entities.institute.Institute
+import com.hogl.eregister.data.entities.Institute
 
 
 @Dao
