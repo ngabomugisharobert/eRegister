@@ -1,0 +1,121 @@
+{
+  "project_info": {
+    "project_number": "527645544087",
+    "project_id": "eregister-353913",
+    "storage_bucket": "eregister-353913.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527645544087:android:20ee1c401f29f49ccd63d2",
+        "android_client_info": {
+          "package_name": "com.example.eregister"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527645544087-1p6s1hd6moapkglvfderfneh4tr7ud57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2i0y5Rux0dFihp3iyxnYEqdQ9cY_sOaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527645544087-1p6s1hd6moapkglvfderfneh4tr7ud57.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "527645544087-r6rhrkc3f3kj3gvgp6l2s5mhrcm7bjkq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hogl.transfer",
+                "app_store_id": "240620221607"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527645544087:android:552a1d83190efeb6cd63d2",
+        "android_client_info": {
+          "package_name": "com.hogl.eregister"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527645544087-1p6s1hd6moapkglvfderfneh4tr7ud57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2i0y5Rux0dFihp3iyxnYEqdQ9cY_sOaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527645544087-1p6s1hd6moapkglvfderfneh4tr7ud57.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "527645544087-r6rhrkc3f3kj3gvgp6l2s5mhrcm7bjkq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hogl.transfer",
+                "app_store_id": "240620221607"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527645544087:android:cccdace8ce65d3cfcd63d2",
+        "android_client_info": {
+          "package_name": "com.hogl.transfer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527645544087-1p6s1hd6moapkglvfderfneh4tr7ud57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2i0y5Rux0dFihp3iyxnYEqdQ9cY_sOaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527645544087-1p6s1hd6moapkglvfderfneh4tr7ud57.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "527645544087-r6rhrkc3f3kj3gvgp6l2s5mhrcm7bjkq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hogl.transfer",
+                "app_store_id": "240620221607"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">eRegister</string>
+    <string name="app_name">Guard</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="save">Save</string>
@@ -8,4 +8,39 @@
     <string name="saveCheckOut">Save and Check Out</string>
     <string name="search">Search</string>
     <string name="enter_your_password">Enter your password</string>
+    <string name="visitorNotSaved">visitor not saved successfully</string>
+    <string name="saved">saved successfully</string>
+    <string name="checkIn">Check In</string>
+    <string name="checkInDone">Check-In successfully</string>
+    <string name="checkOutDone">Check-out successfully</string>
+    <string name="noDeviceFound">No devices found</string>
+    <string name="discoveryFail">Discovery failed to start</string>
+    <string name="discoveryStart">Discovery started</string>
+    <string name="loginSuccess">Logged in successfully</string>
+    <string name="selectGate">Select Gate</string>
+    <string name="select">Select</string>
+    <string name="invalidUsernamePassword">Invalid Username or Password</string>
+    <string name="enter_visitor_first_name">Enter visitor First Name</string>
+    <string name="allField">Please fill all the fields</string>
+    <string name="employee_Type">Employee type</string>
+    <string name="enter_visitor_last_name">Enter visitor Last Name</string>
+    <string name="enter_phone_number">Enter Phone number</string>
+    <string name="enter_id_passport_number">enter ID/Passport Number</string>
+    <string name="scanQRcode">Scan QR code</string>
+    <string name="transport_type">Transport Type</string>
+    <string name="chooseAsset">Choose asset</string>
+    <string name="start">Start</string>
+    <string name="dbookk">DBOOKK.</string>
+    <string name="group">Group</string>
+    <string name="new_visitor">New visitor</string>
+    <string name="enter_the_group_name">Enter the group name</string>
+    <string name="number_of_group_members">Number of Group members</string>
+    <string name="scan_qr_codes">Scan QR Codes</string>
+    <string name="add_group">Add a Group</string>
+    <string name="error_saving">Not saved</string>
+    <string name="EnterGroupLeader">Enter Group Leader</string>
+    <string name="group_detail">Group Details</string>
+    <string name="total_members">Total Members :</string>
+    <string name="check_in">Check-In</string>
+    <string name="check_out">CHECK-OUT</string>
 </resources>

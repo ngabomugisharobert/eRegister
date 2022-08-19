@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg23"
@@ -44,8 +45,8 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Forget your Password"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/btn_login"
@@ -57,28 +58,32 @@
         android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@color/blue"
-        android:onClick="fnLogin"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/purple_700"
+        android:backgroundTintMode="add"
+        android:onClick="fnbtnLogin"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:text="@string/login"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="226dp"
-        android:layout_height="142dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/txt_username"
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/book_icon" />
 
     <ProgressBar
         android:id="@+id/loginProgressBar"
@@ -88,6 +93,19 @@
         android:layout_marginTop="16dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminateDrawable="@drawable/progress_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/dbookk"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
