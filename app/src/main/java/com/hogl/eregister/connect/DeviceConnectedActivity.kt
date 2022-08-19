@@ -140,7 +140,17 @@ class DeviceConnectedActivity : AppCompatActivity() {
             if (visitor_last_sync == null) {
                 visitorViewModel.allVisitors.observe(this) { visitors ->
                     for (visitor in visitors) {
-                        database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
+                        if (visitors.size > 1) {
+                            database.accumulate(
+                                "visitors",
+                                JSONObject(visitor.toString(android_id))
+                            )
+                        } else {
+                            database.accumulate(
+                                "visitors",
+                                JSONArray(listOf(JSONObject(visitor.toString(android_id))))
+                            )
+                        }
                     }
                     if (!visitors.isEmpty()) {
                         update_synchronize(
@@ -154,7 +164,17 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 visitorViewModel.visitorToSync(visitor_last_sync.toLong())
                     .observe(this) { visitors ->
                         for (visitor in visitors) {
-                            database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
+                            if (visitors.size > 1) {
+                                database.accumulate(
+                                    "visitors",
+                                    JSONObject(visitor.toString(android_id))
+                                )
+                            } else {
+                                database.accumulate(
+                                    "visitors",
+                                    JSONArray(listOf(JSONObject(visitor.toString(android_id))))
+                                )
+                            }
                         }
                         if (!visitors.isEmpty()) {
                             update_synchronize(
@@ -173,7 +193,19 @@ class DeviceConnectedActivity : AppCompatActivity() {
 
                 movementViewModel.allMovements.observe(this) { movements ->
                     for (movement in movements) {
-                        database.accumulate("movements", JSONObject(movement.toString(android_id)))
+                        if(movements.size>1) {
+                            database.accumulate(
+                                "movements",
+                                JSONObject(movement.toString(android_id))
+                            )
+                        }
+                        else
+                        {
+                            database.accumulate(
+                                "movements",
+                                JSONArray(listOf(JSONObject(movement.toString(android_id))))
+                            )
+                        }
                     }
                     if (!movements.isEmpty()) {
                         update_synchronize(
@@ -188,10 +220,19 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 movementViewModel.movementsToSync(movement_last_sync.toLong())
                     .observe(this) { movements ->
                         for (movement in movements) {
-                            database.accumulate(
-                                "movements",
-                                JSONObject(movement.toString(android_id))
-                            )
+                            if(movements.size>1) {
+                                database.accumulate(
+                                    "movements",
+                                    JSONObject(movement.toString(android_id))
+                                )
+                            }
+                            else
+                            {
+                                database.accumulate(
+                                    "movements",
+                                    JSONArray(listOf(JSONObject(movement.toString(android_id))))
+                                )
+                            }
                         }
                         if (!movements.isEmpty()) {
                             update_synchronize(
