@@ -66,12 +66,10 @@ class DeviceConnectedActivity : AppCompatActivity() {
     //override onPause to stop the serverClient
     override fun onPause() {
         super.onPause()
-        disconnect()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        disconnect()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,7 +142,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                         } else {
                             database.accumulate(
                                 "visitors",
-                                JSONArray(JSONObject(visitor.toString()))
+                                JSONArray(listOf(JSONObject(visitor.toString(android_id))))
                             )
                         }
                     }
@@ -168,7 +166,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                             } else {
                                 database.accumulate(
                                     "visitors",
-                                    JSONArray(JSONObject(visitor.toString()))
+                                    JSONArray(listOf(JSONObject(visitor.toString(android_id))))
                                 )
                             }
                         }
@@ -199,7 +197,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                         {
                             database.accumulate(
                                 "movements",
-                                JSONArray(JSONObject(movement.toString(android_id)))
+                                JSONArray(listOf(JSONObject(movement.toString(android_id))))
                             )
                         }
                     }
@@ -226,7 +224,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                             {
                                 database.accumulate(
                                     "movements",
-                                    JSONArray(JSONObject(movement.toString(android_id)))
+                                    JSONArray(listOf(JSONObject(movement.toString(android_id))))
                                 )
                             }
                         }
@@ -392,27 +390,34 @@ class DeviceConnectedActivity : AppCompatActivity() {
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     //permission check
+                    Toast.makeText(thisContext, "Permission not granted", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 manager.requestGroupInfo(
                     channel
                 ) { group ->
-                    if (group != null) {
-                        manager.removeGroup(channel, object : WifiP2pManager.ActionListener {
-                            override fun onSuccess() {
-                                Log.d("p2p-disconnect", "removeGroup onSuccess -")
-                                triggerRebirth(thisContext)
-                            }
+                    try {
+                        if (group != null) {
+                            manager.removeGroup(channel, object : WifiP2pManager.ActionListener {
+                                override fun onSuccess() {
+                                    Log.d("p2p-disconnect", "removeGroup onSuccess -")
+                                    triggerRebirth(thisContext)
+                                }
 
-                            override fun onFailure(reason: Int) {
-                                Log.d(
-                                    "p2p-disconnect",
-                                    "removeGroup onFailure -$reason"
-                                )
-                                triggerRebirth(thisContext)
-                            }
-                        })
-                    } else {
-                        triggerRebirth(thisContext)
+                                override fun onFailure(reason: Int) {
+                                    Log.d(
+                                        "p2p-disconnect",
+                                        "removeGroup onFailure -$reason"
+                                    )
+                                    triggerRebirth(thisContext)
+                                }
+                            })
+
+                        } else {
+                            triggerRebirth(thisContext)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
             } else {

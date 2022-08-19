@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 connectionStatus.setText(String.format("Request sent to %s!",targetDevice.deviceName));
+                Toast.makeText(act, "Request sent to " + targetDevice.deviceName, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -188,8 +189,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(act, DeviceConnectedActivity.class);
                 myIntent.putExtra("isHost", wifiP2pInfo.isGroupOwner);
                 myIntent.putExtra("hostAddress", groupOwnerAddress.getHostAddress());
-                act.startActivity(myIntent);
-                act.finish();
+                startActivity(myIntent);
+                finish();
 
 
             }

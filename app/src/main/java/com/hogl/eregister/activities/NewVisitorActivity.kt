@@ -114,7 +114,7 @@ class NewVisitorActivity : AppCompatActivity() {
                 if (tag != null) {
                     nfc_complete.visibility= View.VISIBLE
                     nfc_loading.visibility= View.GONE
-                    tagId = tag.getTagId()
+                    tagId = (tag.getTagId()).toString()
                     Log.d("NFC", tagId)
                 }
                 else{

@@ -130,8 +130,6 @@ public class ServerClient extends Thread{
                 }catch (InterruptedException e){
                     Log.e(TAG, "Thread sleeps error");
                 }
-
-
             }
             inStream = socket.getInputStream();
             outStream = socket.getOutputStream();

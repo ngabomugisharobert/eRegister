@@ -42,17 +42,20 @@
         tools:targetApi="31">
         <activity
             android:name=".activities.GroupDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ERegister" />
         <activity
             android:name=".activities.GroupsActivity"
             android:exported="false"
-            android:theme="@style/splashTheme">
+            android:theme="@style/Theme.ERegister">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hogl.eregister.activities.HomeActivity" />
         </activity>
         <activity
             android:name=".activities.AddGroupActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.ERegister">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hogl.eregister.activities.HomeActivity" />
