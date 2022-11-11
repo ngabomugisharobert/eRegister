@@ -6,47 +6,134 @@
     android:layout_height="match_parent"
     tools:context=".activities.MovementRecordActivity">
 
-    <Spinner
-        android:id="@+id/transport_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btn_record_checkIn_movement"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:text="@string/saveCheckin"
-        app:layout_constraintEnd_toEndOf="@+id/transport_type"
-        app:layout_constraintStart_toStartOf="@+id/transport_type"
-        app:layout_constraintTop_toBottomOf="@+id/transport_type" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/txt_plate_number"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Plate Number"
-        android:inputType="textPersonName"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btn_record_checkIn_movement"
-        app:layout_constraintEnd_toEndOf="@+id/transport_type"
-        app:layout_constraintStart_toStartOf="@+id/transport_type"
-        app:layout_constraintTop_toBottomOf="@+id/transport_type" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="32dp"
+                android:elevation="10dp">
 
-    <Button
-        android:id="@+id/btn_record_checkOut_movement"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/saveCheckOut"
-        app:layout_constraintEnd_toEndOf="@+id/btn_record_checkIn_movement"
-        app:layout_constraintStart_toStartOf="@+id/btn_record_checkIn_movement"
-        app:layout_constraintTop_toBottomOf="@+id/btn_record_checkIn_movement" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    android:padding="2dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:inputType="textPersonName"
+                            android:text="First Name :"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/disVisLastName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:inputType="textPersonName"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:text="Last Name :"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/disVisFirstName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:inputType="textPersonName"
+                            android:textStyle="italic" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <Spinner
+                android:id="@+id/transport_type"
+                android:layout_width="match_parent"
+                android:layout_margin="24dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/transport_type"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/txt_plate_number"
+                android:layout_width="match_parent"
+                android:layout_margin="24dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter Plate Number"
+                android:inputType="textPersonName"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_record_checkIn_movement"
+                android:layout_width="match_parent"
+                android:layout_margin="24dp"
+                android:layout_height="wrap_content"
+                android:text="@string/saveCheckin" />
+
+            <Button
+                android:id="@+id/btn_record_checkOut_movement"
+                android:layout_width="match_parent"
+                android:layout_margin="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/saveCheckOut" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
