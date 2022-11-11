@@ -28,12 +28,17 @@ class VisitorRepository(private val visitorDao: VisitorDao) {
     }
 
     fun findVisitorByTag(tagId: String): Flow<Visitor> {
-        var a = visitorDao.findVisitorByTag(tagId)
+        val a = visitorDao.findVisitorByTag(tagId)
         return a
     }
 
     fun findVisitorById(visId :Int): Flow<Visitor> {
-        var a = visitorDao.findVisitorById(visId)
+        val a = visitorDao.findVisitorById(visId)
+        return a
+    }
+
+    fun findVisitorByNfc(tagId: String): Flow<Visitor> {
+        val a = visitorDao.findVisitorByNfc(tagId)
         return a
     }
 

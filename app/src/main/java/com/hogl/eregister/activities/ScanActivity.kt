@@ -61,20 +61,16 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         } else if (action == "GROUP_CHECK_OUT") {
             grp_id = intent.getStringExtra("GROUP_ID").toString()
         }
-
     }
 
     override fun handleResult(p0: Result?) {
         if (action != "GROUP_CHECK_IN" && action != "GROUP_CHECK_OUT") {
             visitorViewModel.getVisitorById(p0.toString()).observe(this) {
                 if (it != null) {
-                    Toast.makeText(this, "visitor found: ${it.vis_first_name}", Toast.LENGTH_LONG)
+                    Toast.makeText(this.applicationContext, "visitor found", Toast.LENGTH_LONG)
                         .show()
-
                     val intent = Intent(this, MovementRecordActivity::class.java)
                     intent.putExtra("VISITOR_ID", it.vis_id)
-                    intent.putExtra("VISITOR_FNAME", it.vis_first_name)
-                    intent.putExtra("VISITOR_LNAME", it.vis_last_name)
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "No visitor found", Toast.LENGTH_LONG).show()
@@ -156,6 +152,5 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                 }
             }
         }
-
     }
 }

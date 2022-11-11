@@ -12,16 +12,20 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.textfield.TextInputEditText
 import com.hogl.eregister.R
+import com.hogl.eregister.data.InitApplication
 import com.hogl.eregister.databinding.ActivityNewVisitorBinding
 import com.hogl.eregister.extensions.TagExtension.getTagId
 import com.hogl.eregister.utils.nfcActivation
 import com.hogl.eregister.utils.nfcActivationOnResume
 import com.hogl.eregister.utils.nfcCloseOnPause
 import com.squareup.okhttp.internal.DiskLruCache
+import com.hogl.eregister.data.models.VisitorViewModel
+import com.hogl.eregister.data.models.VisitorViewModelFactory
 
 class NewVisitorActivity : AppCompatActivity() {
     private lateinit var visitorType: Spinner
@@ -38,6 +42,11 @@ class NewVisitorActivity : AppCompatActivity() {
     private lateinit var visitor_type: String
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var binding: ActivityNewVisitorBinding
+
+    private val visitorViewModel: VisitorViewModel by viewModels {
+        VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
+    }
+
 
     private var tagId :String = "none"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,13 +118,26 @@ class NewVisitorActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         if (NfcAdapter.getDefaultAdapter(this) != null) {
-            intent?.let {
+            intent?.let { it ->
                 val tag = it.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
                 if (tag != null) {
                     nfc_complete.visibility= View.VISIBLE
                     nfc_loading.visibility= View.GONE
                     tagId = (tag.getTagId()).toString()
                     Log.d("NFC", tagId)
+//                    check if the tagId is already in the database
+                    visitorViewModel.getVisitorByNfc(tagId).observe(this) {itt ->
+                        if (itt != null) {
+                            nfc_error.visibility = View.VISIBLE
+                            nfc_complete.visibility = View.GONE
+                            Toast.makeText(this, "NFC card already in use", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        else {
+                            nfc_error.visibility = View.GONE
+                            nfc_complete.visibility = View.VISIBLE
+                        }
+                    }
                 }
                 else{
                     nfc_error.visibility= View.VISIBLE

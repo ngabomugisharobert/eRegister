@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
@@ -61,20 +62,24 @@ class MovementRecordActivity : AppCompatActivity() {
 
 
         //get visitor id from previous activity
-        VISITOR_ID = intent.getStringExtra("VISITOR_ID").toString()
-        txt_visitor_first_name.text = intent.getStringExtra("VISITOR_FNAME").toString()
-        txt_visitor_last_name.text = intent.getStringExtra("VISITOR_LNAME").toString()
+        VISITOR_ID = intent.getLongExtra("VISITOR_ID", 0).toString()
 
-        var isVisitorCheckedIn :Boolean = sharedPreferencesCheckIn.getInt(VISITOR_ID,0) !=0
+//get visitor with id
+        visitorsListViewModel.getVisitorById(VISITOR_ID).observe(this) {
+            txt_visitor_first_name.text = it.vis_first_name
+            txt_visitor_last_name.text = it.vis_last_name
+        }
+
+        val isVisitorCheckedIn :Boolean = sharedPreferencesCheckIn.getInt(VISITOR_ID,0) !=0
 
         if (isVisitorCheckedIn)
         {
             btn_movement_record_check_Out.isEnabled = true
-            btn_movement_record_check_in.isEnabled = false
+            btn_movement_record_check_in.isEnabled = true
         }
         else
         {
-            btn_movement_record_check_Out.isEnabled = false
+            btn_movement_record_check_Out.isEnabled = true
             btn_movement_record_check_in.isEnabled = true
         }
 
@@ -109,8 +114,8 @@ class MovementRecordActivity : AppCompatActivity() {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
             val formatted = current.format(formatter)
 
-            var gson: Gson = Gson()
-            var data: String? = sharedPreferences.getString("USER", null)
+            val gson: Gson = Gson()
+            val data: String? = sharedPreferences.getString("USER", null)
             if (data != null) {
                 user = gson.fromJson(data, User::class.java)
                 movementViewModel.insert(
@@ -147,8 +152,8 @@ class MovementRecordActivity : AppCompatActivity() {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
             val formatted = current.format(formatter)
 
-            var gson: Gson = Gson()
-            var data: String? = sharedPreferences.getString("USER", null)
+            val gson: Gson = Gson()
+            val data: String? = sharedPreferences.getString("USER", null)
             if (data != null) {
                 user = gson.fromJson(data, User::class.java)
                 movementViewModel.insert(
@@ -191,12 +196,11 @@ class MovementRecordActivity : AppCompatActivity() {
         txt_visitor_last_name = binding.disVisLastName
 
 
-        btn_movement_record_check_in.isEnabled = false
-        btn_movement_record_check_Out.isEnabled = false
+        btn_movement_record_check_in.isEnabled = true
+        btn_movement_record_check_Out.isEnabled = true
 
         sharedPreferences =
             applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
-
         sharedPreferencesCheckIn=
             applicationContext.getSharedPreferences("CheckedInList", Context.MODE_PRIVATE)
 

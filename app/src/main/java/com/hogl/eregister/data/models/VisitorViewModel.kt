@@ -53,6 +53,10 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
         }
     }
 
+    fun getVisitorByNfc(tagId: String): LiveData<Visitor> {
+        return visitorRepository.findVisitorByNfc(tagId).asLiveData()
+    }
+
 }
 
 class VisitorViewModelFactory(private val visitorRepository: VisitorRepository) : ViewModelProvider.Factory {

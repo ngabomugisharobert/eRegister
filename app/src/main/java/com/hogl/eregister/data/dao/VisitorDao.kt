@@ -12,6 +12,10 @@ abstract class VisitorDao : BaseDao<Visitor>() {
     @Query("SELECT * from tb_visitors WHERE vis_id like :visId LIMIT 1")
     abstract fun findVisitorById(visId: Int): Flow<Visitor>
 
+    @Query("SELECT * from tb_visitors WHERE vis_nfc_card like :tagId LIMIT 1")
+    abstract fun findVisitorByNfc(tagId: String): Flow<Visitor>
+
+
 
     @Query("SELECT * from tb_visitors order by vis_first_name COLLATE NOCASE ASC")
     abstract fun allVisitors(): Flow<List<Visitor>>

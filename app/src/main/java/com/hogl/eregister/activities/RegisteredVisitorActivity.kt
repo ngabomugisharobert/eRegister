@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +35,7 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         initComponents()
 
         visitorsListViewModel.allVisitors.observe(this) {
-            it.let { it ->
+            it.let {
                 if (it.isEmpty()) {
                 search_empty.visibility = android.view.View.VISIBLE
                 recyclerView.visibility = android.view.View.INVISIBLE
@@ -51,9 +52,7 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
 
     private fun adapterOnClick(visitor: Visitor) {
         val intent = Intent(this, MovementRecordActivity::class.java)
-        intent.putExtra("VISITOR_ID", visitor.vis_id.toString())
-        intent.putExtra("VISITOR_FNAME", visitor.vis_first_name)
-        intent.putExtra("VISITOR_LNAME", visitor.vis_last_name)
+        intent.putExtra("VISITOR_ID", visitor.vis_id.toLong())
         startActivity(intent)
     }
 

@@ -43,4 +43,7 @@
     <string name="total_members">Total Members :</string>
     <string name="check_in">Check-In</string>
     <string name="check_out">CHECK-OUT</string>
+    <string name="connected">Connected</string>
+    <string name="synchronize">Synchronize</string>
+    <string name="disconnect">Disconnect</string>
 </resources>
