@@ -10,14 +10,14 @@ import com.hogl.eregister.R
 import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.databinding.VisitorRowLayoutBinding
 
-class VisitorAdapter(private val onClick: (Visitor) -> Unit) :
+class VisitorAdapter(private val onClick: (Visitor) -> Unit,  private val onLongClick: (Visitor) -> Unit) :
     ListAdapter<Visitor, VisitorAdapter.VisitorViewHolder>(VisitorDiffCallback) {
 
 
     private var oldData = emptyList<Visitor>()
 
     /* ViewHolder for Flower, takes in the inflated view and the onClick behavior. */
-    class VisitorViewHolder(val binding: VisitorRowLayoutBinding, val onClick: (Visitor) -> Unit) :
+    class VisitorViewHolder(val binding: VisitorRowLayoutBinding, val onClick: (Visitor) -> Unit, val onLongClick: (Visitor) -> Unit) :
         RecyclerView.ViewHolder(binding.root)
 
     {
@@ -35,6 +35,14 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit) :
                         onClick(it)
                     }
                 }
+            }
+            itemView.setOnLongClickListener{
+                currentVisitor.let {
+                    if (it != null) {
+                        onLongClick(it)
+                    }
+                }
+                true
             }
         }
 
@@ -57,7 +65,7 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit) :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), onClick
+            ), onClick, onLongClick
         )
     }
 

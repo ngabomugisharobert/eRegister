@@ -1,10 +1,7 @@
 package com.hogl.eregister.data
 
 import android.app.Application
-import com.hogl.eregister.data.repositories.GuardRepository
-import com.hogl.eregister.data.repositories.InstituteRepository
-import com.hogl.eregister.data.repositories.MovementRepository
-import com.hogl.eregister.data.repositories.VisitorRepository
+import com.hogl.eregister.data.repositories.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
@@ -17,4 +14,6 @@ class InitApplication: Application() {
     val instituteRepository by lazy { InstituteRepository(db.instituteDao()) }
     val movementRepository by lazy { MovementRepository(db.movementDao()) }
     val visitorRepository by lazy { VisitorRepository(db.visitorDao()) }
+    val groupRepository by lazy { GroupRepository(db.groupDao()) }
+    val groupMovementRepository by lazy { GroupMovementRepository(db.groupMovementDao()) }
 }

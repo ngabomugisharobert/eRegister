@@ -87,8 +87,8 @@ fun Context.nfcActivationOnResume():Boolean
         // NFC IntentFilter for reading
         val techDetectedFilter = IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)
         val ndefDetectedFilter =
-            IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED).apply { addDataType("*/*") } // この指定な無くても大丈夫
-        val urlDetectedFilter = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED) // この指定は無くても大丈夫
+            IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED).apply { addDataType("*/*") } // Handle all MIME types
+        val urlDetectedFilter = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
         urlDetectedFilter.addDataScheme("http")
         urlDetectedFilter.addDataScheme("https")
 

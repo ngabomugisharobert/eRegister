@@ -34,6 +34,11 @@ abstract class VisitorDao : BaseDao<Visitor>() {
     @Query("SELECT * from tb_visitors WHERE vis_nfc_card like :tagId LIMIT 1")
     abstract fun findVisitorByTag(tagId: String): Flow<Visitor>
 
+    //    update Visitor
+    @Query("UPDATE tb_visitors SET vis_first_name = :vis_first_name, vis_last_name = :vis_last_name, vis_phone = :vis_phone, vis_type = :vis_type, vis_IDNumber = :vis_IDNumber, vis_nfc_card = :vis_nfc_card WHERE vis_id = :vis_id")
+    abstract fun updateVisitor(vis_id: Int, vis_first_name: String, vis_last_name: String, vis_phone: Int, vis_type: String, vis_IDNumber: String, vis_nfc_card: String)
+
+
 //    @Query("SELECT * FROM tb_visitors WHERE vis_first_name LIKE :vis_name OR vis_last_name LIKE :vis_name")
 //    abstract fun searchDatabase(vis_name: String): Flow<List<Visitor>>
 

@@ -27,7 +27,7 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         VisitorViewModelFactory((application as InitApplication).visitorRepository)
     }
 
-    private val visitorAdapter = VisitorAdapter { visitor -> adapterOnClick(visitor) }
+    private val visitorAdapter = VisitorAdapter  ({ visitor -> adapterOnClick(visitor) }, { visitor -> adapterOnLongClick(visitor) })
 
     private lateinit var binding: ActivityRegisteredVisitorBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +57,12 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         intent.putExtra("VISITOR_ID", visitor.vis_id.toLong())
         startActivity(intent)
     }
-
+    private fun adapterOnLongClick(visitor: Visitor) {
+// load visitor data in the edit visitor activity
+        val intent = Intent(this, NewVisitorActivity::class.java)
+        intent.putExtra("VISITOR_ID", visitor.vis_id.toLong())
+        startActivity(intent)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.visitor_menu, menu)

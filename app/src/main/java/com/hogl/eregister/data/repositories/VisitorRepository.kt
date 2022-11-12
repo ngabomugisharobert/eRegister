@@ -33,13 +33,17 @@ class VisitorRepository(private val visitorDao: VisitorDao) {
     }
 
     fun findVisitorById(visId :Int): Flow<Visitor> {
-        val a = visitorDao.findVisitorById(visId)
+        val a = visitorDao.findVisitorById(visId.toInt())
         return a
     }
 
     fun findVisitorByNfc(tagId: String): Flow<Visitor> {
         val a = visitorDao.findVisitorByNfc(tagId)
         return a
+    }
+
+    fun updateVisitor(visitor: Visitor) {
+        visitorDao.updateVisitor(visitor.vis_id.toInt(), visitor.vis_first_name, visitor.vis_last_name, visitor.vis_phone, visitor.vis_type, visitor.vis_IDNumber, visitor.vis_nfc_card)
     }
 
     companion object {

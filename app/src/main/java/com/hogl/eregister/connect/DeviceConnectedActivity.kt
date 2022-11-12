@@ -69,6 +69,14 @@ class DeviceConnectedActivity : AppCompatActivity() {
         VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
     }
 
+    private val groupMovementViewModel: GroupMovementViewModel by viewModels {
+        GroupMovementViewModelFactory((this.application as InitApplication).groupMovementRepository)
+    }
+
+    private  val GroupViewModel: GroupViewModel by viewModels {
+        GroupViewModelFactory((this.application as InitApplication).groupRepository)
+    }
+
     //override onPause to stop the serverClient
     override fun onPause() {
         super.onPause()
@@ -114,6 +122,8 @@ class DeviceConnectedActivity : AppCompatActivity() {
     private fun setUpServer(db: AppDatabase) {
         var visitorFinished: Boolean = false
         var movementFinished: Boolean = false
+        var groupFinished: Boolean = false
+        var groupMovementFinished: Boolean = false
         var noData: Boolean = false
 
         //Phone is host
@@ -137,6 +147,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
             var visitor_last_sync: String? =
                 sharedPreferences.getString("visitor_last_sync", null)
 
+
             if (visitor_last_sync == null) {
                 visitorViewModel.allVisitors.observe(this) { visitors ->
                     for (visitor in visitors) {
@@ -150,7 +161,8 @@ class DeviceConnectedActivity : AppCompatActivity() {
                     }
                     visitorFinished = true
                 }
-            } else {
+            }
+            else {
                 visitorViewModel.visitorToSync(visitor_last_sync.toLong())
                     .observe(this) { visitors ->
                         for (visitor in visitors) {
@@ -163,6 +175,80 @@ class DeviceConnectedActivity : AppCompatActivity() {
                             )
                         }
                         visitorFinished = true
+                    }
+            }
+
+
+            var group_last_sync: String? =
+                sharedPreferences.getString("group_last_sync", null)
+
+            if (group_last_sync == null) {
+                GroupViewModel.allGroups.observe(this) { groups ->
+                    for (group in groups) {
+                        database.accumulate("groups", JSONObject(group.toString(android_id)))
+                    }
+                    if (!groups.isEmpty()) {
+                        update_synchronize(
+                            "group_last_sync",
+                            System.currentTimeMillis().toString()
+                        )
+                    }
+                    groupFinished = true
+                }
+            }
+            else {
+                GroupViewModel.groupToSync(group_last_sync.toLong())
+                    .observe(this) { groups ->
+                        for (group in groups) {
+                            database.accumulate("groups", JSONObject(group.toString()))
+                        }
+                        if (!groups.isEmpty()) {
+                            update_synchronize(
+                                "group_last_sync",
+                                System.currentTimeMillis().toString()
+                            )
+                        }
+                        groupFinished = true
+                    }
+            }
+
+
+            var groupMovement_last_sync: String? =
+                sharedPreferences.getString("groupMovement_last_sync", null)
+
+            if (groupMovement_last_sync == null) {
+                groupMovementViewModel.allGroupMovements.observe(this) { groupMovements ->
+                    for (groupMovement in groupMovements) {
+                        database.accumulate(
+                            "groupMovements",
+                            JSONObject(groupMovement.toString(android_id))
+                        )
+                    }
+                    if (!groupMovements.isEmpty()) {
+                        update_synchronize(
+                            "groupMovement_last_sync",
+                            System.currentTimeMillis().toString()
+                        )
+                    }
+                    groupMovementFinished = true
+                }
+            }
+            else {
+                groupMovementViewModel.groupMovementToSync(groupMovement_last_sync.toLong())
+                    .observe(this) { groupMovements ->
+                        for (groupMovement in groupMovements) {
+                            database.accumulate(
+                                "groupMovements",
+                                JSONObject(groupMovement.toString(android_id))
+                            )
+                        }
+                        if (!groupMovements.isEmpty()) {
+                            update_synchronize(
+                                "groupMovement_last_sync",
+                                System.currentTimeMillis().toString()
+                            )
+                        }
+                        groupMovementFinished = true
                     }
             }
 
@@ -215,9 +301,11 @@ class DeviceConnectedActivity : AppCompatActivity() {
 
                         Log.i("coroutineScope", "#runs on ${Thread.currentThread().name}")
 
-                        if (movementFinished && visitorFinished) {
+                        if (movementFinished && visitorFinished && groupFinished && groupMovementFinished) {
                             movementFinished = false
                             visitorFinished = false
+                            groupFinished = false
+                            groupMovementFinished = false
                             if (database.length() > 0) {
                                 val jsonString = database.toString()
                                 thisAct.saveJson(jsonString)
