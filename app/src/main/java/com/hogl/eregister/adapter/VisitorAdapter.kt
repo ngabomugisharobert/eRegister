@@ -10,16 +10,19 @@ import com.hogl.eregister.R
 import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.databinding.VisitorRowLayoutBinding
 
-class VisitorAdapter(private val onClick: (Visitor) -> Unit, private val onLongClick: (Visitor) -> Unit) :
+class VisitorAdapter(private val onClick: (Visitor) -> Unit) :
     ListAdapter<Visitor, VisitorAdapter.VisitorViewHolder>(VisitorDiffCallback) {
 
 
     private var oldData = emptyList<Visitor>()
 
-    /* ViewHolder for Flower, takes in the inflated view and the onClick and onLongClick behavior. */
-    class VisitorViewHolder(val binding: VisitorRowLayoutBinding, val onClick: (Visitor) -> Unit, val onLongClick: (Visitor) -> Unit) :
+    /* ViewHolder for Flower, takes in the inflated view and the onClick behavior. */
+    class VisitorViewHolder(val binding: VisitorRowLayoutBinding, val onClick: (Visitor) -> Unit) :
         RecyclerView.ViewHolder(binding.root)
+
     {
+
+
         private val visitor_id :TextView = binding.visitorId
         private val visitor_firstName: TextView = binding.firstNameTextView
         private val visitor_lastName: TextView = binding.lastNameTextView
@@ -33,14 +36,6 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit, private val onLongC
                     }
                 }
             }
-            itemView.setOnLongClickListener{
-                currentVisitor.let {
-                    if (it != null) {
-                        onLongClick(it)
-                    }
-                }
-                true
-            }
         }
 
 
@@ -50,6 +45,7 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit, private val onLongC
             visitor_id.text = position.toString()
             visitor_firstName.text = currentVisitor.vis_first_name
             visitor_lastName.text = currentVisitor.vis_last_name
+
         }
     }
 
@@ -61,7 +57,7 @@ class VisitorAdapter(private val onClick: (Visitor) -> Unit, private val onLongC
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), onClick, onLongClick
+            ), onClick
         )
     }
 

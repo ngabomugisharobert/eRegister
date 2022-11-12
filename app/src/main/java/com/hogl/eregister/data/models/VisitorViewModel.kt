@@ -43,10 +43,6 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
         return visitorRepository.findVisitorByTag(tagId).asLiveData()
     }
 
-    fun updateVisitor(visitor: Visitor) = CoroutineScope(Dispatchers.IO).launch {
-        visitorRepository.updateVisitor(visitor)
-    }
-
     fun getVisitorById(visId: String): LiveData<Visitor> {
         var id:Int = 0
         //convert string to int

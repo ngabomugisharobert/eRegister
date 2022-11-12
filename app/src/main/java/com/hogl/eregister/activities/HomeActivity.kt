@@ -21,6 +21,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.navigation.NavigationView
@@ -103,10 +104,6 @@ class HomeActivity : AppCompatActivity() {
                         data?.getStringExtra(NewVisitorActivity.VIS_ID_NUMBER).toString()
                     val vis_nfc_card =
                         data?.getStringExtra(NewVisitorActivity.VIS_NFC_CARD).toString()
-
-//                    generate a random number for the visitor's qr code using generateRandomNumber() function
-                    val vis_qr_code = generateRandomNumber()
-
                     val visitor = Visitor(
                         0,
                         vis_first_name,
@@ -115,7 +112,7 @@ class HomeActivity : AppCompatActivity() {
                         vis_type,
                         vis_idNumber,
                         vis_nfc_card,
-                        "001"+vis_qr_code,
+                        "",
                         System.currentTimeMillis()
                     )
 //                    TODO NFC ID CArd and QR CODE TO BE Implemented
@@ -155,12 +152,6 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, GroupActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun generateRandomNumber(): Int {
-        val random = Random()
-        val number = random.nextInt(999999999)
-        return number
     }
 
     private fun initComponents() {
