@@ -42,6 +42,10 @@ class VisitorRepository(private val visitorDao: VisitorDao) {
         return a
     }
 
+    fun updateVisitor(visitor: Visitor) {
+        visitorDao.updateVisitor(visitor.vis_id.toInt(), visitor.vis_first_name, visitor.vis_last_name, visitor.vis_phone, visitor.vis_type, visitor.vis_IDNumber, visitor.vis_nfc_card)
+    }
+
     companion object {
         private val TAG: String = VisitorRepository::class.java.simpleName
     }
