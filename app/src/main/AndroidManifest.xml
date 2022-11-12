@@ -38,7 +38,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_dbook_logo"
         android:supportsRtl="true"
-        android:theme="@style/splashTheme"
+        android:theme="@style/Theme.ERegister"
         tools:targetApi="31">
         <activity
             android:name=".activities.GroupDetailsActivity"
@@ -133,7 +133,7 @@
             android:name=".LoginActivity"
             android:exported="true"
             android:screenOrientation="fullSensor"
-            android:theme="@style/splashTheme">
+            android:theme="@style/Theme.ERegister.noAction">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

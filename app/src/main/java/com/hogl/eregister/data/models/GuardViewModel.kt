@@ -1,14 +1,21 @@
 package com.hogl.eregister.data.models
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.hogl.eregister.data.entities.Guard
+import com.hogl.eregister.LoginActivity
+import com.hogl.eregister.data.entities.guard.Guard
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.repositories.GuardRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class GuardViewModel(private val guardRepository: GuardRepository) : ViewModel() {

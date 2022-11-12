@@ -1,4 +1,4 @@
-package com.hogl.eregister.data.entities
+package com.hogl.eregister.data.entities.visitor
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo

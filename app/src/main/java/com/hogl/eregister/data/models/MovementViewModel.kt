@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.hogl.eregister.data.entities.Movement
+import com.hogl.eregister.data.entities.movement.Movement
 import com.hogl.eregister.data.repositories.MovementRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

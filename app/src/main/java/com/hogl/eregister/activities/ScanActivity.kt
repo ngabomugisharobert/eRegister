@@ -1,11 +1,9 @@
 package com.hogl.eregister.activities
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
@@ -14,26 +12,15 @@ import com.google.zxing.Result
 import com.hogl.eregister.R
 import com.hogl.eregister.activities.HomeActivity.Companion.RESULT
 import com.hogl.eregister.data.InitApplication
-import com.hogl.eregister.data.entities.GroupMovement
-import com.hogl.eregister.data.models.GroupMovementViewModel
-import com.hogl.eregister.data.models.GroupMovementViewModelFactory
 import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
 class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
-    private lateinit var sharedPreferencesCheckIn: SharedPreferences
-
-    private lateinit var grp_id: String
-    private lateinit var action: String
-
     var scannerView: ZXingScannerView? = null
     private val visitorViewModel: VisitorViewModel by viewModels {
         VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
-    }
-    private val groupMovementViewModel: GroupMovementViewModel by viewModels {
-        GroupMovementViewModelFactory((this.application as InitApplication).groupMovementRepository)
     }
 
 
@@ -41,7 +28,6 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         super.onCreate(savedInstanceState)
         scannerView = ZXingScannerView(this)
         setContentView(scannerView)
-        initScan()
 
 //        TODO set this to string value
         this.title = "Scan a QR code"

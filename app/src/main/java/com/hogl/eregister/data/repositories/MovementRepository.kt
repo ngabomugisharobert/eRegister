@@ -2,7 +2,7 @@ package com.hogl.eregister.data.repositories
 
 import androidx.annotation.WorkerThread
 import com.hogl.eregister.data.dao.MovementDao
-import com.hogl.eregister.data.entities.Movement
+import com.hogl.eregister.data.entities.movement.Movement
 import kotlinx.coroutines.flow.Flow
 
 class MovementRepository(private val movementDao: MovementDao) {

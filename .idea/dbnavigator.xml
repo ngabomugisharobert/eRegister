@@ -29,7 +29,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="26938361-6b66-42d6-9a93-b35fb7908d43">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT * from tb_groupMovements where grp_id like :grpId AND grp_mv_type LIKE :s]]></console>
+      <console name="Connection" type="STANDARD" schema="main" session="Main">SELECT * from tb_groupMovements where grp_id like :grpId AND grp_mv_type LIKE :s</console>
       <console name="Connection 1" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>

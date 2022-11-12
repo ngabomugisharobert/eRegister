@@ -2,6 +2,7 @@ package com.hogl.eregister.connect
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,19 +10,24 @@ import android.content.pm.PackageManager
 import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.google.gson.Gson
 import com.hogl.eregister.R
 import com.hogl.eregister.activities.HomeActivity
 import com.hogl.eregister.connect.ServerClient.messagesChangedListener
 import com.hogl.eregister.data.AppDatabase
 import com.hogl.eregister.data.InitApplication
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.models.*
 import com.hogl.eregister.utils.getFolder
 import kotlinx.coroutines.*
@@ -38,7 +44,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
     lateinit var sendButton: Button
     lateinit var serverClient: ServerClient
     lateinit var disconnectButton: Button
-    lateinit var phone_sync: LottieAnimationView
+    lateinit var phone_sync : LottieAnimationView
 
     lateinit var tag: String
     lateinit var handler: Handler
@@ -134,19 +140,9 @@ class DeviceConnectedActivity : AppCompatActivity() {
             if (visitor_last_sync == null) {
                 visitorViewModel.allVisitors.observe(this) { visitors ->
                     for (visitor in visitors) {
-                        if (visitors.size > 1) {
-                            database.accumulate(
-                                "visitors",
-                                JSONObject(visitor.toString(android_id))
-                            )
-                        } else {
-                            database.accumulate(
-                                "visitors",
-                                JSONArray(listOf(JSONObject(visitor.toString(android_id))))
-                            )
-                        }
+                        database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
                     }
-                    if (visitors.isNotEmpty()) {
+                    if (!visitors.isEmpty()) {
                         update_synchronize(
                             "visitor_last_sync",
                             System.currentTimeMillis().toString()
@@ -158,17 +154,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 visitorViewModel.visitorToSync(visitor_last_sync.toLong())
                     .observe(this) { visitors ->
                         for (visitor in visitors) {
-                            if (visitors.size > 1) {
-                                database.accumulate(
-                                    "visitors",
-                                    JSONObject(visitor.toString(android_id))
-                                )
-                            } else {
-                                database.accumulate(
-                                    "visitors",
-                                    JSONArray(listOf(JSONObject(visitor.toString(android_id))))
-                                )
-                            }
+                            database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
                         }
                         if (!visitors.isEmpty()) {
                             update_synchronize(
@@ -187,19 +173,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
 
                 movementViewModel.allMovements.observe(this) { movements ->
                     for (movement in movements) {
-                        if(movements.size>1) {
-                            database.accumulate(
-                                "movements",
-                                JSONObject(movement.toString(android_id))
-                            )
-                        }
-                        else
-                        {
-                            database.accumulate(
-                                "movements",
-                                JSONArray(listOf(JSONObject(movement.toString(android_id))))
-                            )
-                        }
+                        database.accumulate("movements", JSONObject(movement.toString(android_id)))
                     }
                     if (!movements.isEmpty()) {
                         update_synchronize(
@@ -214,19 +188,10 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 movementViewModel.movementsToSync(movement_last_sync.toLong())
                     .observe(this) { movements ->
                         for (movement in movements) {
-                            if(movements.size>1) {
-                                database.accumulate(
-                                    "movements",
-                                    JSONObject(movement.toString(android_id))
-                                )
-                            }
-                            else
-                            {
-                                database.accumulate(
-                                    "movements",
-                                    JSONArray(listOf(JSONObject(movement.toString(android_id))))
-                                )
-                            }
+                            database.accumulate(
+                                "movements",
+                                JSONObject(movement.toString(android_id))
+                            )
                         }
                         if (!movements.isEmpty()) {
                             update_synchronize(

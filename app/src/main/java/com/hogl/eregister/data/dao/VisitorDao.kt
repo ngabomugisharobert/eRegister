@@ -2,7 +2,7 @@ package com.hogl.eregister.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.hogl.eregister.data.entities.Visitor
+import com.hogl.eregister.data.entities.visitor.Visitor
 import kotlinx.coroutines.flow.Flow
 
 

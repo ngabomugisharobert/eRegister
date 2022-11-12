@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
+import android.provider.Settings.Secure
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -29,12 +30,13 @@ import com.hogl.eregister.R
 import com.hogl.eregister.User
 import com.hogl.eregister.connect.MainActivity
 import com.hogl.eregister.data.InitApplication
-import com.hogl.eregister.data.entities.Visitor
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
 import com.hogl.eregister.databinding.ActivityHomeBinding
 import com.hogl.eregister.extensions.TagExtension.getTagId
 import com.hogl.eregister.utils.*
+import java.security.AccessController.getContext
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -64,7 +66,6 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_ERegister)
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -151,7 +152,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         btnGroup.setOnClickListener {
-            val intent = Intent(this, GroupsActivity::class.java)
+            val intent = Intent(this, GroupActivity::class.java)
             startActivity(intent)
         }
     }

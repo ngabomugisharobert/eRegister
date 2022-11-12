@@ -5,22 +5,26 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.hogl.eregister.data.dao.*
-import com.hogl.eregister.data.entities.*
+import com.hogl.eregister.data.dao.GuardDao
+import com.hogl.eregister.data.dao.InstituteDao
+import com.hogl.eregister.data.dao.MovementDao
+import com.hogl.eregister.data.dao.VisitorDao
+import com.hogl.eregister.data.entities.institute.Institute
+import com.hogl.eregister.data.entities.visitor.Visitor
+import com.hogl.eregister.data.entities.guard.Guard
+import com.hogl.eregister.data.entities.movement.Movement
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Visitor::class, Guard::class, Institute::class, Movement::class, Group::class, GroupMovement::class], version = 20, exportSchema = false)
+@Database(entities = [Visitor::class, Institute::class, Guard::class, Movement::class], version = 17, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun visitorDao(): VisitorDao
     abstract fun instituteDao(): InstituteDao
     abstract fun guardDao(): GuardDao
     abstract fun movementDao(): MovementDao
-    abstract fun groupDao(): GroupDao
-    abstract fun groupMovementDao(): GroupMovementDao
 
     companion object {
         @Volatile
@@ -65,11 +69,9 @@ abstract class AppDatabase : RoomDatabase() {
                     scope.launch(Dispatchers.IO) {
                         populateDatabase(
                             database.visitorDao(),
-                            database.guardDao(),
                             database.instituteDao(),
-                            database.movementDao(),
-                            database.groupDao(),
-                            database.groupMovementDao()
+                            database.guardDao(),
+                            database.movementDao()
                         )
                     }
                 }
@@ -82,17 +84,17 @@ abstract class AppDatabase : RoomDatabase() {
          */
         suspend fun populateDatabase(
             visitorDao: VisitorDao,
-            guardDao: GuardDao,
             instituteDao: InstituteDao,
-            movementDao: MovementDao,
-            groupDao: GroupDao,
-            groupMovementDao: GroupMovementDao
+            guardDao: GuardDao,
+            movementDao: MovementDao
         ) {
 
 // Add sample data.
 
-//            groupDao.insert(Group(0, "Grupo 1", "Grupo 1",4,42323))
-//            groupDao.insert(Group(0, "Grupo 2", "Grupo 1",4,42323))
+
+            instituteDao.insert(
+                Institute(4, "HOGL", "Rwaza-Musanze")
+            )
             guardDao.insert(
                 Guard(
                     12,

@@ -76,6 +76,7 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
         if (!checkInit()) {
+
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.setCancelable(false)
             bottomSheetDialog.show()
@@ -265,8 +266,6 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         } else {
-
-            setTheme(R.style.Theme_ERegister)
             //user is not logged in
             //do nothing
 //            btnLogin.setOnClickListener {
@@ -362,7 +361,7 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         guardViewModel.checkLogin(
             txtUsername.text.toString(),
             txtPassword.text.toString()
-        ).observe(this) { it ->
+        ).observe(this) {
             if (it != null) {
                 Toast.makeText(
                     this@LoginActivity,
@@ -422,12 +421,18 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
             } else {
-                loginProgressBar.visibility = ProgressBar.INVISIBLE
-                Toast.makeText(
-                    this@LoginActivity,
-                    R.string.invalidUsernamePassword,
-                    Toast.LENGTH_SHORT
-                ).show()
+                loginProgressBar.visibility = ProgressBar.VISIBLE
+                Timer().schedule(1000) {
+                    loginProgressBar.visibility = ProgressBar.INVISIBLE
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            R.string.invalidUsernamePassword,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
             }
         }
     }
@@ -473,7 +478,6 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         if (isDarkThemeOn()) {
             container.background = resources.getDrawable(R.drawable.bg2, theme)
-
         } else {
             container.background = resources.getDrawable(R.drawable.bg23, theme)
         }

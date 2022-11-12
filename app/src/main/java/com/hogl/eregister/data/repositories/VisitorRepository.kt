@@ -2,7 +2,7 @@ package com.hogl.eregister.data.repositories
 
 import androidx.annotation.WorkerThread
 import com.hogl.eregister.data.dao.VisitorDao
-import com.hogl.eregister.data.entities.Visitor
+import com.hogl.eregister.data.entities.visitor.Visitor
 import kotlinx.coroutines.flow.Flow
 
 class VisitorRepository(private val visitorDao: VisitorDao) {

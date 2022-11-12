@@ -4,14 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.205" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/background1.xml" value="0.1905" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/bg.xml" value="0.1" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/bg2.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/button.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/edit_text_bottom.xml" value="0.1945" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/edit_text_middle.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/edit_text_top.xml" value="0.205" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/group_add_24.xml" value="0.1905" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic__nfc_24.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_collection_24.xml" value="0.205" />
@@ -19,19 +17,14 @@
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_dbook_logo.xml" value="0.1905" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_group_24.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_launcher_background.xml" value="0.205" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_outline_nfc_30.xml" value="0.1905" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_person_24.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_qr_code_scanner_24.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_search.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_share_24.xml" value="0.205" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_twotone_save_24.xml" value="0.1905" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/ic_vistor_add_24.xml" value="0.205" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/progress_bar.xml" value="0.1945" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/drawable/splash_image.xml" value="0.1905" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/activity_chat.xml" value="0.2" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/activity_group.xml" value="0.3645833333333333" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/activity_group_details.xml" value="0.36496350364963503" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/activity_groups.xml" value="0.18229166666666666" />
+        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/activity_group.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/activity_home.xml" value="0.22" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -44,7 +37,6 @@
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/fragment_device_list.xml" value="0.2" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/fragment_sync_load_dialog.xml" value="0.2" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/fragment_sync_load_dialog_item.xml" value="0.2" />
-        <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/group_row_layout.xml" value="0.5" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/item_device.xml" value="0.2" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/loading_toast.xml" value="0.2" />
         <entry key="..\:/Users/King/Desktop/eRegister/app/src/main/res/layout/message.xml" value="0.2" />
@@ -58,7 +50,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
