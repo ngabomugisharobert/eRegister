@@ -202,7 +202,6 @@ public class ServerClient extends Thread{
                             e.printStackTrace();
                         }
                     }
-
                 }
             }
         });

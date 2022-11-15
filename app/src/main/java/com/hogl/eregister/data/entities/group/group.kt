@@ -17,6 +17,6 @@ data class Group(
 )
 {
     fun toString(phoneId:String): String {
-        return " { grp_id : $phoneId-$grp_id, grp_name :'$grp_name', grp_leader :'$grp_leader', grp_members : $grp_members, timestamp : '$timestamp' }"
+        return " { grp_id : '$phoneId-$grp_id', grp_name :'$grp_name', grp_leader :'$grp_leader', grp_members : $grp_members, timestamp : '$timestamp' }"
     }
 }

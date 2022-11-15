@@ -562,8 +562,8 @@
   <component name="DBNavigator.Project.StatementExecutionManager">
     <execution-variables>
       <file file-url="db://26938361-6b66-42d6-9a93-b35fb7908d43/consoles/Connection">
-        <variable name=":grpId" dataType="LITERAL" values="3" />
         <variable name=":s" dataType="LITERAL" values="CHECK_IN" />
+        <variable name=":grpId" dataType="LITERAL" values="3" />
       </file>
     </execution-variables>
   </component>

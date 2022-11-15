@@ -9,6 +9,7 @@ import java.sql.Types.ROWID
 
 @Entity(tableName = "tb_visitors")
 data class Visitor(
+
     @PrimaryKey(autoGenerate = true)
     val vis_id: Long,
     @NonNull @ColumnInfo(name = "vis_first_name") val vis_first_name: String,
@@ -22,6 +23,6 @@ data class Visitor(
 )
 {
     fun toString(phoneId:String): String {
-        return " { vis_id : $phoneId-$vis_id, vis_first_name :'$vis_first_name', vis_last_name :'$vis_last_name', vis_phone : $vis_phone, vis_type : '$vis_type', vis_IDNumber : '$vis_IDNumber', timestamp : '$timestamp' }"
+        return " { vis_id : $phoneId-$vis_id, vis_first_name :'$vis_first_name', vis_last_name :'$vis_last_name', vis_phone : $vis_phone, vis_type : '$vis_type', vis_IDNumber : '$vis_IDNumber',vis_nfc_card: '$vis_nfc_card', vis_qr_code: '$vis_qr_code' , timestamp : '$timestamp' }"
     }
 }

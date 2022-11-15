@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Visitor::class, Guard::class, Institute::class, Movement::class, Group::class, GroupMovement::class], version = 22, exportSchema = false)
+@Database(entities = [Visitor::class, Guard::class, Institute::class, Movement::class, Group::class, GroupMovement::class], version = 9, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun visitorDao(): VisitorDao
@@ -95,8 +95,6 @@ abstract class AppDatabase : RoomDatabase() {
 
 // Add sample data.
 
-//            groupDao.insert(Group(0, "Grupo 1", "Grupo 1",4,42323))
-//            groupDao.insert(Group(0, "Grupo 2", "Grupo 1",4,42323))
             guardDao.insert(
                 Guard(
                     12,
@@ -106,8 +104,10 @@ abstract class AppDatabase : RoomDatabase() {
                     "alex",
                     "alex@gmail.com",
                     7894562,
-                    7861234,
-                    19958000000055556
+                    "Kigali",
+                    1,
+                    "PC12212121",
+                    System.currentTimeMillis()
                 )
             )
         }

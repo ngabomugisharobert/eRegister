@@ -141,10 +141,10 @@ class DeviceConnectedActivity : AppCompatActivity() {
         sendButton.setOnClickListener {
 
             phone_sync.visibility = View.VISIBLE
-            var database = JSONObject()
+            val database = JSONObject()
 
             val android_id: String = sharedPreferences.getString("android_id", "")!!
-            var visitor_last_sync: String? =
+            val visitor_last_sync: String? =
                 sharedPreferences.getString("visitor_last_sync", null)
 
 
@@ -185,6 +185,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
             if (group_last_sync == null) {
                 GroupViewModel.allGroups.observe(this) { groups ->
                     for (group in groups) {
+                        var grp = JSONObject(group.toString(android_id))
                         database.accumulate("groups", JSONObject(group.toString(android_id)))
                     }
                     if (!groups.isEmpty()) {
@@ -200,7 +201,8 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 GroupViewModel.groupToSync(group_last_sync.toLong())
                     .observe(this) { groups ->
                         for (group in groups) {
-                            database.accumulate("groups", JSONObject(group.toString()))
+                            val grp = JSONObject(group.toString(android_id))
+                            database.accumulate("groups", grp)
                         }
                         if (!groups.isEmpty()) {
                             update_synchronize(
@@ -213,7 +215,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
             }
 
 
-            var groupMovement_last_sync: String? =
+            val groupMovement_last_sync: String? =
                 sharedPreferences.getString("groupMovement_last_sync", null)
 
             if (groupMovement_last_sync == null) {
@@ -252,7 +254,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                     }
             }
 
-            var movement_last_sync: String? =
+            val movement_last_sync: String? =
                 sharedPreferences.getString("movement_last_sync", null)
 
             if (movement_last_sync == null) {
@@ -326,8 +328,8 @@ class DeviceConnectedActivity : AppCompatActivity() {
                                         try {
                                             var `is`: InputStream? = null
 
-                                            var directory = thisContext.getFolder()
-                                            var dataFile = File(directory, "data.json")
+                                            val directory = thisContext.getFolder()
+                                            val dataFile = File(directory, "data.json")
 
                                             if (dataFile.exists()) {
                                                 `is` = FileInputStream(dataFile)
@@ -384,17 +386,14 @@ class DeviceConnectedActivity : AppCompatActivity() {
                                             }
                                         } catch (e: IOException) {
                                             e.printStackTrace()
-
                                         }
                                     }
                                 }
                             }
                         }
-
                     }
                 }.invoke()
             }
-
         }
     }
 
