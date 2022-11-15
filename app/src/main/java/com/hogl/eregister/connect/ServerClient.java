@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.hogl.eregister.sync.SyncGuardActivity;
 import com.hogl.eregister.utils.ContextExtensionKt;
 
 import java.io.File;
@@ -177,11 +179,14 @@ public class ServerClient extends Thread{
                             byte[] data = new byte[inStream.available()];
                             int numbers = inStream.read(data);
 
+                            Log.e("%%%%%%", "numbers: " + numbers);
                             System.arraycopy(data, 0, buffer, index, numbers);
                             index += numbers;
                             if (index == numberofBytes) {
+                                Log.e("%%%%%%", data.length + " " + numberofBytes);
 
-                                File f1 = new File("data/data/com.hogl.eregister/databases/test2");
+
+                                File f1 = new File("data/data/com.hogl.eregister/databases/test2.json");
                                 Boolean y = f1.exists();
                                 FileOutputStream fos = null;
                                 fos = new FileOutputStream(f1);
@@ -189,10 +194,13 @@ public class ServerClient extends Thread{
                                 ContextExtensionKt.buildJSON(context,buffer);
                                 fos.close();
                                 flag = true;
+                                socket = null;
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Intent intent = new Intent(context, MainActivity.class);
+                                        Toast.makeText(context, "Synchronization Finished", Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(context, SyncGuardActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         context.startActivity(intent);
                                     }

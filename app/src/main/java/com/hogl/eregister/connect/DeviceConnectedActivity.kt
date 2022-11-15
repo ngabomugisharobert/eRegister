@@ -80,10 +80,12 @@ class DeviceConnectedActivity : AppCompatActivity() {
     //override onPause to stop the serverClient
     override fun onPause() {
         super.onPause()
+        finish()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+        finish()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

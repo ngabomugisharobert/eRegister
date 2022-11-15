@@ -41,6 +41,13 @@
         android:theme="@style/Theme.ERegister"
         tools:targetApi="31">
         <activity
+            android:name=".SyncGuardActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activities.GroupDetailsActivity"
             android:exported="false"
             android:theme="@style/Theme.ERegister" />
@@ -85,10 +92,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hogl.eregister.activities.HomeActivity" />
         </activity>
-
-
         <activity
             android:name=".activities.AddGroupActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ERegister">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hogl.eregister.activities.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".sync.SyncGuardActivity"
             android:exported="false"
             android:theme="@style/Theme.ERegister">
             <meta-data

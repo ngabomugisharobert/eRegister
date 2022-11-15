@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 data class Guard(
 
     @PrimaryKey(autoGenerate = true)
-    @NonNull val gua_id: Int,
+    val gua_id: Int,
     @ColumnInfo(name = "gua_first_name") val gua_first_name: String,
     @ColumnInfo(name = "gua_last_name") val gua_last_name: String,
     @ColumnInfo(name = "gua_username") val gua_username: String,
