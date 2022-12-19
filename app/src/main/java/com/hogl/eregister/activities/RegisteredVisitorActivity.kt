@@ -38,7 +38,8 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
 
         visitorsListViewModel.allVisitors.observe(this) {
             it.let {
-                if (it.isEmpty()) {
+                if (it.isEmpty())
+                {
                 search_empty.visibility = android.view.View.VISIBLE
                 recyclerView.visibility = android.view.View.INVISIBLE
             } else {

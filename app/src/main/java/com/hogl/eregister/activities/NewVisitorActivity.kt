@@ -59,6 +59,10 @@ class NewVisitorActivity : AppCompatActivity() {
         //get visitor id from intent after checking if it is null
         val visitorId = intent.getLongExtra("VISITOR_ID", 0)
         if (visitorId != 0L) {
+
+            this.title = getString(R.string.modification)
+            btn_save_visitor.text = getString(R.string.update)
+
             isModification = true
             visitorViewModel.getVisitorById(visitorId.toString()).observe(this) {
                 it?.let {
@@ -103,6 +107,10 @@ class NewVisitorActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_CANCELED, resultIntent)
             } else {
                 if(!isModification) {
+
+                        this.title = getString(R.string.modification)
+                        btn_save_visitor.text = getString(R.string.update)
+
                     resultIntent.putExtra(VIS_FIRST_NAME, txt_visitor_fn.text.toString())
                     resultIntent.putExtra(VIS_LAST_NAME, txt_visitor_ln.text.toString())
                     resultIntent.putExtra(VIS_PHONE, txt_visitor_phone.text.toString())
@@ -112,7 +120,12 @@ class NewVisitorActivity : AppCompatActivity() {
                     setResult(Activity.RESULT_OK, resultIntent)
                 }
                 else{
-                    Toast.makeText(this, "data to update "+visitorId, Toast.LENGTH_SHORT).show()
+
+
+                    this.title = getString(R.string.new_visitor)
+                    btn_save_visitor.text = getString(R.string.save)
+
+                    Toast.makeText(this, "updated : ", Toast.LENGTH_SHORT).show()
 //                    updata a visitor in the database
                     visitorViewModel.updateVisitor(
                         Visitor(
@@ -186,7 +199,6 @@ class NewVisitorActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
-        this.title = getString(R.string.new_visitor)
         visitorType = binding.spVisitorType
         txt_visitor_fn = binding.txtVisitorFn
         txt_visitor_ln = binding.txtVisitorLn

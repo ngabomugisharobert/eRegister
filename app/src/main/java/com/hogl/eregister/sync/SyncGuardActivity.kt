@@ -19,7 +19,7 @@ class SyncGuardActivity : AppCompatActivity() {
 
 
     private lateinit var sharedPreferences: SharedPreferences
-    lateinit var editor: SharedPreferences.Editor
+    private lateinit var editor: SharedPreferences.Editor
     private var ref = this
 
     private lateinit var binding: ActivitySyncGuardBinding
@@ -50,7 +50,7 @@ class SyncGuardActivity : AppCompatActivity() {
             //get keys from jsonObject
             val keys = jsonString.keys()
 
-            //check if keys existe
+            //check if keys exist
             while (keys.hasNext()) {
                 val key = keys.next()
                 var value = jsonString.get(key)
@@ -59,27 +59,26 @@ class SyncGuardActivity : AppCompatActivity() {
                         when (jsonString) {
                             is JSONObject -> {
                                 // treat this as JsonObject}
-                                var visitorObj = jsonString.getJSONObject("visitors")
-                                var objString = visitorObj
-                                var visitor: Visitor = Visitor(
-                                    (objString.getString("vis_id")).toLong(),
-                                    objString.getString("vis_first_name"),
-                                    objString.getString("vis_last_name"),
-                                    objString.getString("vis_phone").toInt(),
-                                    objString.getString("vis_type"),
-                                    objString.getString("vis_IDNumber"),
-                                    objString.getString("vis_nfc_card"),
-                                    objString.getString("vis_qr_code"),
-                                    objString.getString("timestamp").toLong()
+                                val visitorObj = jsonString.getJSONObject("visitors")
+                                val visitor: Visitor = Visitor(
+                                    (visitorObj.getString("vis_id")).toLong(),
+                                    visitorObj.getString("vis_first_name"),
+                                    visitorObj.getString("vis_last_name"),
+                                    visitorObj.getString("vis_phone").toInt(),
+                                    visitorObj.getString("vis_type"),
+                                    visitorObj.getString("vis_IDNumber"),
+                                    visitorObj.getString("vis_nfc_card"),
+                                    visitorObj.getString("vis_qr_code"),
+                                    visitorObj.getString("timestamp").toLong()
                                 )
                                 visitorViewModel.insert(visitor)
                             }
                             is JSONArray -> {
                                 //treat this as JsonArray
-                                var visitors = jsonString.getJSONArray("visitors")
+                                val visitors = jsonString.getJSONArray("visitors")
                                 for (i in 0 until visitors.length()) {
-                                    var objString = visitors.getJSONObject(i)
-                                    var visitor: Visitor = Visitor(
+                                    val objString = visitors.getJSONObject(i)
+                                    val visitor: Visitor = Visitor(
                                         (objString.getString("vis_id")).toLong(),
                                         objString.getString("vis_first_name"),
                                         objString.getString("vis_last_name"),
@@ -104,9 +103,9 @@ class SyncGuardActivity : AppCompatActivity() {
                         when (jsonString) {
                             is JSONObject -> {
                                 // treat this as JsonObject}
-                                var guardObj = jsonString.getJSONObject("guards")
-                                var objString = guardObj
-                                var guard: Guard = Guard(
+                                val guardObj = jsonString.getJSONObject("guards")
+                                val objString = guardObj
+                                val guard: Guard = Guard(
                                     0,
                                     objString.getString("gua_first_name"),
                                     objString.getString("gua_last_name"),
@@ -123,10 +122,10 @@ class SyncGuardActivity : AppCompatActivity() {
                             }
                             is JSONArray -> {
                                 //treat this as JsonArray
-                                var guards = jsonString.getJSONArray("guards")
+                                val guards = jsonString.getJSONArray("guards")
                                 for (i in 0 until guards.length()) {
-                                    var objString = guards.getJSONObject(i)
-                                    var guard: Guard = Guard(
+                                    val objString = guards.getJSONObject(i)
+                                    val guard: Guard = Guard(
                                         0,
                                         objString.getString("guard_first_name"),
                                         objString.getString("guard_last_name"),

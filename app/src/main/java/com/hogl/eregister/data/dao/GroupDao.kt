@@ -10,8 +10,11 @@ abstract class GroupDao :BaseDao<Group>() {
 
     @Query("SELECT * from tb_groups")
     abstract fun allGroups(): Flow<List<Group>>
+//
+//    @Query("SELECT * from tb_groups where timestamp > :timestamp")
+//    abstract fun groupsToSync(timestamp: Long): Flow<List<Group>>
 
-    @Query("SELECT * from tb_groups where timestamp > :timestamp")
-    abstract fun groupsToSync(timestamp: Long): Flow<List<Group>>
 
+    @Query("SELECT * from tb_groups")
+    abstract fun groupsToSync(): Flow<List<Group>>
 }

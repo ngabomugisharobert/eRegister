@@ -22,8 +22,8 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
         visitorRepository.insert(visitor)
     }
 
-    fun visitorToSync(timestamp:Long): LiveData<List<Visitor>>{
-        var a = visitorRepository.visitorToSync(timestamp).asLiveData()
+    fun visitorToSync(): LiveData<List<Visitor>>{
+        var a = visitorRepository.visitorToSync().asLiveData()
         return a
     }
 

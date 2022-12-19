@@ -8,13 +8,10 @@ import android.content.SharedPreferences
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
-import android.provider.Settings.Secure
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -36,7 +33,6 @@ import com.hogl.eregister.data.models.VisitorViewModelFactory
 import com.hogl.eregister.databinding.ActivityHomeBinding
 import com.hogl.eregister.extensions.TagExtension.getTagId
 import com.hogl.eregister.utils.*
-import java.security.AccessController.getContext
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -116,7 +112,7 @@ class HomeActivity : AppCompatActivity() {
                         vis_qr_code,
                         System.currentTimeMillis()
                     )
-                    visitorViewModel.insert(visitor)
+                    val v = visitorViewModel.insert(visitor)
                     Log.e("VISITOR", Gson().toJson(visitor))
                     Toast.makeText(applicationContext, R.string.saved, Toast.LENGTH_LONG)
                         .show()
@@ -207,15 +203,32 @@ class HomeActivity : AppCompatActivity() {
                     val inflate = layoutInflater
                     val inflater = inflate.inflate(R.layout.loading_toast, null)
 
-                    val progressBar = inflater.findViewById(R.id.progressBar) as ProgressBar
+//                    val progressBar = inflater.findViewById(R.id.progressBar) as ProgressBar
+
+                    val btnCancel = inflater.findViewById(R.id.btnCancel) as Button
+                    val btnChangePassword = inflater.findViewById(R.id.btnChangePass) as Button
+
+                    val currenctPass = inflater.findViewById(R.id.currentPass) as EditText
+                    val newPass = inflater.findViewById(R.id.newPass) as EditText
+                    val confirmPass = inflater.findViewById(R.id.confirmPass) as EditText
 
                     val alert = AlertDialog.Builder(this)
                     alert.setView(inflater)
 
-                    alert.setCancelable(false)
+                    alert.setCancelable(true)
 
                     val alertDialog = alert.create()
                     alertDialog.show()
+
+                    btnCancel.setOnClickListener {
+//                        dismiss the alert dialog
+                        alertDialog.dismiss()
+                    }
+                    btnChangePassword.setOnClickListener {
+//                        dismiss the alert dialog
+                        alertDialog.dismiss()
+                    }
+
                 }
             }
             true

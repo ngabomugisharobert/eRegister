@@ -11,9 +11,12 @@ abstract class GroupMovementDao :BaseDao<GroupMovement>() {
 
     @Query("SELECT * from tb_groupMovements")
     abstract fun allGroupMovements(): Flow<List<GroupMovement>>
+//
+//    @Query("SELECT * from tb_groupMovements where grp_mv_time > :timestamp")
+//    abstract fun groupMovementsToSync(timestamp: Long): Flow<List<GroupMovement>>
 
-    @Query("SELECT * from tb_groupMovements where grp_mv_time > :timestamp")
-    abstract fun groupMovementsToSync(timestamp: Long): Flow<List<GroupMovement>>
+    @Query("SELECT * from tb_groupMovements")
+    abstract fun groupMovementsToSync(): Flow<List<GroupMovement>>
 
     @Query("SELECT * from tb_groupMovements where grp_id like :grpId")
     abstract fun getGRoupMovementsByGroupId(grpId: String): Flow<List<GroupMovement>>

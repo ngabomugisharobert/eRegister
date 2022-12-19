@@ -18,4 +18,8 @@ abstract class GuardDao : BaseDao<Guard>() {
     @Query("SELECT * from tb_guards")
     abstract fun allGuards(): Flow<List<Guard>>
 
+//    change password
+    @Query("UPDATE tb_guards SET gua_password = :gua_password WHERE gua_id = :gua_id")
+    abstract fun updateGuardPassword(gua_id: Int, gua_password: String)
+
 }

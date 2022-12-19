@@ -30,6 +30,10 @@ class GuardRepository(private val guardDao: GuardDao) {
         return result
     }
 
+    fun updateGuardPassword(gua_id: Int, gua_password: String) {
+        guardDao.updateGuardPassword(gua_id, gua_password)
+    }
+
     companion object {
         private val TAG: String = LoginActivity::class.java.simpleName
     }

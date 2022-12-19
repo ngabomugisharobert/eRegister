@@ -16,8 +16,8 @@ class GroupMovementRepository(private val groupMovementDao: GroupMovementDao) {
         groupMovementDao.insert(groupMovement)
     }
 
-    fun groupMovementsToSync(timestamp: Long): Flow<List<GroupMovement>> {
-        return groupMovementDao.groupMovementsToSync(timestamp)
+    fun groupMovementsToSync(): Flow<List<GroupMovement>> {
+        return groupMovementDao.groupMovementsToSync()
     }
 
     fun allGroupMovements():Flow<List<GroupMovement>> {
@@ -32,8 +32,8 @@ class GroupMovementRepository(private val groupMovementDao: GroupMovementDao) {
         return groupMovementDao.getGRoupMovementsByGroupIdType(grpId.toInt(), s)
     }
 
-    fun groupMovementToSync(timestamp: Long): Flow<List<GroupMovement>> {
-        return groupMovementDao.groupMovementsToSync(timestamp)
+    fun groupMovementToSync(): Flow<List<GroupMovement>> {
+        return groupMovementDao.groupMovementsToSync()
     }
 
     companion object{

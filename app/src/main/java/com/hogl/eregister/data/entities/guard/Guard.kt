@@ -3,9 +3,15 @@ package com.hogl.eregister.data.entities.guard
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "tb_guards")
+@Entity(tableName = "tb_guards", indices = [
+    Index(
+        value = ["gua_first_name", "gua_last_name" ],
+        unique = true
+    )
+])
 data class Guard(
 
     @PrimaryKey(autoGenerate = true)

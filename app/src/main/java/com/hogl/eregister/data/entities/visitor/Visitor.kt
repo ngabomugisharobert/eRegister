@@ -3,11 +3,17 @@ package com.hogl.eregister.data.entities.visitor
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.sql.RowId
 import java.sql.Types.ROWID
 
-@Entity(tableName = "tb_visitors")
+@Entity(tableName = "tb_visitors", indices = [
+    Index(
+        value = ["vis_first_name", "vis_last_name" ],
+        unique = true
+    )
+])
 data class Visitor(
 
     @PrimaryKey(autoGenerate = true)

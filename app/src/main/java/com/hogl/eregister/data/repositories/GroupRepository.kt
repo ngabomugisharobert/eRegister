@@ -16,16 +16,16 @@ class GroupRepository(private val groupDao: GroupDao) {
         groupDao.insert(group)
     }
 
-    fun groupsToSync(timestamp: Long): Flow<List<Group>> {
-        return groupDao.groupsToSync(timestamp)
+    fun groupsToSync(): Flow<List<Group>> {
+        return groupDao.groupsToSync()
     }
 
     fun allGroups():Flow<List<Group>> {
         return groupDao.allGroups()
     }
 
-    fun groupToSync(timestamp: Long): Flow<List<Group>> {
-        return groupDao.groupsToSync(timestamp)
+    fun groupToSync(): Flow<List<Group>> {
+        return groupDao.groupsToSync()
     }
 
 

@@ -11,8 +11,11 @@ abstract class MovementDao :BaseDao<Movement>() {
 
     @Query("SELECT * from tb_movements")
     abstract fun allMovements(): Flow<List<Movement>>
+//
+//    @Query("SELECT * from tb_movements where timestamp > :timestamp")
+//    abstract fun movementsToSync(timestamp: Long): Flow<List<Movement>>
 
-    @Query("SELECT * from tb_movements where timestamp > :timestamp")
-    abstract fun movementsToSync(timestamp: Long): Flow<List<Movement>>
 
+    @Query("SELECT * from tb_movements")
+    abstract fun movementsToSync(): Flow<List<Movement>>
 }

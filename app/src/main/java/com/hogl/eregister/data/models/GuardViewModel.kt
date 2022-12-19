@@ -32,6 +32,10 @@ class GuardViewModel(private val guardRepository: GuardRepository) : ViewModel()
         return guardRepository.checkLogin(username, password).asLiveData()
     }
 
+    fun updateGuardPassword(gua_id: Int, gua_password: String) = CoroutineScope(Dispatchers.IO).launch {
+        guardRepository.updateGuardPassword(gua_id, gua_password)
+    }
+
 }
 
 class GuardViewModelFactory(private val guardRepository: GuardRepository) :

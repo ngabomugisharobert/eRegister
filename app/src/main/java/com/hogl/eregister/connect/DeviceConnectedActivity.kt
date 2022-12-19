@@ -165,7 +165,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 }
             }
             else {
-                visitorViewModel.visitorToSync(visitor_last_sync.toLong())
+                visitorViewModel.visitorToSync()
                     .observe(this) { visitors ->
                         for (visitor in visitors) {
                             database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
@@ -200,7 +200,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 }
             }
             else {
-                GroupViewModel.groupToSync(group_last_sync.toLong())
+                GroupViewModel.groupToSync()
                     .observe(this) { groups ->
                         for (group in groups) {
                             val grp = JSONObject(group.toString(android_id))
@@ -238,7 +238,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 }
             }
             else {
-                groupMovementViewModel.groupMovementToSync(groupMovement_last_sync.toLong())
+                groupMovementViewModel.groupMovementToSync()
                     .observe(this) { groupMovements ->
                         for (groupMovement in groupMovements) {
                             database.accumulate(
@@ -275,7 +275,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 }
 
             } else {
-                movementViewModel.movementsToSync(movement_last_sync.toLong())
+                movementViewModel.movementsToSync()
                     .observe(this) { movements ->
                         for (movement in movements) {
                             database.accumulate(

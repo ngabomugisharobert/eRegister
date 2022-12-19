@@ -23,9 +23,6 @@ class GroupActivity : AppCompatActivity() {
         initComponents()
 
         onClickListerners()
-
-
-
     }
 
     private fun onClickListerners() {

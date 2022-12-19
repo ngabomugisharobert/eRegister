@@ -22,9 +22,9 @@ class GroupMovementViewModel(private val groupMovementRepository: GroupMovementR
         groupMovementRepository.insert(groupMovement)
     }
 
-    fun groupMovementsToSync(timestamp:Long):LiveData<List<GroupMovement>>
+    fun groupMovementsToSync():LiveData<List<GroupMovement>>
     {
-        return groupMovementRepository.groupMovementsToSync(timestamp).asLiveData()
+        return groupMovementRepository.groupMovementsToSync().asLiveData()
     }
 
     fun groupMovementsList():LiveData<List<GroupMovement>>{
@@ -39,8 +39,8 @@ class GroupMovementViewModel(private val groupMovementRepository: GroupMovementR
         return groupMovementRepository.getGRoupMovementsByGroupIdType(grpId, s).asLiveData()
     }
 
-    fun groupMovementToSync(timestamp:Long): LiveData<List<GroupMovement>>{
-        var a = groupMovementRepository.groupMovementToSync(timestamp).asLiveData()
+    fun groupMovementToSync(): LiveData<List<GroupMovement>>{
+        var a = groupMovementRepository.groupMovementToSync().asLiveData()
         return a
     }
 
