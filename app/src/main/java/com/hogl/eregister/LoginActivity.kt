@@ -359,7 +359,8 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     fun fnbtnLogin(view: View) {
         guardViewModel.checkLogin(
-            txtUsername.text.toString(),
+//            remove spaces and convert to lowercase username
+            txtUsername.text.toString().replace("\\s".toRegex(), "").lowercase(Locale.getDefault()),
             txtPassword.text.toString()
         ).observe(this) {
             if (it != null) {
