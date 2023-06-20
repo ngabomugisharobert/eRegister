@@ -9,6 +9,7 @@ plugins {
 android {
     compileSdk 32
 
+    namespace 'com.hogl.eregister'
 
     defaultConfig {
         applicationId "com.hogl.eregister"

@@ -1,5 +1,7 @@
-package com.hogl.eregister
+package com.hogl.eregister.activities
 
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,6 +17,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,10 +27,13 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import com.hogl.eregister.activities.HomeActivity
+import com.hogl.eregister.GetVisitors
+import com.hogl.eregister.R
+import com.hogl.eregister.User
+import com.hogl.eregister.VisitorClass
 import com.hogl.eregister.data.InitApplication
-import com.hogl.eregister.data.models.GuardViewModel
-import com.hogl.eregister.data.models.GuardViewModelFactory
+import com.hogl.eregister.data.entities.visitor.Visitor
+import com.hogl.eregister.data.models.*
 import com.hogl.eregister.databinding.ActivityLoginBinding
 import com.hogl.eregister.lifecycle.MainActivityObserver
 import com.hogl.eregister.utils.SessionManagement
@@ -66,8 +72,12 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private val guardViewModel: GuardViewModel by viewModels {
         GuardViewModelFactory((application as InitApplication).guardRepository)
     }
+    private val vistorViewModel: VisitorViewModel by viewModels {
+        VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
+    }
 
     private lateinit var binding: ActivityLoginBinding
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -204,7 +214,46 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                     .get()
                                     .addOnSuccessListener { result ->
                                         if (!result.isEmpty) {
-                                            // save to shared preference
+                                            val getVisitors = GetVisitors()
+                                            val visitors2 = db.collection("tb_visitors").get()
+//log the output of the getVisitors function
+                                            Log.d(TAG, "onComplete : ${visitors2} visitors")
+////                                             save to sqlite
+//                                            vistorViewModel.insertAll(visitors2)
+//                                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+
+                                            val visitors = mutableListOf<Visitor>()
+                                            db.collection("tb_visitors").get().addOnSuccessListener { result ->
+                                                for (document in result) {
+                                                    Log.d(ContentValues.TAG, " what is this -> ${document.id} => ${document.data}")
+                                                    val visitor = Visitor(
+                                                        0,
+                                                        document.data["vis_first_name"].toString(),
+                                                        document.data["vis_last_name"].toString(),
+                                                        document.data["vis_phone"].toString().toInt(),
+                                                        document.data["vis_type"].toString(),
+                                                        document.data["vis_IDNumber"].toString(),
+                                                        document.data["vis_nfc_card"].toString(),
+                                                        document.data["vis_qr_code"].toString(),
+                                                        document.data["time_stamp"].toString().toLong()
+                                                    )
+                                                    visitors.add(visitor)
+                                                }
+
+//                                                save to sqlite
+//                                                vistorViewModel.insertAll(visitors)
+//                                                do not access database on the main thread
+                                                Thread {
+                                                    vistorViewModel.insertAll(visitors)
+                                                }.start()
+
+                                            }.addOnFailureListener { exception ->
+                                                Log.d("TAG", "Error getting documents: ", exception)
+                                            }
+
+
+//                                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
                                             editor.putString("asset_name", selectedAsset)
                                             //get time from firebase
 //                                                editor.putString("starting_time", )
@@ -261,7 +310,7 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val userID: Int = sessionManagement.session
         if (userID != -1) {
 
-            //user id logged in and so move to Home
+            //user id logged in and move to Home so
             val intent = Intent(this@LoginActivity, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)

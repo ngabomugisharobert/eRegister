@@ -35,6 +35,9 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         binding= ActivityRegisteredVisitorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initComponents()
+        this.title = "Visitors"
+
+
 
         visitorsListViewModel.allVisitors.observe(this) {
             it.let {
@@ -52,6 +55,7 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
             }
         }
     }
+
 
     private fun adapterOnClick(visitor: Visitor) {
         val intent = Intent(this, MovementRecordActivity::class.java)
@@ -72,6 +76,12 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         val searchView = search?.actionView as? SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)
+
+
+        val search_type = menu.findItem(R.id.menu_search_type)
+        val searchView_type = search_type?.actionView as? SearchView
+        searchView_type?.isSubmitButtonEnabled = true
+        searchView_type?.setOnQueryTextListener(this)
         return true
     }
 

@@ -10,5 +10,8 @@ abstract class BaseDao<T> {
     abstract fun update(entity: T)
     @Delete
     abstract fun delete(entity: T)
+//    insert all
+//    @Insert(onConflict = OnConflictStrategy.IGNORE)
+//    abstract fun insertAll(entities: List<T>)
 
 }

@@ -3,6 +3,7 @@ package com.hogl.eregister.data.models
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
+import com.hogl.eregister.VisitorClass
 import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.repositories.GuardRepository
 import com.hogl.eregister.data.repositories.VisitorRepository
@@ -23,8 +24,8 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
     }
 
     fun visitorToSync(): LiveData<List<Visitor>>{
-        var a = visitorRepository.visitorToSync().asLiveData()
-        return a
+        return visitorRepository.visitorToSync().asLiveData()
+
     }
 
     fun findVisitorByName(vis_name:String): LiveData<List<Visitor>> {
@@ -61,6 +62,10 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
     }
     fun updateVisitor(visitor: Visitor) = CoroutineScope(Dispatchers.IO).launch {
         visitorRepository.updateVisitor(visitor)
+    }
+
+    fun insertAll(visitors2: MutableList<Visitor>) {
+        visitorRepository.insertAll(visitors2)
     }
 
 }

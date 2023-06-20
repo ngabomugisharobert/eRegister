@@ -11,5 +11,15 @@
         app:showAsAction="ifRoom"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         tools:targetApi="o" />
+    <item
+        android:id="@+id/menu_search_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@android:drawable/ic_menu_more"
+        android:iconTint="@color/white"
+        android:title="@string/search_type"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom"
+        tools:targetApi="o" />
 
 </menu>

@@ -22,7 +22,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
-import com.hogl.eregister.LoginActivity
 import com.hogl.eregister.R
 import com.hogl.eregister.User
 import com.hogl.eregister.connect.MainActivity
