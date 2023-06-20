@@ -1,9 +1,13 @@
 package com.hogl.eregister.data.models
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
-import com.hogl.eregister.data.entities.Visitor
+import com.hogl.eregister.VisitorClass
+import com.hogl.eregister.data.entities.visitor.Visitor
+import com.hogl.eregister.data.repositories.GuardRepository
 import com.hogl.eregister.data.repositories.VisitorRepository
+import com.hogl.eregister.lifecycle.MainActivityObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,9 +23,9 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
         visitorRepository.insert(visitor)
     }
 
-    fun visitorToSync(timestamp:Long): LiveData<List<Visitor>>{
-        var a = visitorRepository.visitorToSync(timestamp).asLiveData()
-        return a
+    fun visitorToSync(): LiveData<List<Visitor>>{
+        return visitorRepository.visitorToSync().asLiveData()
+
     }
 
     fun findVisitorByName(vis_name:String): LiveData<List<Visitor>> {
@@ -55,6 +59,13 @@ class VisitorViewModel(private val visitorRepository: VisitorRepository): ViewMo
 
     fun getVisitorByNfc(tagId: String): LiveData<Visitor> {
         return visitorRepository.findVisitorByNfc(tagId).asLiveData()
+    }
+    fun updateVisitor(visitor: Visitor) = CoroutineScope(Dispatchers.IO).launch {
+        visitorRepository.updateVisitor(visitor)
+    }
+
+    fun insertAll(visitors2: MutableList<Visitor>) {
+        visitorRepository.insertAll(visitors2)
     }
 
 }

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.setTitle("Synchronize");
         initComponents();
         addListeners();
     }
@@ -77,15 +77,12 @@ public class MainActivity extends AppCompatActivity {
                 manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
                     @Override
                     public void onSuccess() {
-
                         loadingProgressBar.setVisibility(View.VISIBLE);
-
                         connectionStatus.setText(R.string.discoveryStart);
                     }
 
                     @Override
                     public void onFailure(int i) {
-
                         loadingProgressBar.setVisibility(View.INVISIBLE);
                         connectionStatus.setText(R.string.discoveryFail);
                     }
@@ -107,10 +104,8 @@ public class MainActivity extends AppCompatActivity {
         {
             loadingProgressBar.setVisibility(View.INVISIBLE);
             devicesView.setVisibility(View.VISIBLE);
-        }else
-        {
-
         }
+
         devicesView.setAdapter(adapter);
         devicesView.setLayoutManager(new LinearLayoutManager(this));
         adapter.setOnItemClickListener(new AvailableDevicesAdapter.OnItemClickListener() {
@@ -119,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 WifiP2pDevice device = availableDevices.get(position);
                 String name = device.deviceName;
                 connectToPhone(device);
-                Toast.makeText(act, name + " was clicked!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(act, name + " was selected", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -191,8 +186,6 @@ public class MainActivity extends AppCompatActivity {
                 myIntent.putExtra("hostAddress", groupOwnerAddress.getHostAddress());
                 startActivity(myIntent);
                 finish();
-
-
             }
         }
     };

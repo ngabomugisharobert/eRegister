@@ -3,6 +3,7 @@ package com.hogl.eregister.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -12,9 +13,10 @@ import com.airbnb.lottie.LottieAnimationView
 import com.hogl.eregister.R
 import com.hogl.eregister.adapter.VisitorAdapter
 import com.hogl.eregister.data.InitApplication
-import com.hogl.eregister.data.entities.Visitor
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
+import com.hogl.eregister.databinding.ActivityNewVisitorBinding
 import com.hogl.eregister.databinding.ActivityRegisteredVisitorBinding
 
 
@@ -25,7 +27,7 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         VisitorViewModelFactory((application as InitApplication).visitorRepository)
     }
 
-    private val visitorAdapter = VisitorAdapter { visitor -> adapterOnClick(visitor) }
+    private val visitorAdapter = VisitorAdapter  ({ visitor -> adapterOnClick(visitor) }, { visitor -> adapterOnLongClick(visitor) })
 
     private lateinit var binding: ActivityRegisteredVisitorBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +35,14 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         binding= ActivityRegisteredVisitorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initComponents()
+        this.title = "Visitors"
+
+
 
         visitorsListViewModel.allVisitors.observe(this) {
             it.let {
-                if (it.isEmpty()) {
+                if (it.isEmpty())
+                {
                 search_empty.visibility = android.view.View.VISIBLE
                 recyclerView.visibility = android.view.View.INVISIBLE
             } else {
@@ -50,12 +56,18 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         }
     }
 
+
     private fun adapterOnClick(visitor: Visitor) {
         val intent = Intent(this, MovementRecordActivity::class.java)
         intent.putExtra("VISITOR_ID", visitor.vis_id.toLong())
         startActivity(intent)
     }
-
+    private fun adapterOnLongClick(visitor: Visitor) {
+// load visitor data in the edit visitor activity
+        val intent = Intent(this, NewVisitorActivity::class.java)
+        intent.putExtra("VISITOR_ID", visitor.vis_id.toLong())
+        startActivity(intent)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.visitor_menu, menu)
@@ -64,6 +76,12 @@ class RegisteredVisitorActivity : AppCompatActivity(), SearchView.OnQueryTextLis
         val searchView = search?.actionView as? SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)
+
+
+        val search_type = menu.findItem(R.id.menu_search_type)
+        val searchView_type = search_type?.actionView as? SearchView
+        searchView_type?.isSubmitButtonEnabled = true
+        searchView_type?.setOnQueryTextListener(this)
         return true
     }
 

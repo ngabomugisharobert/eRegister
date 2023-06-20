@@ -18,6 +18,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.textfield.TextInputEditText
 import com.hogl.eregister.R
 import com.hogl.eregister.data.InitApplication
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.databinding.ActivityNewVisitorBinding
 import com.hogl.eregister.extensions.TagExtension.getTagId
 import com.hogl.eregister.utils.nfcActivation
@@ -47,7 +48,7 @@ class NewVisitorActivity : AppCompatActivity() {
         VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
     }
 
-
+    private var isModification = false
     private var tagId :String = "none"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,24 @@ class NewVisitorActivity : AppCompatActivity() {
         setContentView(binding.root)
         initComponents()
 
+        //get visitor id from intent after checking if it is null
+        val visitorId = intent.getLongExtra("VISITOR_ID", 0)
+        if (visitorId != 0L) {
+
+            this.title = getString(R.string.modification)
+            btn_save_visitor.text = getString(R.string.update)
+
+            isModification = true
+            visitorViewModel.getVisitorById(visitorId.toString()).observe(this) {
+                it?.let {
+                    txt_visitor_fn.setText(it.vis_first_name)
+                    txt_visitor_ln.setText(it.vis_last_name)
+                    txt_visitor_phone.setText(it.vis_phone.toString())
+                    txt_vis_idNumber.setText(it.vis_IDNumber)
+                    visitorType.setSelection(options.indexOf(it.vis_type))
+                }
+            }
+        }
 
         visitorType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -87,13 +106,44 @@ class NewVisitorActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.allField, Toast.LENGTH_SHORT).show()
                 setResult(Activity.RESULT_CANCELED, resultIntent)
             } else {
-                resultIntent.putExtra(VIS_FIRST_NAME, txt_visitor_fn.text.toString())
-                resultIntent.putExtra(VIS_LAST_NAME, txt_visitor_ln.text.toString())
-                resultIntent.putExtra(VIS_PHONE, txt_visitor_phone.text.toString())
-                resultIntent.putExtra(VIS_TYPE, visitor_type)
-                resultIntent.putExtra(VIS_ID_NUMBER, txt_vis_idNumber.text.toString())
-                resultIntent.putExtra(VIS_NFC_CARD, tagId)
-                setResult(Activity.RESULT_OK, resultIntent)
+                if(!isModification) {
+
+                        this.title = getString(R.string.modification)
+                        btn_save_visitor.text = getString(R.string.update)
+
+                    resultIntent.putExtra(VIS_FIRST_NAME, txt_visitor_fn.text.toString())
+                    resultIntent.putExtra(VIS_LAST_NAME, txt_visitor_ln.text.toString())
+                    resultIntent.putExtra(VIS_PHONE, txt_visitor_phone.text.toString())
+                    resultIntent.putExtra(VIS_TYPE, visitor_type)
+                    resultIntent.putExtra(VIS_ID_NUMBER, txt_vis_idNumber.text.toString())
+                    resultIntent.putExtra(VIS_NFC_CARD, tagId)
+                    setResult(Activity.RESULT_OK, resultIntent)
+                }
+                else{
+
+
+                    this.title = getString(R.string.new_visitor)
+                    btn_save_visitor.text = getString(R.string.save)
+
+                    Toast.makeText(this, "updated : ", Toast.LENGTH_SHORT).show()
+//                    updata a visitor in the database
+                    visitorViewModel.updateVisitor(
+                        Visitor(
+                            visitorId,
+                            txt_visitor_fn.text.toString(),
+                            txt_visitor_ln.text.toString(),
+                            txt_visitor_phone.text.toString().toInt(),
+                            visitor_type,
+                            txt_vis_idNumber.text.toString(),
+                            tagId,
+                            "qr",
+                            0
+                        )
+                    )
+                    //set result to ok
+                    setResult(Activity.RESULT_OK, resultIntent)
+
+                }
             }
             finish()
         }
@@ -149,7 +199,6 @@ class NewVisitorActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
-        this.title = getString(R.string.new_visitor)
         visitorType = binding.spVisitorType
         txt_visitor_fn = binding.txtVisitorFn
         txt_visitor_ln = binding.txtVisitorLn

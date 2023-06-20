@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.hogl.eregister.data.entities.Movement
+import com.hogl.eregister.data.entities.movement.Movement
 import com.hogl.eregister.data.repositories.MovementRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,9 +20,9 @@ class MovementViewModel(private val MovementRepository: MovementRepository): Vie
         MovementRepository.insert(movement)
     }
 
-    fun movementsToSync(timestamp:Long):LiveData<List<Movement>>
+    fun movementsToSync():LiveData<List<Movement>>
     {
-        return MovementRepository.movementsToSync(timestamp).asLiveData()
+        return MovementRepository.movementsToSync().asLiveData()
     }
 
     fun movementsList():LiveData<List<Movement>>{

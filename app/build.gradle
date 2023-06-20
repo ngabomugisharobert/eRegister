@@ -9,6 +9,7 @@ plugins {
 android {
     compileSdk 32
 
+    namespace 'com.hogl.eregister'
 
     defaultConfig {
         applicationId "com.hogl.eregister"
@@ -82,8 +83,6 @@ dependencies {
 
 //    UI
     implementation "com.google.android.material:material:1.6.1"
-
-    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
 
     implementation "androidx.paging:paging-runtime:3.1.1"

@@ -86,7 +86,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                     scannerView?.resumeCameraPreview(this)
                 } else {
                     sharedPreferencesCheckIn.edit().putString(p0.toString(), p0.toString()).apply()
-                    var mv_in = groupMovementViewModel.insert(GroupMovement(0,grp_id.toInt(),p0.toString(),"CHECK_IN",System.currentTimeMillis()))
+                    var mv_in = groupMovementViewModel.insert(GroupMovement(0,grp_id.toInt(),p0.toString(),"CHECK_IN",System.currentTimeMillis(),System.currentTimeMillis()))
                     Log.d("CHECK_IN",mv_in.toString())
                     Toast.makeText(this, "Checked in", Toast.LENGTH_LONG).show()
                     finish()
@@ -98,7 +98,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                     scannerView?.resumeCameraPreview(this)
                 } else {
                     sharedPreferencesCheckIn.edit().remove(p0.toString()).apply()
-                    groupMovementViewModel.insert(GroupMovement(0,grp_id.toInt(),p0.toString(),"CHECK_OUT",System.currentTimeMillis()))
+                    groupMovementViewModel.insert(GroupMovement(0,grp_id.toInt(),p0.toString(),"CHECK_OUT",System.currentTimeMillis(),System.currentTimeMillis()))
                     Toast.makeText(this, "Checked - out", Toast.LENGTH_LONG).show()
                     finish()
                 }

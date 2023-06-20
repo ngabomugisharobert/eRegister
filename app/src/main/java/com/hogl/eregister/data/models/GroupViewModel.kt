@@ -20,16 +20,19 @@ class GroupViewModel(private val groupRepository: GroupRepository): ViewModel() 
         groupRepository.insert(group)
     }
 
-    fun groupsToSync(timestamp:Long):LiveData<List<Group>>
+    fun groupsToSync():LiveData<List<Group>>
     {
-        return groupRepository.groupsToSync(timestamp).asLiveData()
+        return groupRepository.groupsToSync().asLiveData()
     }
 
     fun groupsList():LiveData<List<Group>>{
         return groupRepository.allGroups().asLiveData()
     }
 
-
+    fun groupToSync(): LiveData<List<Group>>{
+        var a = groupRepository.groupToSync().asLiveData()
+        return a
+    }
 }
 
 class GroupViewModelFactory(private val groupRepository: GroupRepository) : ViewModelProvider.Factory {

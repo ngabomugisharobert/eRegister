@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.hogl.eregister">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission
         android:name="android.permission.ACCESS_COARSE_LOCATION"
@@ -38,8 +37,15 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_dbook_logo"
         android:supportsRtl="true"
-        android:theme="@style/splashTheme"
+        android:theme="@style/Theme.ERegister"
         tools:targetApi="31">
+        <activity
+            android:name=".SyncGuardActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".activities.GroupDetailsActivity"
             android:exported="false"
@@ -53,7 +59,7 @@
                 android:value="com.hogl.eregister.activities.HomeActivity" />
         </activity>
         <activity
-            android:name=".activities.AddGroupActivity"
+            android:name=".activities.GroupActivity"
             android:exported="false"
             android:theme="@style/Theme.ERegister">
             <meta-data
@@ -79,6 +85,22 @@
         </activity>
         <activity
             android:name=".activities.MovementRecordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ERegister">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hogl.eregister.activities.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".activities.AddGroupActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ERegister">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hogl.eregister.activities.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".sync.SyncGuardActivity"
             android:exported="false"
             android:theme="@style/Theme.ERegister">
             <meta-data
@@ -130,10 +152,10 @@
             android:exported="false"
             android:theme="@style/Theme.ERegister" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true"
             android:screenOrientation="fullSensor"
-            android:theme="@style/splashTheme">
+            android:theme="@style/Theme.ERegister.noAction">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

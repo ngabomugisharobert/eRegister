@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import com.hogl.eregister.data.entities.Group
 import com.hogl.eregister.data.entities.GroupMovement
-import com.hogl.eregister.data.entities.Movement
 import com.hogl.eregister.data.repositories.GroupMovementRepository
 import com.hogl.eregister.data.repositories.MovementRepository
 import kotlinx.coroutines.CoroutineScope
@@ -22,9 +22,9 @@ class GroupMovementViewModel(private val groupMovementRepository: GroupMovementR
         groupMovementRepository.insert(groupMovement)
     }
 
-    fun groupMovementsToSync(timestamp:Long):LiveData<List<GroupMovement>>
+    fun groupMovementsToSync():LiveData<List<GroupMovement>>
     {
-        return groupMovementRepository.groupMovementsToSync(timestamp).asLiveData()
+        return groupMovementRepository.groupMovementsToSync().asLiveData()
     }
 
     fun groupMovementsList():LiveData<List<GroupMovement>>{
@@ -37,6 +37,11 @@ class GroupMovementViewModel(private val groupMovementRepository: GroupMovementR
 
     fun getGRoupMovementsByGroupIdType(grpId: String, s: String): LiveData<List<GroupMovement>>{
         return groupMovementRepository.getGRoupMovementsByGroupIdType(grpId, s).asLiveData()
+    }
+
+    fun groupMovementToSync(): LiveData<List<GroupMovement>>{
+        var a = groupMovementRepository.groupMovementToSync().asLiveData()
+        return a
     }
 
 }

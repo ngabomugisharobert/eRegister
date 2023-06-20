@@ -11,26 +11,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
-import com.hogl.eregister.LoginActivity
 import com.hogl.eregister.R
 import com.hogl.eregister.User
 import com.hogl.eregister.connect.MainActivity
 import com.hogl.eregister.data.InitApplication
-import com.hogl.eregister.data.entities.Visitor
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
 import com.hogl.eregister.databinding.ActivityHomeBinding
@@ -65,14 +61,12 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_ERegister)
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initComponents()
         onClickListeners()
         if (!this.nfcActivation()) btnRFID.visibility = View.GONE
-
     }
 
 
@@ -103,6 +97,9 @@ class HomeActivity : AppCompatActivity() {
                         data?.getStringExtra(NewVisitorActivity.VIS_ID_NUMBER).toString()
                     val vis_nfc_card =
                         data?.getStringExtra(NewVisitorActivity.VIS_NFC_CARD).toString()
+
+//                    generate a random number for the visitor's qr code using generateRandomNumber() function
+                    val vis_qr_code = "001" + generateRandomNumber()
                     val visitor = Visitor(
                         0,
                         vis_first_name,
@@ -111,11 +108,10 @@ class HomeActivity : AppCompatActivity() {
                         vis_type,
                         vis_idNumber,
                         vis_nfc_card,
-                        "",
+                        vis_qr_code,
                         System.currentTimeMillis()
                     )
-//                    TODO NFC ID CArd and QR CODE TO BE Implemented
-                    visitorViewModel.insert(visitor)
+                    val v = visitorViewModel.insert(visitor)
                     Log.e("VISITOR", Gson().toJson(visitor))
                     Toast.makeText(applicationContext, R.string.saved, Toast.LENGTH_LONG)
                         .show()
@@ -151,6 +147,11 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, GroupsActivity::class.java)
             startActivity(intent)
         }
+    }
+    private fun generateRandomNumber(): Int {
+        val random = Random()
+        val number = random.nextInt(999999999)
+        return number
     }
 
     private fun initComponents() {
@@ -201,15 +202,32 @@ class HomeActivity : AppCompatActivity() {
                     val inflate = layoutInflater
                     val inflater = inflate.inflate(R.layout.loading_toast, null)
 
-                    val progressBar = inflater.findViewById(R.id.progressBar) as ProgressBar
+//                    val progressBar = inflater.findViewById(R.id.progressBar) as ProgressBar
+
+                    val btnCancel = inflater.findViewById(R.id.btnCancel) as Button
+                    val btnChangePassword = inflater.findViewById(R.id.btnChangePass) as Button
+
+                    val currenctPass = inflater.findViewById(R.id.currentPass) as EditText
+                    val newPass = inflater.findViewById(R.id.newPass) as EditText
+                    val confirmPass = inflater.findViewById(R.id.confirmPass) as EditText
 
                     val alert = AlertDialog.Builder(this)
                     alert.setView(inflater)
 
-                    alert.setCancelable(false)
+                    alert.setCancelable(true)
 
                     val alertDialog = alert.create()
                     alertDialog.show()
+
+                    btnCancel.setOnClickListener {
+//                        dismiss the alert dialog
+                        alertDialog.dismiss()
+                    }
+                    btnChangePassword.setOnClickListener {
+//                        dismiss the alert dialog
+                        alertDialog.dismiss()
+                    }
+
                 }
             }
             true

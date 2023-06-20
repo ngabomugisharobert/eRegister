@@ -1,4 +1,4 @@
-package com.hogl.eregister.data.entities
+package com.hogl.eregister.data.entities.movement
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo

@@ -4,11 +4,14 @@ import androidx.room.*
 
 @Dao
 abstract class BaseDao<T> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insert(entity: T)
     @Update
     abstract fun update(entity: T)
     @Delete
     abstract fun delete(entity: T)
+//    insert all
+//    @Insert(onConflict = OnConflictStrategy.IGNORE)
+//    abstract fun insertAll(entities: List<T>)
 
 }

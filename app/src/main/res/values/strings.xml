@@ -46,4 +46,7 @@
     <string name="connected">Connected</string>
     <string name="synchronize">Synchronize</string>
     <string name="disconnect">Disconnect</string>
+    <string name="update">Update</string>
+    <string name="modification">Update</string>
+    <string name="search_type">search_type</string>
 </resources>

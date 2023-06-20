@@ -2,6 +2,7 @@ package com.hogl.eregister.connect
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,19 +10,24 @@ import android.content.pm.PackageManager
 import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.google.gson.Gson
 import com.hogl.eregister.R
 import com.hogl.eregister.activities.HomeActivity
 import com.hogl.eregister.connect.ServerClient.messagesChangedListener
 import com.hogl.eregister.data.AppDatabase
 import com.hogl.eregister.data.InitApplication
+import com.hogl.eregister.data.entities.visitor.Visitor
 import com.hogl.eregister.data.models.*
 import com.hogl.eregister.utils.getFolder
 import kotlinx.coroutines.*
@@ -38,7 +44,7 @@ class DeviceConnectedActivity : AppCompatActivity() {
     lateinit var sendButton: Button
     lateinit var serverClient: ServerClient
     lateinit var disconnectButton: Button
-    lateinit var phone_sync: LottieAnimationView
+    lateinit var phone_sync : LottieAnimationView
 
     lateinit var tag: String
     lateinit var handler: Handler
@@ -63,13 +69,23 @@ class DeviceConnectedActivity : AppCompatActivity() {
         VisitorViewModelFactory((this.application as InitApplication).visitorRepository)
     }
 
+    private val groupMovementViewModel: GroupMovementViewModel by viewModels {
+        GroupMovementViewModelFactory((this.application as InitApplication).groupMovementRepository)
+    }
+
+    private  val GroupViewModel: GroupViewModel by viewModels {
+        GroupViewModelFactory((this.application as InitApplication).groupRepository)
+    }
+
     //override onPause to stop the serverClient
     override fun onPause() {
         super.onPause()
+        finish()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+        finish()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,6 +124,8 @@ class DeviceConnectedActivity : AppCompatActivity() {
     private fun setUpServer(db: AppDatabase) {
         var visitorFinished: Boolean = false
         var movementFinished: Boolean = false
+        var groupFinished: Boolean = false
+        var groupMovementFinished: Boolean = false
         var noData: Boolean = false
 
         //Phone is host
@@ -125,28 +143,19 @@ class DeviceConnectedActivity : AppCompatActivity() {
         sendButton.setOnClickListener {
 
             phone_sync.visibility = View.VISIBLE
-            var database = JSONObject()
+            val database = JSONObject()
 
             val android_id: String = sharedPreferences.getString("android_id", "")!!
-            var visitor_last_sync: String? =
+            val visitor_last_sync: String? =
                 sharedPreferences.getString("visitor_last_sync", null)
+
 
             if (visitor_last_sync == null) {
                 visitorViewModel.allVisitors.observe(this) { visitors ->
                     for (visitor in visitors) {
-                        if (visitors.size > 1) {
-                            database.accumulate(
-                                "visitors",
-                                JSONObject(visitor.toString(android_id))
-                            )
-                        } else {
-                            database.accumulate(
-                                "visitors",
-                                JSONArray(listOf(JSONObject(visitor.toString(android_id))))
-                            )
-                        }
+                        database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
                     }
-                    if (visitors.isNotEmpty()) {
+                    if (!visitors.isEmpty()) {
                         update_synchronize(
                             "visitor_last_sync",
                             System.currentTimeMillis().toString()
@@ -154,21 +163,12 @@ class DeviceConnectedActivity : AppCompatActivity() {
                     }
                     visitorFinished = true
                 }
-            } else {
-                visitorViewModel.visitorToSync(visitor_last_sync.toLong())
+            }
+            else {
+                visitorViewModel.visitorToSync()
                     .observe(this) { visitors ->
                         for (visitor in visitors) {
-                            if (visitors.size > 1) {
-                                database.accumulate(
-                                    "visitors",
-                                    JSONObject(visitor.toString(android_id))
-                                )
-                            } else {
-                                database.accumulate(
-                                    "visitors",
-                                    JSONArray(listOf(JSONObject(visitor.toString(android_id))))
-                                )
-                            }
+                            database.accumulate("visitors", JSONObject(visitor.toString(android_id)))
                         }
                         if (!visitors.isEmpty()) {
                             update_synchronize(
@@ -180,26 +180,90 @@ class DeviceConnectedActivity : AppCompatActivity() {
                     }
             }
 
-            var movement_last_sync: String? =
+
+            var group_last_sync: String? =
+                sharedPreferences.getString("group_last_sync", null)
+
+            if (group_last_sync == null) {
+                GroupViewModel.allGroups.observe(this) { groups ->
+                    for (group in groups) {
+                        var grp = JSONObject(group.toString(android_id))
+                        database.accumulate("groups", JSONObject(group.toString(android_id)))
+                    }
+                    if (!groups.isEmpty()) {
+                        update_synchronize(
+                            "group_last_sync",
+                            System.currentTimeMillis().toString()
+                        )
+                    }
+                    groupFinished = true
+                }
+            }
+            else {
+                GroupViewModel.groupToSync()
+                    .observe(this) { groups ->
+                        for (group in groups) {
+                            val grp = JSONObject(group.toString(android_id))
+                            database.accumulate("groups", grp)
+                        }
+                        if (!groups.isEmpty()) {
+                            update_synchronize(
+                                "group_last_sync",
+                                System.currentTimeMillis().toString()
+                            )
+                        }
+                        groupFinished = true
+                    }
+            }
+
+
+            val groupMovement_last_sync: String? =
+                sharedPreferences.getString("groupMovement_last_sync", null)
+
+            if (groupMovement_last_sync == null) {
+                groupMovementViewModel.allGroupMovements.observe(this) { groupMovements ->
+                    for (groupMovement in groupMovements) {
+                        database.accumulate(
+                            "groupMovements",
+                            JSONObject(groupMovement.toString(android_id))
+                        )
+                    }
+                    if (!groupMovements.isEmpty()) {
+                        update_synchronize(
+                            "groupMovement_last_sync",
+                            System.currentTimeMillis().toString()
+                        )
+                    }
+                    groupMovementFinished = true
+                }
+            }
+            else {
+                groupMovementViewModel.groupMovementToSync()
+                    .observe(this) { groupMovements ->
+                        for (groupMovement in groupMovements) {
+                            database.accumulate(
+                                "groupMovements",
+                                JSONObject(groupMovement.toString(android_id))
+                            )
+                        }
+                        if (!groupMovements.isEmpty()) {
+                            update_synchronize(
+                                "groupMovement_last_sync",
+                                System.currentTimeMillis().toString()
+                            )
+                        }
+                        groupMovementFinished = true
+                    }
+            }
+
+            val movement_last_sync: String? =
                 sharedPreferences.getString("movement_last_sync", null)
 
             if (movement_last_sync == null) {
 
                 movementViewModel.allMovements.observe(this) { movements ->
                     for (movement in movements) {
-                        if(movements.size>1) {
-                            database.accumulate(
-                                "movements",
-                                JSONObject(movement.toString(android_id))
-                            )
-                        }
-                        else
-                        {
-                            database.accumulate(
-                                "movements",
-                                JSONArray(listOf(JSONObject(movement.toString(android_id))))
-                            )
-                        }
+                        database.accumulate("movements", JSONObject(movement.toString(android_id)))
                     }
                     if (!movements.isEmpty()) {
                         update_synchronize(
@@ -211,22 +275,13 @@ class DeviceConnectedActivity : AppCompatActivity() {
                 }
 
             } else {
-                movementViewModel.movementsToSync(movement_last_sync.toLong())
+                movementViewModel.movementsToSync()
                     .observe(this) { movements ->
                         for (movement in movements) {
-                            if(movements.size>1) {
-                                database.accumulate(
-                                    "movements",
-                                    JSONObject(movement.toString(android_id))
-                                )
-                            }
-                            else
-                            {
-                                database.accumulate(
-                                    "movements",
-                                    JSONArray(listOf(JSONObject(movement.toString(android_id))))
-                                )
-                            }
+                            database.accumulate(
+                                "movements",
+                                JSONObject(movement.toString(android_id))
+                            )
                         }
                         if (!movements.isEmpty()) {
                             update_synchronize(
@@ -250,9 +305,11 @@ class DeviceConnectedActivity : AppCompatActivity() {
 
                         Log.i("coroutineScope", "#runs on ${Thread.currentThread().name}")
 
-                        if (movementFinished && visitorFinished) {
+                        if (movementFinished && visitorFinished && groupFinished && groupMovementFinished) {
                             movementFinished = false
                             visitorFinished = false
+                            groupFinished = false
+                            groupMovementFinished = false
                             if (database.length() > 0) {
                                 val jsonString = database.toString()
                                 thisAct.saveJson(jsonString)
@@ -273,8 +330,8 @@ class DeviceConnectedActivity : AppCompatActivity() {
                                         try {
                                             var `is`: InputStream? = null
 
-                                            var directory = thisContext.getFolder()
-                                            var dataFile = File(directory, "data.json")
+                                            val directory = thisContext.getFolder()
+                                            val dataFile = File(directory, "data.json")
 
                                             if (dataFile.exists()) {
                                                 `is` = FileInputStream(dataFile)
@@ -331,17 +388,14 @@ class DeviceConnectedActivity : AppCompatActivity() {
                                             }
                                         } catch (e: IOException) {
                                             e.printStackTrace()
-
                                         }
                                     }
                                 }
                             }
                         }
-
                     }
                 }.invoke()
             }
-
         }
     }
 

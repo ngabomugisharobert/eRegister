@@ -2,7 +2,7 @@ package com.hogl.eregister.data.repositories
 
 import androidx.annotation.WorkerThread
 import com.hogl.eregister.data.dao.MovementDao
-import com.hogl.eregister.data.entities.Movement
+import com.hogl.eregister.data.entities.movement.Movement
 import kotlinx.coroutines.flow.Flow
 
 class MovementRepository(private val movementDao: MovementDao) {
@@ -15,8 +15,8 @@ class MovementRepository(private val movementDao: MovementDao) {
         movementDao.insert(movement)
     }
 
-    fun movementsToSync(timestamp: Long): Flow<List<Movement>> {
-        return movementDao.movementsToSync(timestamp)
+    fun movementsToSync(): Flow<List<Movement>> {
+        return movementDao.movementsToSync()
     }
 
     fun allMovements():Flow<List<Movement>> {

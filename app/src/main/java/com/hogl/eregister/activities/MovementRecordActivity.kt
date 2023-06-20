@@ -13,12 +13,13 @@ import com.google.gson.Gson
 import com.hogl.eregister.R
 import com.hogl.eregister.User
 import com.hogl.eregister.data.InitApplication
-import com.hogl.eregister.data.entities.Movement
+import com.hogl.eregister.data.entities.movement.Movement
 import com.hogl.eregister.data.models.MovementViewModel
 import com.hogl.eregister.data.models.MovementViewModelFactory
 import com.hogl.eregister.data.models.VisitorViewModel
 import com.hogl.eregister.data.models.VisitorViewModelFactory
 import com.hogl.eregister.databinding.ActivityMovementRecordBinding
+import com.hogl.eregister.utils.GenerateVisitorId
 import com.hogl.eregister.utils.SessionManagement
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

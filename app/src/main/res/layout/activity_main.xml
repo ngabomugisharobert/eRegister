@@ -13,7 +13,6 @@
         android:layout_marginTop="32dp"
         android:padding="20dp"
         android:text="Scan for devices"
-        app:icon="@drawable/ic_baseline_settings_input_antenna_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/connection_status" />

@@ -101,7 +101,7 @@ class GroupsActivity : AppCompatActivity(), SearchView.OnQueryTextListener  {
         search_empty = binding.searchEmpty
         btn_add_group = binding.btnAddGroup
 
-         resultLauncher =
+        resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     // There are no request codes

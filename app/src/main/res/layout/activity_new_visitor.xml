@@ -65,7 +65,8 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
-                android:hint="@string/enter_phone_number">
+                android:hint="@string/enter_phone_number"
+                android:inputType="textPersonName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_visitor_phone"

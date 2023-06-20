@@ -3,9 +3,9 @@ package com.hogl.eregister.data.repositories
 
 import android.util.Log
 import androidx.annotation.WorkerThread
-import com.hogl.eregister.LoginActivity
+import com.hogl.eregister.activities.LoginActivity
 import com.hogl.eregister.data.dao.GuardDao
-import com.hogl.eregister.data.entities.Guard
+import com.hogl.eregister.data.entities.guard.Guard
 import kotlinx.coroutines.flow.Flow
 
 class GuardRepository(private val guardDao: GuardDao) {
@@ -27,6 +27,10 @@ class GuardRepository(private val guardDao: GuardDao) {
 
 
         return result
+    }
+
+    fun updateGuardPassword(gua_id: Int, gua_password: String) {
+        guardDao.updateGuardPassword(gua_id, gua_password)
     }
 
     companion object {

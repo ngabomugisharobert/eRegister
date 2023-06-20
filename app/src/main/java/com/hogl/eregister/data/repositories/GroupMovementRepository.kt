@@ -2,9 +2,8 @@ package com.hogl.eregister.data.repositories
 
 import androidx.annotation.WorkerThread
 import com.hogl.eregister.data.dao.GroupMovementDao
-import com.hogl.eregister.data.dao.MovementDao
+import com.hogl.eregister.data.entities.Group
 import com.hogl.eregister.data.entities.GroupMovement
-import com.hogl.eregister.data.entities.Movement
 import kotlinx.coroutines.flow.Flow
 
 class GroupMovementRepository(private val groupMovementDao: GroupMovementDao) {
@@ -17,8 +16,8 @@ class GroupMovementRepository(private val groupMovementDao: GroupMovementDao) {
         groupMovementDao.insert(groupMovement)
     }
 
-    fun groupMovementsToSync(timestamp: Long): Flow<List<GroupMovement>> {
-        return groupMovementDao.groupMovementsToSync(timestamp)
+    fun groupMovementsToSync(): Flow<List<GroupMovement>> {
+        return groupMovementDao.groupMovementsToSync()
     }
 
     fun allGroupMovements():Flow<List<GroupMovement>> {
@@ -33,6 +32,9 @@ class GroupMovementRepository(private val groupMovementDao: GroupMovementDao) {
         return groupMovementDao.getGRoupMovementsByGroupIdType(grpId.toInt(), s)
     }
 
+    fun groupMovementToSync(): Flow<List<GroupMovement>> {
+        return groupMovementDao.groupMovementsToSync()
+    }
 
     companion object{
         private val TAG:String = GroupMovementRepository::class.java.simpleName

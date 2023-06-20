@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.hogl.eregister.data.entities.Guard
+import com.hogl.eregister.data.entities.guard.Guard
 import com.hogl.eregister.data.repositories.GuardRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +23,10 @@ class GuardViewModel(private val guardRepository: GuardRepository) : ViewModel()
 
     fun checkLogin(username: String, password: String): LiveData<Guard> {
         return guardRepository.checkLogin(username, password).asLiveData()
+    }
+
+    fun updateGuardPassword(gua_id: Int, gua_password: String) = CoroutineScope(Dispatchers.IO).launch {
+        guardRepository.updateGuardPassword(gua_id, gua_password)
     }
 
 }
